@@ -1,0 +1,30 @@
+# Project: GLSL-noise
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe -D__DEBUG__
+CC   = gcc.exe -D__DEBUG__
+WINDRES = windres.exe
+RES  = 
+OBJ  = GLSLnoise.o $(RES)
+LINKOBJ  = GLSLnoise.o $(RES)
+LIBS =  -L"C:/Dev-Cpp/lib" -mwindows -lglfw -lopengl32 -lglu32 -mconsole  -g3 
+INCS = 
+CXXINCS = 
+BIN  = GLSL-noise.exe
+CXXFLAGS = $(CXXINCS)   -g3
+CFLAGS = $(INCS) -Wall -O3 -ffast-math -I"C:\Dev-Cpp\include"   -g3
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before GLSL-noise.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o "GLSL-noise.exe" $(LIBS)
+
+GLSLnoise.o: GLSLnoise.c
+	$(CC) -c GLSLnoise.c -o GLSLnoise.o $(CFLAGS)

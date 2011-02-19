@@ -1,0 +1,13 @@
+
+uniform sampler2D tex;
+
+void main(void)
+{
+
+	gl_FragColor = gl_Color;
+
+	
+
+}
+
+

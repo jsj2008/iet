@@ -1,0 +1,6 @@
+DevIL
+cmake
+GLUT
+GLEW
+GL
+GLU

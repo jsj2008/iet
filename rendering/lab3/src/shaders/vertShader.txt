@@ -1,0 +1,89 @@
+uniform mat4 modelMat; // custom matrix passed in, the model_view matrix without the model
+uniform vec3 eyew;
+uniform int doReflect; //pass a value in to switch between reflect and refract
+
+varying vec3 reflectv; //pass pervertex reflected ray to rasterizer
+varying vec3 refractv; //pass pervertex refracted ray to rasterizer
+
+//For chromatic dispersion
+varying vec3 refractvRed; 
+varying vec3 refractvBlue; 
+varying vec3 refractvGreen; 
+
+varying float reflectionCoeff;
+
+void main()
+{
+	if(doReflect==0)
+	{
+		//Reflection
+		vec4 positionw = modelMat*gl_Vertex;
+		vec4 normw = normalize(modelMat * vec4(gl_Normal,0.0)); 
+		vec3 lightw = normalize(positionw.xyz - eyew);
+		
+		reflectv = reflect(lightw,normw.xyz); //this does reflection
+				
+		gl_Position = gl_ModelViewProjectionMatrix*gl_Vertex;
+	}
+	else if(doReflect==1)
+	{
+		//Refraction
+		vec4 positionw = modelMat*gl_Vertex;
+		vec4 normw = normalize(modelMat * vec4(gl_Normal,0.0)); 
+		vec3 lightw = normalize(positionw.xyz - eyew);
+		float eta = 0.33;
+		
+		refractv = refract(lightw, normw.xyz, eta); //this does refraction
+				
+		gl_Position = gl_ModelViewProjectionMatrix*gl_Vertex;
+	}
+	else if(doReflect==2)
+	{
+		//Reflection and refraction
+		//Monochromatic dispersion
+		vec4 positionw = modelMat*gl_Vertex;
+		vec4 normw = normalize(modelMat * vec4(gl_Normal,0.0)); 
+		vec3 lightw = normalize(positionw.xyz - eyew);
+//		float eta = 0.15;
+		float eta = 0.33;
+
+		reflectv = reflect(lightw,normw.xyz); //this does reflection
+		refractv = refract(lightw,normw.xyz, eta); //this does refraction
+				
+		gl_Position = gl_ModelViewProjectionMatrix*gl_Vertex;
+
+		//Fresnel stuff.
+		vec3 I = -lightw;
+		vec3 N = normw;
+		float r_zero = ( ((1-eta) * (1-eta)) / ((eta+1) * (eta+1)) );
+		float fresnelPower = 5.0;
+		reflectionCoeff = max(0, min(1, r_zero + (1.0-r_zero) * pow((1.0 - dot(I, N)), fresnelPower)));
+	}
+	else if(doReflect==3)
+	{
+		//Reflection and refraction
+		//Chromatic dispersion
+
+		vec4 positionw = modelMat*gl_Vertex;
+		vec4 normw = normalize(modelMat * vec4(gl_Normal,0.0)); 
+		vec3 lightw = normalize(positionw.xyz - eyew);
+		float eta = 0.87;
+		float etaRed = 0.84;
+		float etaGreen = 0.87;
+		float etaBlue = 0.91;
+
+		reflectv = reflect(lightw, normw.xyz); //this does reflection
+		refractvRed = refract(lightw, normw.xyz, etaRed); //this does refraction
+		refractvGreen = refract(lightw, normw.xyz, etaGreen); //this does refraction
+		refractvBlue = refract(lightw, normw.xyz, etaBlue); //this does refraction
+				
+		gl_Position = gl_ModelViewProjectionMatrix*gl_Vertex;
+
+		//Fresnel stuff.
+		vec3 I = -lightw;
+		vec3 N = normw;
+		float r_zero = ( ((1-eta) * (1-eta)) / ((eta+1) * (eta+1)) );
+		float fresnelPower = 5.0;
+		reflectionCoeff = max(0, min(1, r_zero + (1.0-r_zero) * pow((1.0 - dot(I, N)), fresnelPower)));
+	}
+}
