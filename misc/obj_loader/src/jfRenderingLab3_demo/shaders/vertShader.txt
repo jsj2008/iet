@@ -22,6 +22,8 @@ void main()
 		vec3 lightw = normalize(positionw.xyz - eyew);
 		
 		reflectv = reflect(lightw,normw.xyz); //this does reflection
+
+//		reflectv = clamp(reflectv, 0, 1);
 				
 		gl_Position = gl_ModelViewProjectionMatrix*gl_Vertex;
 	}
@@ -47,6 +49,8 @@ void main()
 //		float eta = 0.15;
 		float eta = 0.33;
 
+		//float eta = 0.87;
+
 		reflectv = reflect(lightw,normw.xyz); //this does reflection
 		refractv = refract(lightw,normw.xyz, eta); //this does refraction
 				
@@ -67,10 +71,16 @@ void main()
 		vec4 positionw = modelMat*gl_Vertex;
 		vec4 normw = normalize(modelMat * vec4(gl_Normal,0.0)); 
 		vec3 lightw = normalize(positionw.xyz - eyew);
+/*
 		float eta = 0.87;
 		float etaRed = 0.84;
 		float etaGreen = 0.87;
 		float etaBlue = 0.91;
+*/
+		float eta = 0.33;
+		float etaRed = 0.29;
+		float etaGreen = 0.33;
+		float etaBlue = 0.37;
 
 		reflectv = reflect(lightw, normw.xyz); //this does reflection
 		refractvRed = refract(lightw, normw.xyz, etaRed); //this does refraction

@@ -44,6 +44,8 @@ void main(void)
 		vec4 refractedColour = textureCube(myMap,refractv);
 		//Linear interpolation between the colours.
 		vec3 colour = mix(refractedColour, reflectedColour, reflectionCoeff);
+
+		colour = clamp(colour,0,1);
 		gl_FragColor = vec4(colour, 1.0);
 	}
 	else if(doReflect==3)

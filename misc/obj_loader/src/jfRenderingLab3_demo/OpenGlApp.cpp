@@ -333,7 +333,7 @@ void updateScene()
 	
 	//Ultimate hack. Better than using windows API though.
 	int time = glutGet(GLUT_ELAPSED_TIME); 
-	while((time - lastTickCount) < 16)
+	while((time - lastTickCount) < 40)
 	{
 		time = glutGet(GLUT_ELAPSED_TIME); 
 	}
