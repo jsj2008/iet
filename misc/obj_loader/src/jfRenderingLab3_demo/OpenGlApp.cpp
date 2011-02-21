@@ -19,8 +19,9 @@
 #include  <math.h>
 #endif
 #else
-#include "GL/glew.h" // glew for saccess to shader functionality
-#include "GL/glut.h"	// GLUT
+
+#include <GL/glew.h> // glew for saccess to shader functionality
+//#include "GL/glut.h"	// GLUT
 #include <GL/glu.h>		// for gluPerspective & gluLookAt
 #include <iostream>		// I/O
 #include  <math.h>
@@ -36,10 +37,14 @@
 #include "Vector3D.h"
 #include "Camera.h"
 
+#include <jfModel/jfObjLoader.hpp>
+#include <jfModel/jfModelDrawer.hpp>
+
 #define DRAW_PYRAMID 1
 #define DRAW_SPHERE 2
 #define DRAW_CUBE 3
 #define DRAW_TEAPOT 4
+#define DRAW_MYTEAPOT 5
 
 using namespace std;
 
@@ -64,6 +69,7 @@ void drawPyramid();
 void drawSphere();
 void drawCube();
 void drawTeapot();
+void drawMyTeapot();
 
 // Global Variable to be used within the program
 
@@ -79,6 +85,8 @@ const int nReflectOptions = 4;
 GLUquadricObj* sphere;
 
 GLint drawObject = DRAW_PYRAMID;
+
+jfModel teapotModel;
 
 GLfloat blackMaterial[4] = {0.0,0.0,0.0,1.0}; // Used to set a material value to 0
 
@@ -292,6 +300,9 @@ void renderScene()
 		case DRAW_TEAPOT:
 			drawTeapot();
 			break;
+		case DRAW_MYTEAPOT:
+			drawMyTeapot();
+			break;
 	}
 
 	// End you drawing code here
@@ -395,7 +406,7 @@ void keypress(unsigned char key, int x, int y)
 			enableCubeMap(true);
 		}
 
-	}else if (key == '1' || key == '2' || key == '3' || key == '4')
+	}else if (key == '1' || key == '2' || key == '3' || key == '4' || key == '5')
 	{
 		drawObject = key - 48;
 	}else if (key == 'r' || key == 'R')
@@ -476,6 +487,11 @@ void setupScene()
 	loadShaders();
 	loadCubeMaptexture();
 	glColor3f(1,1,1);
+
+	jfObjLoader objLoader;
+//	objLoader.loadFromFile("../../media/models/dragon.obj", &teapotModel);
+	objLoader.loadFromFile("../../media/models/bunny.obj", &teapotModel);
+	
 
 }
 
@@ -601,7 +617,7 @@ void loadShaders()
 
 	std::ifstream shdr;
 	//shdr.open(".\\vertShader.txt");
-	shdr.open("../../src/shaders/vertShader.txt");
+	shdr.open("../../src/jfRenderingLab3_demo/shaders/vertShader.txt");
 	if(!shdr)
 	{		std::cerr << "Shader File Not Found!" << std::endl;
 	}else{
@@ -662,7 +678,7 @@ void loadShaders()
 
 	std::ifstream fshdr;
 	//fshdr.open(".\\fragShader.txt");
-	fshdr.open("../../src/shaders/fragShader.txt");
+	fshdr.open("../../src/jfRenderingLab3_demo/shaders/fragShader.txt");
 	if(!fshdr)
 	{		std::cerr << "Shader File Not Found!" << std::endl;
 	}else{
@@ -796,22 +812,22 @@ void loadCubeMaptexture()
 	std::string errorStr;
 	/*
 	std::string textureFilenames[6] = {
-		"../../media/cm_left.tga",
-		"../../media/cm_right.tga",										
-		"../../media/cm_top.tga",
-		"../../media/cm_bottom.tga",
-		"../../media/cm_back.tga",		
-		"../../media/cm_front.tga"	
+		"../../media/tex/cm_left.tga",
+		"../../media/tex/cm_right.tga",										
+		"../../media/tex/cm_top.tga",
+		"../../media/tex/cm_bottom.tga",
+		"../../media/tex/cm_back.tga",		
+		"../../media/tex/cm_front.tga"	
 	};
 	*/
 
 	std::string textureFilenames[6] = {
-		"../../media/cubemap_berkeley/berkeley_negative_x.png",
-		"../../media/cubemap_berkeley/berkeley_negative_y.png",
-		"../../media/cubemap_berkeley/berkeley_negative_z.png",
-		"../../media/cubemap_berkeley/berkeley_positive_x.png",
-		"../../media/cubemap_berkeley/berkeley_positive_y.png",
-		"../../media/cubemap_berkeley/berkeley_positive_z.png"
+		"../../media/tex/cubemap_cube2/cube2_negative_x.png",
+		"../../media/tex/cubemap_cube2/cube2_positive_x.png",
+		"../../media/tex/cubemap_cube2/cube2_positive_y.png",
+		"../../media/tex/cubemap_cube2/cube2_negative_y.png",
+		"../../media/tex/cubemap_cube2/cube2_negative_z.png",
+		"../../media/tex/cubemap_cube2/cube2_positive_z.png"
 	};
 
 	ILboolean imageLoaded;
@@ -1173,4 +1189,13 @@ void drawCube()
 void drawTeapot()
 {
 	glutSolidTeapot(4);
+}
+
+void drawMyTeapot()
+{
+	glPushMatrix();
+//	glScalef(0.05,0.05,0.05);
+	jfModelDrawer drawer;
+	drawer.draw(teapotModel);
+	glPopMatrix();
 }
