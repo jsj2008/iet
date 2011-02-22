@@ -46,6 +46,16 @@
 #define DRAW_TEAPOT 4
 #define DRAW_MYTEAPOT 5
 
+#include <time.h>
+
+inline void ct_delay(int ms)
+{
+	struct timespec tv;
+	tv.tv_sec = ms/1000;
+	tv.tv_nsec = (ms%1000)*1000000;
+	nanosleep(&tv, NULL);
+}
+
 using namespace std;
 
 // Decclaration of functions to be used within the program
@@ -336,6 +346,7 @@ void updateScene()
 	while((time - lastTickCount) < 40)
 	{
 		time = glutGet(GLUT_ELAPSED_TIME); 
+		ct_delay(40 - (time - lastTickCount));
 	}
 	lastTickCount = glutGet(GLUT_ELAPSED_TIME); 
 
@@ -821,6 +832,7 @@ void loadCubeMaptexture()
 	};
 	*/
 
+	/*
 	std::string textureFilenames[6] = {
 		"../../media/tex/cubemap_cube2/cube2_negative_x.png",
 		"../../media/tex/cubemap_cube2/cube2_positive_x.png",
@@ -828,6 +840,15 @@ void loadCubeMaptexture()
 		"../../media/tex/cubemap_cube2/cube2_negative_y.png",
 		"../../media/tex/cubemap_cube2/cube2_negative_z.png",
 		"../../media/tex/cubemap_cube2/cube2_positive_z.png"
+	};
+	*/
+	std::string textureFilenames[6] = {
+		"../../media/tex/cubemap_terrain/terrain_negative_x.png",
+		"../../media/tex/cubemap_terrain/terrain_positive_x.png",
+		"../../media/tex/cubemap_terrain/terrain_positive_y.png",
+		"../../media/tex/cubemap_terrain/terrain_negative_y.png",
+		"../../media/tex/cubemap_terrain/terrain_negative_z.png",
+		"../../media/tex/cubemap_terrain/terrain_positive_z.png"
 	};
 
 	ILboolean imageLoaded;
@@ -860,8 +881,8 @@ void loadCubeMaptexture()
 				GL_TEXTURE_2D,
 				0,                  // level
 				3,          // internal format
-				128,     // width
-				128,     // height
+				512,     // width
+				512,     // height
 				0,                 // border
 				GL_BGR,           // format
 				GL_UNSIGNED_BYTE,   // type
@@ -883,8 +904,8 @@ void loadCubeMaptexture()
 				cubefaces[i],
 				0,                  // level
 				3,          // internal format
-				128,     // width
-				128,     // height
+				512,     // width
+				512,     // height
 				0,                 // border
 				GL_BGR,           // format
 				GL_UNSIGNED_BYTE,   // type
