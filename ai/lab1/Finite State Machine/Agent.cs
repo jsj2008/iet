@@ -11,16 +11,38 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace FiniteStateMachine
 {
+    public enum AgentType
+    {
+        miner,
+        minersWife,
+        sheriff,
+        outlaw
+    }
+
     abstract public class Agent
     {
         private static int agents = 0; 
 
         // Every agent has a numerical id that is set when it is created
-        private int id;
+        protected int id;
         public int Id
         {
             get { return id; }
             set { id = value; }
+        }
+
+        protected Location location;
+        public Location Location
+        {
+            get { return location; }
+            set { location = value; }
+        }
+
+        protected AgentType agentType;
+        public AgentType AgentType
+        {
+            get { return agentType; }
+            set { agentType = value; }
         }
 
         public Agent()

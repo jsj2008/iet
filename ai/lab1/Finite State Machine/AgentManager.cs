@@ -18,6 +18,11 @@ namespace FiniteStateMachine
             return listOfAgents[id];
         }
 
+        public static int GetNAgents()
+        {
+            return listOfAgents.Count;
+        }
+
         public static void RemoveAgent(Agent agent)
         {
             listOfAgents.Remove(agent);

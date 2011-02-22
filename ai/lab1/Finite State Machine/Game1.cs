@@ -20,6 +20,7 @@ namespace FiniteStateMachine
         Miner Bob;
         MinersWife Elsa;
         Outlaw Jesse;
+        Sheriff Wyatt;
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
 
@@ -43,9 +44,11 @@ namespace FiniteStateMachine
             Bob = new Miner();
             Elsa = new MinersWife();
             Jesse = new Outlaw();
+            Wyatt = new Sheriff();
             AgentManager.AddAgent(Bob);
             AgentManager.AddAgent(Elsa);
             AgentManager.AddAgent(Jesse);
+            AgentManager.AddAgent(Wyatt);
 
             base.Initialize();
         }
@@ -83,6 +86,7 @@ namespace FiniteStateMachine
             Bob.Update();
             Elsa.Update();
             Jesse.Update();
+            Wyatt.Update();
             Message.SendDelayedMessages();
             base.Update(gameTime);
         }

@@ -16,7 +16,8 @@ namespace FiniteStateMachine
     public enum MessageType
     {
         HiHoneyImHome,
-        StewsReady
+        StewsReady,
+        ShootAgent
     }
 
     // Telegrams are the messages that are sent between agents -- don't create these yourself, just call DispatchMessage()
@@ -94,6 +95,8 @@ namespace FiniteStateMachine
                     return "Hi Honey I'm Home";
                 case MessageType.StewsReady:
                     return "Stew's Ready";
+                case MessageType.ShootAgent:
+                    return "Shooting agent";
                 default:
                     return "Not recognized";
             }
