@@ -12,6 +12,19 @@ namespace FiniteStateMachine
             Printer.Print(agent.Id, "Starting Patrol...");
         }
 
+        public Undertaker GetUndertaker()
+        {
+            for (int i = 0; i < AgentManager.GetNAgents(); i++)
+            {
+                Agent agent = AgentManager.GetAgent(i);
+                if (agent.AgentType == AgentType.undertaker)
+                {
+                    return (Undertaker)agent;
+                }
+            }
+            return null;
+        }
+
         public override void Execute(Sheriff agent)
         {
             Random random = new Random();
@@ -43,6 +56,10 @@ namespace FiniteStateMachine
                             Message.DispatchMessage(0, agent.Id, outlaw.Id, MessageType.ShootAgent);
                             Printer.Print(agent.Id, "Got em! And also got " + stolenGold + " gold");
                             agent.StateMachine.ChangeState(new DropOffMoneyState());
+
+                            DeadBodyManager.GetInstance().AddBody(new DeadBody(outlaw.Location));
+                            //Send message to undertaker to clean this mess up.
+                            Message.DispatchMessage(0, agent.Id, GetUndertaker().Id, MessageType.Gunfight);
                         }
                         else
                         {

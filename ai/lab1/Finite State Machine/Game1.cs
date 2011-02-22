@@ -21,6 +21,7 @@ namespace FiniteStateMachine
         MinersWife Elsa;
         Outlaw Jesse;
         Sheriff Wyatt;
+        Undertaker Vincent;
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
 
@@ -45,10 +46,12 @@ namespace FiniteStateMachine
             Elsa = new MinersWife();
             Jesse = new Outlaw();
             Wyatt = new Sheriff();
+            Vincent = new Undertaker();
             AgentManager.AddAgent(Bob);
             AgentManager.AddAgent(Elsa);
             AgentManager.AddAgent(Jesse);
             AgentManager.AddAgent(Wyatt);
+            AgentManager.AddAgent(Vincent);
 
             base.Initialize();
         }
@@ -87,6 +90,7 @@ namespace FiniteStateMachine
             Elsa.Update();
             Jesse.Update();
             Wyatt.Update();
+            Vincent.Update();
             Message.SendDelayedMessages();
             base.Update(gameTime);
         }

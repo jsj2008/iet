@@ -16,7 +16,8 @@ namespace FiniteStateMachine
         miner,
         minersWife,
         sheriff,
-        outlaw
+        outlaw,
+        undertaker
     }
 
     abstract public class Agent
