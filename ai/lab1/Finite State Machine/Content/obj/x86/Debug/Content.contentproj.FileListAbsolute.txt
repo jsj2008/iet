@@ -1,0 +1,2 @@
+C:\Users\Mads Haahr\My Dropbox\Courses\CS7056\002 - State-Driven Agent Design\Finite State Machine\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\code\ai\Finite State Machine\Content\obj\x86\Debug\ResolveAssemblyReference.cache
