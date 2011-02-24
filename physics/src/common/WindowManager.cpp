@@ -13,7 +13,8 @@ WindowManager::WindowManager(std::string title)
 
 WindowManager::~WindowManager()
 {
-	delete m_pScreen;
+//	SDL_Delete(m_pScreen);
+	SDL_Quit();
 }
 
 bool WindowManager::CreateWindow(int width, int height, int bpp, bool fullscreen, const std::string& title)

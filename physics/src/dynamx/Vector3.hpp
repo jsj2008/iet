@@ -1,6 +1,9 @@
 #ifndef  VECTOR3_H
 #define  VECTOR3_H
 
+#include <iostream>
+using namespace std;
+
 #include <dynamx/Core.hpp>
 
 namespace dynamx 
@@ -59,6 +62,17 @@ namespace dynamx
 		protected:
 			real m_X, m_Y, m_Z;
 	};
+
+
+	inline ostream& operator<< (ostream& out, const Vector3& vec)
+	{
+		out << "<";
+		out << vec.GetX() << ",";
+		out << vec.GetY() << ",";
+		out << vec.GetZ();
+		out << ">";
+		return out;
+	}
 }		
 
 #endif   // VECTOR3_H

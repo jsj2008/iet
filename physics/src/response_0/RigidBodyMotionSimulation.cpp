@@ -29,6 +29,7 @@ RigidBodyMotionSimulation::~RigidBodyMotionSimulation()
 	delete m_NarrowPhaseCollisionDetector;
 	//delete m_Contact;
 	delete m_Font;
+	gluDeleteQuadric(m_Quadric);
 }
 
 void RigidBodyMotionSimulation::VOnInit()
@@ -173,10 +174,10 @@ void RigidBodyMotionSimulation::CreateObjects()
 	for(int i = 0 ; i < 1 ; i++)
 	{
 		RigidBodyPtr body(new RigidBody());
-		body->SetMass(10);
+		body->SetMass(1);
 	//	Point3 newPos(0,20,30);
 	
-		Point3 newPos(0,10,0);
+		Point3 newPos(0,4,0);
 		body->SetPos(newPos);
 
 		Matrix3 inertiaTensor;
@@ -191,7 +192,7 @@ void RigidBodyMotionSimulation::CreateObjects()
 		//body->setorientation(orientation);
 		
 		Quaternion orientation;
-		Vector3 rotationVec(1,1,1);
+		Vector3 rotationVec(0,0,0);
 		orientation.RotateByVector(rotationVec);
 		body->SetOrientation(orientation);
 
@@ -210,7 +211,10 @@ void RigidBodyMotionSimulation::CreateObjects()
 			body->AddForceAtBodyPoint(Vector3(-10,-10, 0),Point3(0,0,0));
 		}
 		*/
-		body->AddForceAtBodyPoint(Vector3(0,-90,0),Point3(0.1,0.2,0));
+		//body->AddForceAtBodyPoint(Vector3(0,-90,0),Point3(0.1,0.2,0));
+		//body->AddForceAtBodyPoint(Vector3(0,-9.8,0),Point3(0.0,0.0,0.0));
+
+//		body->SetLinearVel(Vector3(0,-9,0));
 
 		//body->CalculateInternals();
 		m_RigidBodies.push_back(body);
@@ -242,6 +246,7 @@ void RigidBodyMotionSimulation::RenderBodies()
 			it != itEnd ;
 			it++)
 	{
+		/*
 		if(isColliding)
 		{
 			glColor3f(1.0,0,0);
@@ -250,6 +255,8 @@ void RigidBodyMotionSimulation::RenderBodies()
 		{
 			glColor3f(0,1,0);
 		}
+		*/
+		glColor3f(0,1,0);
 		(*it)->VDraw();
 	}
 }
@@ -263,7 +270,6 @@ void RigidBodyMotionSimulation::VOnRender()
 	DoCamera();
 
 	RenderBodies();
-
 
 	vector<ContactPtr>::iterator it, itEnd;
 	for(it = m_Contacts.begin(), itEnd = m_Contacts.end();
@@ -342,6 +348,7 @@ void RigidBodyMotionSimulation::VOnUpdate()
 	m_Camera.UpdatePosAndRot();
 
 	float timestep = 1.0f / 60.0f; //TODO : Adaptive timestep.
+//	float timestep = 1.0f / 120.0f; //TODO : Adaptive timestep.
 
 	m_Contacts.clear();
 //	vector<ContactPtr> contacts;
@@ -350,6 +357,10 @@ void RigidBodyMotionSimulation::VOnUpdate()
 			it != itEnd ;
 			it++)
 	{
+
+
+		(*it)->AddForceAtBodyPoint(Vector3(0,-1.8,0),Point3(0.0,0.0,0.0));
+
 		(*it)->Integrate(timestep);
 
 		isColliding = false;

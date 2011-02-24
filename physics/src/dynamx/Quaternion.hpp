@@ -66,6 +66,12 @@ namespace dynamx
 			virtual real GetI() const { return m_I; }
 			virtual real GetJ() const { return m_J; }
 			virtual real GetK() const { return m_K; }
+
+			virtual void SetR(real val) { m_R = val; }
+			virtual void SetI(real val) { m_I = val; }
+			virtual void SetJ(real val) { m_J = val; }
+			virtual void SetK(real val) { m_K = val; }
+
 		protected:
 			real m_R,m_I,m_J,m_K;
 			

@@ -18,6 +18,7 @@
 #include <dynamx/Vertex.hpp>
 #include <dynamx/Face.hpp>
 #include <dynamx/AABB.hpp>
+#include <dynamx/OdeSolver.hpp>
 
 using namespace std;
 using namespace boost;
@@ -38,6 +39,10 @@ namespace dynamx
 			virtual ~RigidBody();
 
 			void Integrate(real timestep);
+
+			void StateToArray(real* y);
+
+			void ArrayToState(real* y);
 
 			void CalculateInternals();
 
@@ -67,24 +72,31 @@ namespace dynamx
 			//Matrix3& GetOrientation() { return m_Orientation; }
 			Quaternion& GetOrientation() { return m_Orientation; }
 			RigidBodyGeometry GetTransformedGeom() const { return m_TransformedGeom; }
-			Vector3& GetLinearVel() { return m_LinearVel; }
-			Vector3& GetAngularVel() { return m_AngularVel; }
+			Vector3 GetLinearVel() const { return m_LinearVel; }
+			Vector3 GetAngularVel() const { return m_AngularVel; }
 			shared_ptr<AABB> GetAABB() { return m_AABB; }
-			Vector3 GetOmega() const { return m_Omega; }
 			Matrix3 GetInverseInertiaTensor() { return m_InverseInertiaTensor; }
 			Matrix3 GetInverseInertiaTensorWorld() { return m_InverseInertiaTensorWorld; }
-			Vector3 GetV() const { return m_V; }
 			real GetInverseMass() const { return m_InverseMass; }
 			//XXX:Fix this
 			real GetMass() const { if(m_InverseMass==0){ return 1000000000; }else {return 1/m_InverseMass;}}
+			Vector3 GetForceAccum() const { return m_ForceAccum; }
+			Vector3 GetTorqueAccum() const { return m_TorqueAccum; }
+			void SetForceAccum(const Vector3 val) { m_ForceAccum = val; }
+			void SetTorqueAccum(const Vector3 val) { m_TorqueAccum = val; }
 
 //			void SetOrientation(const Matrix3& val) { m_Orientation = val; }
 			void SetOrientation(const Quaternion& val) { m_Orientation = val; }
 			void SetLinearVel(const Vector3& val) { m_LinearVel = val; }
 			void SetPos(const Point3& val) { m_Pos = val; }
 			void SetAngularVel(const Vector3& val) { m_AngularVel = val; }
+
+			/* 
+			Vector3 GetV() const { return m_V; }
 			void SetV(const Vector3& val) { m_V = val; }
+			Vector3 GetOmega() const { return m_Omega; }
 			void SetOmega(const Vector3& val) { m_Omega = val; }
+			*/
 
 			Vector3 GetAngularMomentum() const
 			{
@@ -118,13 +130,13 @@ namespace dynamx
 //			Matrix3 m_Orientation;
 			Quaternion m_Orientation; //R(t)
 			Vector3 m_LinearVel; //v(t)
-			Vector3 m_AngularVel; //L(t)
+			Vector3 m_AngularVel; //w(t)
 
 			//Derived quantities
 			Vector3 m_LinearMomentum;
 			Vector3 m_AngularMomentum;
-			Vector3 m_Omega;
-			Vector3 m_V;
+//			Vector3 m_Omega;
+//			Vector3 m_V;
 
 			real m_InverseMass;
 
@@ -136,8 +148,8 @@ namespace dynamx
 			Matrix3 m_InverseInertiaTensorWorld;
 
 			//Will use these to work out Linear and angular momentum at the next integration step
-			Vector3 m_ForceAccum;
-			Vector3 m_TorqueAccum;
+			Vector3 m_ForceAccum; //P(t)
+			Vector3 m_TorqueAccum; //L(t)
 
 			//Damping
 			real m_LinearDamping;
@@ -158,6 +170,8 @@ namespace dynamx
 			GLuint m_RigidBodyList;
 
 			Vector3 m_ConstantAccel;
+
+			OdeSolver m_Solver;
 
 		private:
 	};

@@ -22,6 +22,7 @@ namespace dynamx
 
 	void RigidBody::Integrate(float timestep)
 	{
+		/*
 		//Euler Integration
 
 		//F/m = a, duh.
@@ -54,6 +55,7 @@ namespace dynamx
 		m_AngularVel = m_AngularVel.Multiply(real_pow(m_AngularDamping, timestep));
 
 
+		*/
 		/*
 		Matrix3 w_t;
 		w_t.SetElem(0, 1);
@@ -70,6 +72,8 @@ namespace dynamx
 		//w_t.SetElem(8, 0);
 		w_t.Multiply(m_Orientation, &m_Orientation);
 		*/
+
+		m_Solver.EulerStep(this, timestep);
 
 		CalculateInternals();
 
@@ -95,6 +99,7 @@ namespace dynamx
 				orientationMatrix);
 
 
+		/*
 		//Derived Quantities
         //Vector3 angularAccel;
 		//m_InverseInertiaTensorWorld.Multiply(m_TorqueAccum, &m_Omega);
@@ -102,48 +107,89 @@ namespace dynamx
         m_V = m_LinearVel.Multiply(m_InverseMass);
 		m_LinearMomentum = m_LinearVel.Multiply(GetMass());
 		m_AngularMomentum = m_AngularVel.Multiply(GetMass());
+		*/
 	}
 
-	/*
-	void RigidBody::StateToArray(real *y)
+	void RigidBody::StateToArray(real* y)
 	{
 		*y++ = m_Pos.GetX();
 		*y++ = m_Pos.GetY();
 		*y++ = m_Pos.GetZ();
-		*y++ = m_Orienation.GetR();
-		*y++ = m_Orienation.GetI();
-		*y++ = m_Orienation.GetJ();
-		*y++ = m_Orienation.GetK();
-		*y++ = m_P.GetX();
-		*y++ = m_P.GetY();
-		*y++ = m_P.GetZ();
-		*y++ = m_L.GetX();
-		*y++ = m_L.GetY();
-		*y++ = m_L.GetZ();
+		*y++ = m_Orientation.GetR();
+		*y++ = m_Orientation.GetI();
+		*y++ = m_Orientation.GetJ();
+		*y++ = m_Orientation.GetK();
+		*y++ = m_LinearMomentum.GetX();
+		*y++ = m_LinearMomentum.GetY();
+		*y++ = m_LinearMomentum.GetZ();
+		*y++ = m_AngularMomentum.GetX();
+		*y++ = m_AngularMomentum.GetY();
+		*y++ = m_AngularMomentum.GetZ();
 	}
 
-	void RigidBody::ArrayToState(RigidBody *rb, double *y)
+	void RigidBody::ArrayToState(real* y)
 	{
-		rb->GetPos().SetX(*y++);
-		rb->GetPos().SetY(*y++);
-		rb->GetPos().SetZ(*y++);
-		m_Orienation.SetR(*y++);
-		m_Orienation.SetI(*y++);
-		m_Orienation.SetJ(*y++);
-		m_Orienation.SetK(*y++);
-		m_P.SetX(*y++);
-		m_P.SetY(*y++);
-		m_P.SetZ(*y++);
-		m_L.SetX(*y++);
-		m_L.SetY(*y++);
-		m_L.SetZ(*y++);
+		m_Pos.SetX(m_Pos.GetX() + *y++);
+		m_Pos.SetY(m_Pos.GetY() + *y++);
+		m_Pos.SetZ(m_Pos.GetZ() + *y++);
+		m_Orientation.SetR(m_Orientation.GetR() + *y++);
+		m_Orientation.SetI(m_Orientation.GetI() + *y++);
+		m_Orientation.SetJ(m_Orientation.GetJ() + *y++);
+		m_Orientation.SetK(m_Orientation.GetK() + *y++);
+		/*
+		m_LinearMomentum.SetX(m_LinearMomentum.GetX() + *y++);
+		m_LinearMomentum.SetY(m_LinearMomentum.GetY() + *y++);
+		m_LinearMomentum.SetZ(m_LinearMomentum.GetZ() + *y++);
+		m_AngularMomentum.SetX(m_AngularMomentum.GetX() + *y++);
+		m_AngularMomentum.SetY(m_AngularMomentum.GetY() + *y++);
+		m_AngularMomentum.SetZ(m_AngularMomentum.GetZ() + *y++);
+		*/
+		m_LinearMomentum.SetX(*y++);
+		m_LinearMomentum.SetY(*y++);
+		m_LinearMomentum.SetZ(*y++);
+		m_AngularMomentum.SetX(*y++);
+		m_AngularMomentum.SetY(*y++);
+		m_AngularMomentum.SetZ(*y++);
 		// Compute auxiliary variables... 
-		m_V = m_P.Multiply(m_InverseMass);
+		//m_LinearVel = m_LinearMomentum.Multiply(m_InverseMass);
+		m_LinearVel = m_LinearVel.Add(m_LinearMomentum.Multiply(m_InverseMass));
 		// I −1 (t) = R(t)Ibody R(t) T 
 		//rb->Iinv = R * Ibodyinv * Transpose(R);
-		m_InverseInertiaTensorWorld.Multiply(m_L, &m_Omega);
+		Vector3 angularVelDelta;
+		//m_InverseInertiaTensorWorld.Multiply(m_AngularMomentum, &m_AngularVel);
+		m_InverseInertiaTensorWorld.Multiply(m_AngularMomentum, &angularVelDelta);
+		m_AngularVel = m_AngularVel.Add(angularVelDelta);
+
+		cout<<"m_Pos is "<<m_Pos<<endl;
+		cout<<"m_LinearMomentum is "<<m_LinearMomentum<<endl;
 	}
-*/
+
+	/*
+	void RigidBody::ArrayToState(real* y)
+	{
+		m_Pos.SetX(*y++);
+		m_Pos.SetY(*y++);
+		m_Pos.SetZ(*y++);
+		m_Orientation.SetR(*y++);
+		m_Orientation.SetI(*y++);
+		m_Orientation.SetJ(*y++);
+		m_Orientation.SetK(*y++);
+		m_LinearMomentum.SetX(*y++);
+		m_LinearMomentum.SetY(*y++);
+		m_LinearMomentum.SetZ(*y++);
+		m_AngularMomentum.SetX(*y++);
+		m_AngularMomentum.SetY(*y++);
+		m_AngularMomentum.SetZ(*y++);
+		// Compute auxiliary variables... 
+		m_LinearVel = m_LinearMomentum.Multiply(m_InverseMass);
+		// I −1 (t) = R(t)Ibody R(t) T 
+		//rb->Iinv = R * Ibodyinv * Transpose(R);
+		m_InverseInertiaTensorWorld.Multiply(m_AngularMomentum, &m_AngularVel);
+
+		cout<<"m_Pos is "<<m_Pos<<endl;
+		cout<<"m_LinearMomentum is "<<m_LinearMomentum;
+	}
+	*/
 
 	void RigidBody::ClearAccumulators()
 	{
