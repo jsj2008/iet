@@ -81,6 +81,22 @@ namespace dynamx
 						(other.GetZ()*m_Elems[8]));
 	}
 
+	Vector3 Matrix3::Multiply(const Vector3& other) const
+	{
+		Vector3 result;
+		//@REF: Transform the matrix by the vector
+		result.SetX((other.GetX()*m_Elems[0]) +
+						(other.GetY()*m_Elems[1]) +
+						(other.GetZ()*m_Elems[2]));
+		result.SetY((other.GetX()*m_Elems[3]) +
+						(other.GetY()*m_Elems[4]) +
+						(other.GetZ()*m_Elems[5]));
+		result.SetZ((other.GetX()*m_Elems[6]) +
+						(other.GetY()*m_Elems[7]) +
+						(other.GetZ()*m_Elems[8]));
+		return result;
+	}
+
 	void Matrix3::Add(const Matrix3& other, Matrix3* result) const
 	{
 		result->SetElem(0, m_Elems[0] + other.GetElem(0));

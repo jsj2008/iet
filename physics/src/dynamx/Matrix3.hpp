@@ -28,6 +28,8 @@ namespace dynamx
 
 			void Multiply(const Vector3& other, Vector3* result) const;
 
+			Vector3 Multiply(const Vector3& other) const;
+
 			void Add(const Matrix3& other, Matrix3* result) const;
 
 			void SetInverse(const Matrix3& other);

@@ -16,7 +16,7 @@ namespace dynamx
 
 			virtual ~OdeSolver();
 
-			void EulerStep(RigidBody* body, real timestep);
+//			void EulerStep(RigidBody* body, real timestep);
 			
 		protected:
 		private:

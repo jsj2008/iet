@@ -57,7 +57,7 @@ namespace dynamx
 			 */
 			virtual void AddScaledVector(const Vector3& vec, real scale);
 
-			virtual Quaternion Multiply(const Vector3& vec);
+			virtual Quaternion Multiply(const Vector3& vec) const;
 
 			/*-----------------------------------------------------------------------------
 			 *  Getters and Setters

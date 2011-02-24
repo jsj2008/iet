@@ -86,8 +86,8 @@ namespace dynamx
 			shared_ptr<CollisionPlane> plane,
 			ContactPtr contact) const
 	{
-		Point3 closest;
-		real closestDist = FLT_MAX;
+		Point3 furthest;
+		real furthestDist = 0;
 		bool collision = false;
 
 		map<VertexId, Vertex> vertexMap = body->GetTransformedGeom().GetVertices();
@@ -97,10 +97,10 @@ namespace dynamx
 			real dist;
 			if(PointAndPlane((*it).second.GetPos(), (*plane), &dist) )
 			{
-				if((dist*dist) < closestDist)
+				if((dist*dist) > furthestDist)
 				{
-					closest = (*it).second.GetPos();
-					closestDist = (dist*dist);
+					furthest = (*it).second.GetPos();
+					furthestDist = (dist*dist);
 					collision = true;
 				}
 			}
@@ -112,7 +112,7 @@ namespace dynamx
 		else
 		{
 			//TODO:Backtrack to collision time or move object back by d along -n.
-			contact->SetClosestPoint(closest);
+			contact->SetClosestPoint(furthest);
 			contact->SetCollisionNormal(plane->GetNormal());
 			contact->SetA(body);
 			contact->SetB(plane);

@@ -4,14 +4,15 @@ namespace dynamx
 {
 	RigidBody::RigidBody()
 		:
-			m_LinearDamping(0.99f),
+			m_LinearDamping(0.8f),
 			m_AngularDamping(0.8f),
 			m_InverseMass(1)
 	{
 		m_DebugDraw = true;
 		shared_ptr<AABB> aabb(new AABB());
 		m_AABB = aabb;
-		m_ConstantAccel = Vector3(0,-0.1,0);
+		//m_ConstantAccel = Vector3(0,-0.3,0);
+		m_ConstantAccel = Vector3(0,-9.8,0);
 	}
 
 	RigidBody::~RigidBody()
@@ -103,6 +104,7 @@ namespace dynamx
 		m_AngularMomentum = m_AngularVel.Multiply(GetMass());
 	}
 
+	/*
 	void RigidBody::StateToArray(real *y)
 	{
 		*y++ = m_Pos.GetX();
@@ -135,13 +137,13 @@ namespace dynamx
 		m_L.SetX(*y++);
 		m_L.SetY(*y++);
 		m_L.SetZ(*y++);
-		/* Compute auxiliary variables... */
+		// Compute auxiliary variables... 
 		m_V = m_P.Multiply(m_InverseMass);
-		/* I −1 (t) = R(t)Ibody R(t) T */
+		// I −1 (t) = R(t)Ibody R(t) T 
 		//rb->Iinv = R * Ibodyinv * Transpose(R);
-		/* ω(t) = I −1 (t)L(t) */
 		m_InverseInertiaTensorWorld.Multiply(m_L, &m_Omega);
 	}
+*/
 
 	void RigidBody::ClearAccumulators()
 	{

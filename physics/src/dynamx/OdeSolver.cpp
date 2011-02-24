@@ -11,6 +11,7 @@ namespace dynamx
 	OdeSolver::~OdeSolver()
 	{
 	}
+	/*
 
 	void OdeSolver::EulerStep(RigidBody* body, real timestep)
 	{
@@ -32,24 +33,23 @@ namespace dynamx
 
 	void DdtStateToArray(RigidBody *rb, real *xdot)
 	{
-		/* copy dt x(t) = v(t) into xdot */
 		*xdot++ = rb->GetPos().GetX();
 		*xdot++ = rb->GetPos().GetY();
 		*xdot++ = rb->GetPos().GetZ();
-		/* Compute R(t) = ω(t)∗ R(t) */
 		quaternion qdot = .5 * (rb->GetOrientation().Multiply(rb->GetOmega()));
 		*xdot++ = qdot.GetR();
 		*xdot++ = qdot.GetI();
 		*xdot++ = qdot.GetJ();
 		*xdot++ = qdot.GetJ();
 
-		*xdot++ = rb->GetForce().GetX(); /* d = F(t) */
+		*xdot++ = rb->GetForce().GetX(); 
 		*xdot++ = rb->GetForce().GetY();  
 		*xdot++ = rb->GetForce().GetZ();  
-		*xdot++ = rb->GetTorque().GetX(); /* d = τ(t) */
+		*xdot++ = rb->GetTorque().GetX();
 		*xdot++ = rb->GetTorque().GetY();
 		*xdot++ = rb->GetTorque().GetZ();
 	}
+*/
 
 
 }

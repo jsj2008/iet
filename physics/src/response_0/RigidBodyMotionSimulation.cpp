@@ -173,14 +173,14 @@ void RigidBodyMotionSimulation::CreateObjects()
 	for(int i = 0 ; i < 1 ; i++)
 	{
 		RigidBodyPtr body(new RigidBody());
-		body->SetMass(1);
+		body->SetMass(10);
 	//	Point3 newPos(0,20,30);
 	
 		Point3 newPos(0,10,0);
 		body->SetPos(newPos);
 
 		Matrix3 inertiaTensor;
-		inertiaTensor.SetBlockInertiaTensor(Vector3(1.0,1.0,1.0), 1);
+		inertiaTensor.SetBlockInertiaTensor(Vector3(1.0,1.0,1.0), body->GetMass());
 		body->SetInertiaTensor(inertiaTensor);
 
 //		body->LoadModel("../../media/models/torus.obj");
