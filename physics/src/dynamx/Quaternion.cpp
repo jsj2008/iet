@@ -76,4 +76,10 @@ namespace dynamx
 		m_J += q.GetJ() * ((real)0.5);
 		m_K += q.GetK() * ((real)0.5);
 	}
+
+	Quaternion Multiply(const Vector3& vec)
+	{
+		Quaternion q(0, vec.GetX(), vec.GetY(), vec.GetZ());
+		return q*=(*this);
+	}
 }

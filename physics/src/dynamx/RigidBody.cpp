@@ -103,52 +103,45 @@ namespace dynamx
 		m_AngularMomentum = m_AngularVel.Multiply(GetMass());
 	}
 
-	void StateToArray(real *y)
+	void RigidBody::StateToArray(real *y)
 	{
-		*y++ = rb->x[0];
-		/* x component of position */
-		*y++ = rb->x[1];
-		/* etc. */
-		*y++ = rb->x[2];
-		for(int i = 0; i < 3; i++) /* copy rotation matrix */
-		{
-			for(int j = 0; j < 3; j++)
-			{
-				*y++ = rb->R[i,j];
-			}
-		}
-		*y++ = rb->P[0];
-		*y++ = rb->P[1];
-		*y++ = rb->P[2];
-		*y++ = rb->L[0];
-		*y++ = rb->L[1];
-		*y++ = rb->L[2];
+		*y++ = m_Pos.GetX();
+		*y++ = m_Pos.GetY();
+		*y++ = m_Pos.GetZ();
+		*y++ = m_Orienation.GetR();
+		*y++ = m_Orienation.GetI();
+		*y++ = m_Orienation.GetJ();
+		*y++ = m_Orienation.GetK();
+		*y++ = m_P.GetX();
+		*y++ = m_P.GetY();
+		*y++ = m_P.GetZ();
+		*y++ = m_L.GetX();
+		*y++ = m_L.GetY();
+		*y++ = m_L.GetZ();
 	}
 
-	void ArrayToState(RigidBody *rb, double *y)
+	void RigidBody::ArrayToState(RigidBody *rb, double *y)
 	{
-		rb->x[0] = *y++;
-		rb->x[1] = *y++;
-		rb->x[2] = *y++;
-		for(int i = 0; i < 3; i++)
-			for(int j = 0; j < 3; j++)
-				rb->R[i,j] = *y++;
-		rb->P[0] = *y++;
-		rb->P[1] = *y++;
-		rb->P[2] = *y++;
-		rb->L[0] = *y++;
-		rb->L[1] = *y++;
-		rb->L[2] = *y++;
+		rb->GetPos().SetX(*y++);
+		rb->GetPos().SetY(*y++);
+		rb->GetPos().SetZ(*y++);
+		m_Orienation.SetR(*y++);
+		m_Orienation.SetI(*y++);
+		m_Orienation.SetJ(*y++);
+		m_Orienation.SetK(*y++);
+		m_P.SetX(*y++);
+		m_P.SetY(*y++);
+		m_P.SetZ(*y++);
+		m_L.SetX(*y++);
+		m_L.SetY(*y++);
+		m_L.SetZ(*y++);
 		/* Compute auxiliary variables... */
-		/* v(t) = P(t) */
-		rb->v = rb->P / mass;
+		m_V = m_P.Multiply(m_InverseMass);
 		/* I −1 (t) = R(t)Ibody R(t) T */
-		rb->Iinv = R * Ibodyinv * Transpose(R);
+		//rb->Iinv = R * Ibodyinv * Transpose(R);
 		/* ω(t) = I −1 (t)L(t) */
-		rb->omega = rb->Iinv * rb->L;
+		m_InverseInertiaTensorWorld.Multiply(m_L, &m_Omega);
 	}
-
-
 
 	void RigidBody::ClearAccumulators()
 	{

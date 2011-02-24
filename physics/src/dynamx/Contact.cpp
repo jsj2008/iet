@@ -14,4 +14,5 @@ namespace dynamx
 		delete m_ClosestPoint;
 		delete m_CollisionNormal;
 	}
+
 }
