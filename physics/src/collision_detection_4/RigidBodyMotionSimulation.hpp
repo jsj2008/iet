@@ -84,7 +84,7 @@ class RigidBodyMotionSimulation : public Simulation
 
 
 //		shared_ptr<dynamx::Contact> m_Contact;
-		Contact* m_Contact;
+		ContactPtr m_Contact;
 		Triangle* m_Triangle_0;
 		Triangle* m_Triangle_1;
 		VoronoiChecker* m_VoronoiChecker;

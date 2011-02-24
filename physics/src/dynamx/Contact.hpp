@@ -1,6 +1,8 @@
 #ifndef  CONTACT_H
 #define  CONTACT_H
 
+#include <boost/shared_ptr.hpp>
+
 //#include <dynamx/Vector3.hpp>
 //#include <dynamx/Point3.hpp>
 #include <dynamx/RigidBody.hpp>
@@ -67,6 +69,8 @@ namespace dynamx
 			shared_ptr<RigidBody> m_B;
 
 	};
+
+	typedef boost::shared_ptr<Contact> ContactPtr;
 }
 
 #endif   // CONTACT_H

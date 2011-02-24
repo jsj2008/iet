@@ -72,8 +72,11 @@ namespace dynamx
 			shared_ptr<AABB> GetAABB() { return m_AABB; }
 			Vector3 GetOmega() const { return m_Omega; }
 			Matrix3 GetInverseInertiaTensor() { return m_InverseInertiaTensor; }
+			Matrix3 GetInverseInertiaTensorWorld() { return m_InverseInertiaTensorWorld; }
 			Vector3 GetV() const { return m_V; }
 			real GetInverseMass() const { return m_InverseMass; }
+			//XXX:Fix this
+			real GetMass() const { if(m_InverseMass==0){ return 1000000000; }else {return 1/m_InverseMass;}}
 
 //			void SetOrientation(const Matrix3& val) { m_Orientation = val; }
 			void SetOrientation(const Quaternion& val) { m_Orientation = val; }
@@ -82,6 +85,26 @@ namespace dynamx
 			void SetAngularVel(const Vector3& val) { m_AngularVel = val; }
 			void SetV(const Vector3& val) { m_V = val; }
 			void SetOmega(const Vector3& val) { m_Omega = val; }
+
+			Vector3 GetAngularMomentum() const
+			{
+				return m_AngularMomentum;
+			}
+
+			void SetAngularMomentum(const Vector3& val)
+			{
+				m_AngularMomentum = val;
+			}
+
+			Vector3 GetLinearMomentum() const
+			{
+				return m_LinearMomentum;
+			}
+
+			void SetLinearMomentum(const Vector3& val)
+			{
+				m_LinearMomentum = val;
+			}
 
 			//These are a bit different, we are setting their inverses as they are more useful.
 			void SetMass(real mass) { assert(mass>0); m_InverseMass = 1/mass; }
@@ -98,6 +121,8 @@ namespace dynamx
 			Vector3 m_AngularVel; //L(t)
 
 			//Derived quantities
+			Vector3 m_LinearMomentum;
+			Vector3 m_AngularMomentum;
 			Vector3 m_Omega;
 			Vector3 m_V;
 
@@ -131,6 +156,8 @@ namespace dynamx
 
 			//Drawing
 			GLuint m_RigidBodyList;
+
+			Vector3 m_ConstantAccel;
 
 		private:
 	};

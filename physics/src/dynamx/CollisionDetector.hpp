@@ -41,11 +41,11 @@ namespace dynamx
 
             bool RigidBodyAndPlane(shared_ptr<RigidBody> body,
                     shared_ptr<CollisionPlane> plane,
-                    Contact* contact) const;
+                    ContactPtr contact) const;
 
 			bool TriangleAndPlane(const Triangle& body,
 					const CollisionPlane& plane,
-					Contact* contact) const;
+					ContactPtr contact) const;
 			
 		protected:
 		private:

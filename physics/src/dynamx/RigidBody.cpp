@@ -11,6 +11,7 @@ namespace dynamx
 		m_DebugDraw = true;
 		shared_ptr<AABB> aabb(new AABB());
 		m_AABB = aabb;
+		m_ConstantAccel = Vector3(0,-0.1,0);
 	}
 
 	RigidBody::~RigidBody()
@@ -24,7 +25,7 @@ namespace dynamx
 
 		//F/m = a, duh.
 		//Also : v(t) = P(t) / M
-		Vector3 linearAccel;
+		Vector3 linearAccel = m_ConstantAccel;
 		linearAccel.AddScaledVector(m_ForceAccum, m_InverseMass);
 
 		//Transform torque into angular accel
@@ -98,7 +99,56 @@ namespace dynamx
 		//m_InverseInertiaTensorWorld.Multiply(m_TorqueAccum, &m_Omega);
 		m_InverseInertiaTensor.Multiply(m_AngularVel, &m_Omega);
         m_V = m_LinearVel.Multiply(m_InverseMass);
+		m_LinearMomentum = m_LinearVel.Multiply(GetMass());
+		m_AngularMomentum = m_AngularVel.Multiply(GetMass());
 	}
+
+	void StateToArray(real *y)
+	{
+		*y++ = rb->x[0];
+		/* x component of position */
+		*y++ = rb->x[1];
+		/* etc. */
+		*y++ = rb->x[2];
+		for(int i = 0; i < 3; i++) /* copy rotation matrix */
+		{
+			for(int j = 0; j < 3; j++)
+			{
+				*y++ = rb->R[i,j];
+			}
+		}
+		*y++ = rb->P[0];
+		*y++ = rb->P[1];
+		*y++ = rb->P[2];
+		*y++ = rb->L[0];
+		*y++ = rb->L[1];
+		*y++ = rb->L[2];
+	}
+
+	void ArrayToState(RigidBody *rb, double *y)
+	{
+		rb->x[0] = *y++;
+		rb->x[1] = *y++;
+		rb->x[2] = *y++;
+		for(int i = 0; i < 3; i++)
+			for(int j = 0; j < 3; j++)
+				rb->R[i,j] = *y++;
+		rb->P[0] = *y++;
+		rb->P[1] = *y++;
+		rb->P[2] = *y++;
+		rb->L[0] = *y++;
+		rb->L[1] = *y++;
+		rb->L[2] = *y++;
+		/* Compute auxiliary variables... */
+		/* v(t) = P(t) */
+		rb->v = rb->P / mass;
+		/* I −1 (t) = R(t)Ibody R(t) T */
+		rb->Iinv = R * Ibodyinv * Transpose(R);
+		/* ω(t) = I −1 (t)L(t) */
+		rb->omega = rb->Iinv * rb->L;
+	}
+
+
 
 	void RigidBody::ClearAccumulators()
 	{

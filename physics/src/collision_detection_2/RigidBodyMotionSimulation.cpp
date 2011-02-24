@@ -27,7 +27,7 @@ RigidBodyMotionSimulation::~RigidBodyMotionSimulation()
 {
 //	delete m_CollisionDetector;
 	delete m_NarrowPhaseCollisionDetector;
-	delete m_Contact;
+//	delete m_Contact;
 }
 
 void RigidBodyMotionSimulation::VOnInit()

@@ -8,6 +8,8 @@
 #include "SDL/SDL_opengl.h"
 #include <boost/shared_ptr.hpp>
 
+#include <FTGL/ftgl.h>
+
 #include <dynamx/Point3.hpp>
 #include <dynamx/RigidBody.hpp>
 #include <dynamx/Particle.hpp>
@@ -60,6 +62,8 @@ class RigidBodyMotionSimulation : public Simulation
 
 		void VOnUpdate();
 
+		void RenderBodies();
+
 		bool m_Finished;
 
 		/*-----------------------------------------------------------------------------
@@ -75,16 +79,16 @@ class RigidBodyMotionSimulation : public Simulation
 
 		GLUquadric* m_Quadric;
 
-	//	list<ContactPtr> m_Contacts;
+		vector<ContactPtr> m_Contacts;
 
 		GLuint m_NormalSphereList;
 
 //		bool particleColliding;
 		bool isColliding;
 
+		FTGLPixmapFont* m_Font;
 
 //		shared_ptr<dynamx::Contact> m_Contact;
-		Contact* m_Contact;
 		//FpsTimer* m_FpsTimer;
 	private:
 };

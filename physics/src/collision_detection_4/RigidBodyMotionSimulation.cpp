@@ -34,7 +34,6 @@ RigidBodyMotionSimulation::~RigidBodyMotionSimulation()
 //	delete m_CollisionDetector;
 	delete m_NarrowPhaseCollisionDetector;
 	delete m_Plane;
-	delete m_Contact;
 	delete m_Triangle_0;
 }
 

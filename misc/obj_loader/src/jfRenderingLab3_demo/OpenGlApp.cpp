@@ -46,6 +46,10 @@
 #define DRAW_TEAPOT 4
 #define DRAW_MYTEAPOT 5
 
+//#include <freetype2/FTGL/ftgl.h>
+#include <FTGL/ftgl.h>
+#include <FTGL/FTPoint.h>
+
 #include <time.h>
 
 inline void ct_delay(int ms)
@@ -82,6 +86,10 @@ void drawTeapot();
 void drawMyTeapot();
 
 // Global Variable to be used within the program
+
+FTGLPixmapFont* m_Font;
+//FTGLFontManager m_FontManager;
+//FTTextureFont* myFont = FTGLFontManager::Instance().GetFont("../../media/font/arial.ttf", 72);
 
 Camera myCamera;
 bool		wireframe=false;
@@ -172,6 +180,7 @@ void renderScene()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+
 	// Set view position & direction
 	// (Camera at (0,0,5) looking down the negative Z-axis)
 	//gluLookAt(cameraPosition[0],cameraPosition[1],cameraPosition[2],  0,0,-100,  0,1,0);
@@ -189,6 +198,26 @@ void renderScene()
 	glScalef(50,50,50);
 	drawSkyBox();
 	glPopMatrix();
+
+	stringstream out;
+	if(reflect==0)
+	{
+		out<<"Reflection only";
+	}
+	else if (reflect==1)
+	{
+		out<<"Refraction only";
+	}
+	else if (reflect==2)
+	{
+		out<<"Reflection and Refraction";
+	}
+	else if (reflect==3)
+	{
+		out<<"Chromatic Dispersion";
+	}
+	FTPoint rPoint(900,200,0);
+	m_Font->Render(out.str().c_str(), -1, rPoint);
 
 	glPushMatrix();
 	glTranslatef(0,0,-40);
@@ -279,6 +308,8 @@ void renderScene()
 
 	glUniform3fv(eyewLoc,1,eyePos);
 
+
+
 	/*
 	if(reflect==0)
 	{
@@ -295,6 +326,7 @@ void renderScene()
 	if(errorNum != GL_NO_ERROR)
 	{		std::cout << "Error = " << gluErrorString(errorNum) << std::endl;
 	}
+
 
 	switch(drawObject)
 	{
@@ -315,8 +347,8 @@ void renderScene()
 			break;
 	}
 
-	// End you drawing code here
 
+	// End you drawing code here
 	glPopMatrix();
 	// Swap double buffer for flicker-free animation
 	glutSwapBuffers();
@@ -448,6 +480,18 @@ void setupScene()
 	// This function is called once when the appication 
 	// is started
 	std::cout<<"Initializing scene..."<<std::endl;
+
+	//m_Font = new FTGLPixmapFont ("../../media/font/Abduction.ttf");
+	m_Font = new FTGLPixmapFont ("../../media/font/gravitat.ttf");
+	// If something went wrong, bail out.
+	if(m_Font->Error())
+	{
+		assert(0 && "Font is wrong");
+	}
+
+	// Set the font size and render a small text.
+	m_Font->FaceSize(18);
+
 	myCamera.setCameraPosition(0,1.5,5);
 	// Initialise desired OpenGL state
 	glClearColor(0,0,0,0);

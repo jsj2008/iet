@@ -84,7 +84,7 @@ namespace dynamx
 
 	bool CollisionDetector::RigidBodyAndPlane(shared_ptr<RigidBody> body,
 			shared_ptr<CollisionPlane> plane,
-			Contact* contact) const
+			ContactPtr contact) const
 	{
 		Point3 closest;
 		real closestDist = FLT_MAX;
@@ -122,7 +122,7 @@ namespace dynamx
 
 	bool CollisionDetector::TriangleAndPlane(const Triangle& body,
 			const CollisionPlane& plane,
-			Contact* contact) const
+			ContactPtr contact) const
 	{
 		int sides[3];
 

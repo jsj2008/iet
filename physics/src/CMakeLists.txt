@@ -78,7 +78,7 @@ include_directories("response_0")
 file(GLOB response_0_sim_cpp "response_0/*.cpp")
 add_executable(response_0_sim ${response_0_sim_cpp})
 #target_link_libraries (response_0_sim ${simlibs})
-target_link_libraries (response_0_sim dynamx common_sim ${OPENGL_LIBRARIES} )
+target_link_libraries (response_0_sim dynamx common_sim ${OPENGL_LIBRARIES} ${simlibs} )
 
 
 

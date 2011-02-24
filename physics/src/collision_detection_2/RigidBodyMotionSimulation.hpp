@@ -82,7 +82,7 @@ class RigidBodyMotionSimulation : public Simulation
 
 
 //		shared_ptr<dynamx::Contact> m_Contact;
-		Contact* m_Contact;
+		ContactPtr m_Contact;
 		//FpsTimer* m_FpsTimer;
 	private:
 };

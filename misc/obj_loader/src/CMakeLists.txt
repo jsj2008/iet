@@ -22,7 +22,9 @@ find_package( SDL REQUIRED )
 find_package( OpenGL REQUIRED )
 find_package( GLEW REQUIRED )
 
-SET(libThirdParty ${SDL_LIBRARY} ${OPENGL_LIBRARY} ${GLEW_LIBRARY})
+include_directories(/usr/include/freetype2)
+
+SET(libThirdParty ${SDL_LIBRARY} ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ftgl)
 
 FILE(GLOB jfwm_cpp "./jfwm/*.cpp")
 FILE(GLOB jfModel_cpp "./jfModel/*.cpp")

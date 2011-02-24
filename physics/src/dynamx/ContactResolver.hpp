@@ -27,19 +27,19 @@ namespace dynamx
 
 			virtual ~ContactResolver();
 
-			void PrepareContacts(vector<Contact>& contacts,
+			void PrepareContacts(vector<ContactPtr>& contacts,
 					real timeStep) const;
 
-			void ResolveContacts(vector<Contact>& contacts,
+			void ResolveContacts(vector<ContactPtr>& contacts,
 					real timeStep) const;
 
-			void HandleCollisions(vector<Contact>& contacts,
+			void HandleCollisions(vector<ContactPtr>& contacts,
 					real epsilon) const;
 
-			void HandleCollision(Contact& contact,
+			void HandleCollision(ContactPtr& contact,
 					real epsilon) const;
 
-			bool IsColliding(Contact& contact) const;
+			bool IsColliding(ContactPtr& contact) const;
 
 			Vector3 GetPointVel(const RigidBody& body, const Vector3& p) const;
 			

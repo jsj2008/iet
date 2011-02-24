@@ -14,8 +14,7 @@ RigidBodyMotionSimulation::RigidBodyMotionSimulation()
 		m_Particle(0),
 		m_Quadric(0),
 		m_NormalSphereList(0),
-		isColliding(0),
-		m_Contact(new Contact())
+		isColliding(0)
 {
 //	m_CollisionDetector = new SweepAndPruneCollisionDetector();
 	//m_FpsTimer = new FpsTimer();
@@ -29,6 +28,7 @@ RigidBodyMotionSimulation::~RigidBodyMotionSimulation()
 //	delete m_CollisionDetector;
 	delete m_NarrowPhaseCollisionDetector;
 	//delete m_Contact;
+	delete m_Font;
 }
 
 void RigidBodyMotionSimulation::VOnInit()
@@ -37,6 +37,15 @@ void RigidBodyMotionSimulation::VOnInit()
 
 	InitGL();
 
+	m_Font = new FTGLPixmapFont ("../../media/font/Abduction.ttf");
+	// If something went wrong, bail out.
+	if(m_Font->Error())
+	{
+		assert(0 && "Font is wrong");
+	}
+
+	// Set the font size and render a small text.
+	m_Font->FaceSize(18);
 //	m_Layout = new FTSimpleLayout();
 
 //	m_Layout->SetFont(m_Font);
@@ -171,7 +180,7 @@ void RigidBodyMotionSimulation::CreateObjects()
 		body->SetPos(newPos);
 
 		Matrix3 inertiaTensor;
-		inertiaTensor.SetBlockInertiaTensor(Vector3(1,1,1), 1);
+		inertiaTensor.SetBlockInertiaTensor(Vector3(1.0,1.0,1.0), 1);
 		body->SetInertiaTensor(inertiaTensor);
 
 //		body->LoadModel("../../media/models/torus.obj");
@@ -201,7 +210,7 @@ void RigidBodyMotionSimulation::CreateObjects()
 			body->AddForceAtBodyPoint(Vector3(-10,-10, 0),Point3(0,0,0));
 		}
 		*/
-		body->AddForceAtBodyPoint(Vector3(0,-90,0),Point3(0,0,0));
+		body->AddForceAtBodyPoint(Vector3(0,-90,0),Point3(0.1,0.2,0));
 
 		//body->CalculateInternals();
 		m_RigidBodies.push_back(body);
@@ -226,15 +235,8 @@ void RigidBodyMotionSimulation::DoCamera()
 	glTranslatef(xtrans, ytrans, ztrans);
 }
 
-
-void RigidBodyMotionSimulation::VOnRender()
+void RigidBodyMotionSimulation::RenderBodies()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	DoCamera();
-
 	list<RigidBodyPtr>::iterator it, itEnd;
 	for(it = m_RigidBodies.begin(), itEnd = m_RigidBodies.end();
 			it != itEnd ;
@@ -250,14 +252,29 @@ void RigidBodyMotionSimulation::VOnRender()
 		}
 		(*it)->VDraw();
 	}
+}
 
-	if(isColliding)
+void RigidBodyMotionSimulation::VOnRender()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	DoCamera();
+
+	RenderBodies();
+
+
+	vector<ContactPtr>::iterator it, itEnd;
+	for(it = m_Contacts.begin(), itEnd = m_Contacts.end();
+			it != itEnd ;
+			it++)
 	{
 		glPushMatrix();
 		glColor3f(0.1,0.9,1);
-		glTranslatef(m_Contact->GetClosestPoint().GetX(),
-					m_Contact->GetClosestPoint().GetY(),
-					m_Contact->GetClosestPoint().GetZ());
+		glTranslatef((*it)->GetClosestPoint().GetX(),
+					(*it)->GetClosestPoint().GetY(),
+					(*it)->GetClosestPoint().GetZ());
 		glCallList(m_NormalSphereList);
 
 		//Now draw arrow for normal
@@ -266,15 +283,21 @@ void RigidBodyMotionSimulation::VOnRender()
 				glVertex3f(0, 
 						0,
 						0);
-				glVertex3f(m_Contact->GetCollisionNormal().GetX(), 
-						m_Contact->GetCollisionNormal().GetY(),
-						m_Contact->GetCollisionNormal().GetZ());
+				glVertex3f((*it)->GetCollisionNormal().GetX(), 
+						(*it)->GetCollisionNormal().GetY(),
+						(*it)->GetCollisionNormal().GetZ());
 				glPopMatrix();	
 		glEnd();
 		glPopMatrix();
 	}
 
+
 	m_Plane->VDraw();
+	
+	stringstream out;
+	out<<"nContacts is : "<<m_Contacts.size()<<endl;
+
+	m_Font->Render(out.str().c_str());
 
 	SDL_GL_SwapBuffers();
 }
@@ -320,7 +343,8 @@ void RigidBodyMotionSimulation::VOnUpdate()
 
 	float timestep = 1.0f / 60.0f; //TODO : Adaptive timestep.
 
-	vector<Contact> contacts;
+	m_Contacts.clear();
+//	vector<ContactPtr> contacts;
 	list<RigidBodyPtr>::iterator it, itEnd;
 	for(it = m_RigidBodies.begin(), itEnd = m_RigidBodies.end();
 			it != itEnd ;
@@ -329,15 +353,14 @@ void RigidBodyMotionSimulation::VOnUpdate()
 		(*it)->Integrate(timestep);
 
 		isColliding = false;
-		m_Contact = new Contact();
-		if(m_NarrowPhaseCollisionDetector->RigidBodyAndPlane((*it), m_Plane, m_Contact))
+//		m_Contact = new Contact();
+		ContactPtr contact(new Contact());
+		if(m_NarrowPhaseCollisionDetector->RigidBodyAndPlane((*it), m_Plane, contact))
 		{
 			isColliding = true;
-			contacts.push_back((*m_Contact));
-			m_ContactResolver->ResolveContacts(contacts, timestep);
-			contacts.empty();
+			m_Contacts.push_back(contact);
+			m_ContactResolver->ResolveContacts(m_Contacts, timestep);
 		}
-
 
 		if((*it)->GetPos().GetY() < -10)
 		{
