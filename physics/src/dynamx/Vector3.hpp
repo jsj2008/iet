@@ -24,6 +24,8 @@ namespace dynamx
 
 			Vector3 Add(const Vector3& other) const;
 
+			Vector3 Add(const real& scalar) const;
+
 			void AddScaledVector(const Vector3& other, real scale);
 
 			Vector3 Subtract(const Vector3& other) const;

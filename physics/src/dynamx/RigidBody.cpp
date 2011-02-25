@@ -153,12 +153,14 @@ namespace dynamx
 		// Compute auxiliary variables... 
 		//m_LinearVel = m_LinearMomentum.Multiply(m_InverseMass);
 		m_LinearVel = m_LinearVel.Add(m_LinearMomentum.Multiply(m_InverseMass));
+		//m_LinearVel = m_LinearMomentum.Multiply(m_InverseMass);
 		// I −1 (t) = R(t)Ibody R(t) T 
 		//rb->Iinv = R * Ibodyinv * Transpose(R);
 		Vector3 angularVelDelta;
 		//m_InverseInertiaTensorWorld.Multiply(m_AngularMomentum, &m_AngularVel);
 		m_InverseInertiaTensorWorld.Multiply(m_AngularMomentum, &angularVelDelta);
 		m_AngularVel = m_AngularVel.Add(angularVelDelta);
+//		m_AngularVel = (angularVelDelta);
 
 		cout<<"m_Pos is "<<m_Pos<<endl;
 		cout<<"m_LinearMomentum is "<<m_LinearMomentum<<endl;

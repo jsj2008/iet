@@ -212,7 +212,7 @@ void RigidBodyMotionSimulation::CreateObjects()
 		}
 		*/
 		//body->AddForceAtBodyPoint(Vector3(0,-90,0),Point3(0.1,0.2,0));
-		//body->AddForceAtBodyPoint(Vector3(0,-9.8,0),Point3(0.0,0.0,0.0));
+		body->AddForceAtBodyPoint(Vector3(0,-99.8,0),Point3(0.0,0.0,0.0));
 
 //		body->SetLinearVel(Vector3(0,-9,0));
 
@@ -360,6 +360,7 @@ void RigidBodyMotionSimulation::VOnUpdate()
 
 
 		(*it)->AddForceAtBodyPoint(Vector3(0,-1.8,0),Point3(0.0,0.0,0.0));
+//		(*it)->SetLinearVel((*it)->GetLinearVel().Subtract(Vector3(0,0.1,0)));
 
 		(*it)->Integrate(timestep);
 

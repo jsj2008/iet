@@ -43,9 +43,6 @@ namespace dynamx
 		Vector3 padot = GetPointVel(*a, pVec);
 		Vector3 pbdot = GetPointVel(*b, pVec);
 
-//		Vector3 padot = pVec.Subtract( a->GetPos() );
-//		Vector3 pbdot = pVec.Subtract( b->GetPos() );
-
 		real vRel = n.DotProduct( padot.Subtract(pbdot) );
 
 		if(vRel > THRESHOLD)
@@ -86,8 +83,8 @@ namespace dynamx
 
 					hadCollision = true;
 
-					return;
 					cout<<"Collision"<<endl;
+			//		return;
 
 					//odediscontinuous here?
 				}
@@ -108,14 +105,20 @@ namespace dynamx
 	void ContactResolver::HandleCollision(ContactPtr& contact,
 			real epsilon) const
 	{
-		/*
 		shared_ptr<RigidBody> a = contact->GetA();
 		shared_ptr<RigidBody> b = contact->GetB();
 		Vector3 n = contact->GetCollisionNormal();
+		Point3 p = contact->GetClosestPoint();
 		Vector3 pVec = contact->GetClosestPoint().ToVector3();
-
 		Vector3 rA = pVec.Subtract(a->GetPos());
 		Vector3 rB = pVec.Subtract(b->GetPos());
+
+		Vector3 padot = GetPointVel(*a, pVec);
+		Vector3 pbdot = GetPointVel(*b, pVec);
+		real vRel = n.DotProduct( padot.Subtract(pbdot) );
+
+		cout<<"vRel is : "<<vRel<<endl;
+		fflush(stdout);
 
 		Vector3 kA = rA.CrossProduct(n);
 		Vector3 kB = rB.CrossProduct(n);
@@ -123,62 +126,26 @@ namespace dynamx
 		Vector3 uA = a->GetInverseInertiaTensorWorld().Multiply(kA);
 		Vector3 uB = b->GetInverseInertiaTensorWorld().Multiply(kB);
 
-		real numerator = -(1+epsilon)
-			* n.DotProduct(a->GetLinearVel().Subtract(b->GetLinearVel())) 
-			+ a->GetAngularVel().DotProduct(kA) 
-			- b->GetAngularVel().DotProduct(kB);
-
-		//Denominator calc
-		real t1 = a->GetInverseMass();
-		real t2 = b->GetInverseMass();
-		real t3 = kA.DotProduct( uA );
-		real t4 = kB.DotProduct( uB );
-
-		//Impulse magnitude calculation
-		real j = numerator / (t1 + t2 + t3 + t4);
-*/
-
-		shared_ptr<RigidBody> a = contact->GetA();
-		shared_ptr<RigidBody> b = contact->GetB();
-		Vector3 n = contact->GetCollisionNormal();
-		Point3 p = contact->GetClosestPoint();
-		Vector3 pVec = contact->GetClosestPoint().ToVector3();
-		Vector3 padot = GetPointVel(*a, pVec);
-		Vector3 pbdot = GetPointVel(*b, pVec);
-
-//		Vector3 padot = pVec.Subtract( a->GetPos());
-//		Vector3 pbdot = pVec.Subtract( b->GetPos());
-
-
-		Vector3 rA = pVec.Subtract(a->GetPos());
-		Vector3 rB = pVec.Subtract(b->GetPos());
-
-//		Vector3 padot = rA.CrossProduct(a->GetAngularVel());
-//		Vector3 pbdot = rB.CrossProduct(b->GetAngularVel());
-
-		real vRel = n.DotProduct( padot.Subtract(pbdot) );
-//		real vRel = n.DotProduct( a->GetLinearVel().Subtract(b->GetLinearVel()) );
-
-		cout<<"vRel is : "<<vRel<<endl;
-		fflush(stdout);
-
-		Vector3 kA = rA.CrossProduct(n);
-		Vector3 kB = rB.CrossProduct(n);
-		real numerator = -(1+epsilon) * vRel;
-//		real numerator = -(1+epsilon) * vRel + (a->GetOmega().DotProduct(kA) - (b->GetOmega().DotProduct(kB))) ;
+//		real numerator = -(1+epsilon) * vRel;
+		real numerator = -(1+epsilon) * 
+			(n.DotProduct(a->GetLinearVel().Subtract(b->GetLinearVel()))) 
+			 + a->GetAngularVel().DotProduct(kA)
+			 - b->GetAngularVel().DotProduct(kB);
 
 		//Denominator calc
 		real t1 = a->GetInverseMass();
 		real t2 = b->GetInverseMass();
 		Vector3 rACrossNRel;
 		a->GetInverseInertiaTensorWorld().Multiply(rA.CrossProduct(n), &rACrossNRel);
-		real t3 = n.DotProduct( rACrossNRel.CrossProduct(rA) );
-	//	real t3 = kA.DotProduct( rACrossNRel );
+		//real t3 = n.DotProduct( rACrossNRel.CrossProduct(rA) );
+		//real t3 = kA.DotProduct( rACrossNRel );
+		real t3 = kA.DotProduct(uA);
 
 		Vector3 rBCrossNRel;
 		a->GetInverseInertiaTensorWorld().Multiply(rB.CrossProduct(n), &rBCrossNRel);
-		real t4 = n.DotProduct( rBCrossNRel.CrossProduct(rB) );
+//		real t4 = n.DotProduct( rBCrossNRel.CrossProduct(rB) );
 //		real t4 = kB.DotProduct( rBCrossNRel );
+		real t4 = kB.DotProduct(uB);
 
 		//Impulse magnitude calculation
 		real j = numerator / (t1 + t2 + t3 + t4);
@@ -191,45 +158,7 @@ namespace dynamx
 		Vector3 force = n.Multiply(j);
 
 		cout<<"j is : "<<j<<endl;
-
-		/*
-        Point3 ptRa(rA.GetX(), rA.GetY(), rA.GetZ());
-        Point3 ptRb(rB.GetX(), rB.GetY(), rB.GetZ());
-
-		real forcePower = 10;
-		Vector3 va = rA.Multiply(forcePower);
-		Vector3 vb = rB.Multiply(forcePower);
-        a->AddForceAtPoint(force, Point3(va.GetX(), va.GetY(), va.GetZ()));
-        b->AddForceAtPoint(force, Point3(vb.GetX(), vb.GetY(), vb.GetZ()));
-		*/
-
-		/*
-		a->SetLinearMomentum(a->GetLinearMomentum().Add(force));
-		b->SetLinearMomentum(b->GetLinearMomentum().Subtract(force));
-
-		a->SetAngularMomentum(a->GetAngularMomentum().Add(kA.Multiply(j)));
-		b->SetAngularMomentum(b->GetAngularMomentum().Add(kB.Multiply(j)));
-
-		//Recompute v and omega
-		a->SetV(a->GetLinearMomentum().Multiply(a->GetInverseMass()));
-		b->SetV(b->GetLinearMomentum().Multiply(b->GetInverseMass()));
-
-		Vector3 aOmega;
-		a->GetInverseInertiaTensorWorld().Multiply(a->GetAngularVel(), &aOmega);
-		a->SetOmega(a->GetOmega().Add(aOmega));
-
-		Vector3 bOmega;
-		b->GetInverseInertiaTensorWorld().Multiply(b->GetAngularVel(), &bOmega);
-		b->SetOmega(b->GetOmega().Add(bOmega));
-		*/
-
-//		a->SetLinearVel(a->GetLinearVel().Add(force.Multiply(a->GetInverseMass())));
-//		a->SetLinearVel((force.Multiply(a->GetInverseMass())));
-		//b->SetLinearVel(b->GetLinearVel().Subtract(force.Multiply(b->GetInverseMass())));
-//		b->SetLinearVel(force.Multiply(b->GetInverseMass()).Multiply(-1));
-
-//		a->SetAngularVel(a->GetInverseInertiaTensorWorld().Multiply(rA.CrossProduct(force)));
-//		b->SetAngularVel(b->GetInverseInertiaTensorWorld().Multiply(rB.CrossProduct(force)));
+		cout<<"force is : "<<force<<endl;
 
 		Point3 rAPoint(rA.GetX(), rA.GetY(), rA.GetZ());
 		Point3 rBPoint(rB.GetX(), rB.GetY(), rB.GetZ());
@@ -246,11 +175,20 @@ namespace dynamx
 		a->SetLinearVel(a->GetLinearMomentum().Multiply(a->GetInverseMass()));
 //		a->SetLinearVel(a->GetLinearVel().Add(a->GetLinearMomentum().Multiply(a->GetInverseMass())));
 		b->SetLinearVel(b->GetLinearMomentum().Multiply(b->GetInverseMass()));
-		a->SetAngularVel(a->GetInverseInertiaTensorWorld().Multiply(a->GetLinearMomentum()));
+//		a->SetAngularVel(a->GetInverseInertiaTensorWorld().Multiply(a->GetLinearMomentum()));
 //		a->SetAngularVel(a->GetAngularVel().Add(a->GetInverseInertiaTensorWorld().Multiply(a->GetLinearMomentum())));
-		b->SetAngularVel(b->GetInverseInertiaTensorWorld().Multiply(b->GetLinearMomentum()));
+		a->SetAngularVel(a->GetAngularVel().Add(uA.DotProduct(force)));
+//		b->SetAngularVel(b->GetInverseInertiaTensorWorld().Multiply(b->GetLinearMomentum()));
+//		b->SetAngularVel(b->GetAngularVel().Add(b->GetInverseInertiaTensorWorld().Multiply(b->GetLinearMomentum())));
+		b->SetAngularVel(b->GetAngularVel().Add(uB.DotProduct(force)));
 
-//		a->Integrate(0.01);
+//		a->AddForceAtBodyPoint(force, Point3(0,0,0));
+//		b->AddForceAtBodyPoint(force, Point3(0,0,0));
+
+//		a->AddForceAtPoint(force, p);
+//		b->AddForceAtPoint(force, p);
+
+		a->Integrate(0.4);
 
 		/*
 		//Apply impulse

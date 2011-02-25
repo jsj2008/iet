@@ -38,6 +38,15 @@ namespace dynamx
 		return result;
 	}
 
+	Vector3 Vector3::Add(const real& scalar) const
+	{
+		Vector3 result;
+		result.SetX(m_X + scalar);
+		result.SetY(m_Y + scalar);
+		result.SetZ(m_Z + scalar);
+		return result;
+	}
+
 	void Vector3::AddScaledVector(const Vector3& other, real scale)
 	{
 		m_X += other.GetX() * scale;
