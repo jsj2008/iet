@@ -177,7 +177,7 @@ void RigidBodyMotionSimulation::CreateObjects()
 		body->SetMass(1);
 	//	Point3 newPos(0,20,30);
 	
-		Point3 newPos(0,4,0);
+		Point3 newPos(i*10,4,i*10);
 		body->SetPos(newPos);
 
 		Matrix3 inertiaTensor;
@@ -192,10 +192,9 @@ void RigidBodyMotionSimulation::CreateObjects()
 		//body->setorientation(orientation);
 		
 		Quaternion orientation;
-		Vector3 rotationVec(0,0,0);
+		Vector3 rotationVec(1,1,1);
 		orientation.RotateByVector(rotationVec);
 		body->SetOrientation(orientation);
-
 
 		body->CalculateInternals();
 
@@ -357,22 +356,33 @@ void RigidBodyMotionSimulation::VOnUpdate()
 			it != itEnd ;
 			it++)
 	{
-
-
 		(*it)->AddForceAtBodyPoint(Vector3(0,-1.8,0),Point3(0.0,0.0,0.0));
 //		(*it)->SetLinearVel((*it)->GetLinearVel().Subtract(Vector3(0,0.1,0)));
 
 		(*it)->Integrate(timestep);
 
-		isColliding = false;
 //		m_Contact = new Contact();
-		ContactPtr contact(new Contact());
-		if(m_NarrowPhaseCollisionDetector->RigidBodyAndPlane((*it), m_Plane, contact))
+		
+		int maxTries = 10;
+		int i = 0;
+		do
 		{
-			isColliding = true;
-			m_Contacts.push_back(contact);
-			m_ContactResolver->ResolveContacts(m_Contacts, timestep);
+			m_Contacts.clear();
+			i++;
+			if(i > maxTries)
+			{
+				break;
+			}
+			isColliding = false;
+			ContactPtr contact(new Contact());
+			if(m_NarrowPhaseCollisionDetector->RigidBodyAndPlane((*it), m_Plane, contact))
+			{
+				isColliding = true;
+				m_Contacts.push_back(contact);
+				m_ContactResolver->ResolveContacts(m_Contacts, timestep);
+			}
 		}
+		while(isColliding);
 
 		if((*it)->GetPos().GetY() < -10)
 		{

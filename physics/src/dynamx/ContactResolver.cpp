@@ -29,7 +29,7 @@ namespace dynamx
 		// Prepare the contacts for processing
 		PrepareContacts(contacts, timeStep);
 		
-		real epsilon = 0.5;
+		real epsilon = 0.3;
 		HandleCollisions(contacts, epsilon);
 	}
 
@@ -84,7 +84,7 @@ namespace dynamx
 					hadCollision = true;
 
 					cout<<"Collision"<<endl;
-			//		return;
+					return;
 
 					//odediscontinuous here?
 				}
@@ -126,29 +126,32 @@ namespace dynamx
 		Vector3 uA = a->GetInverseInertiaTensorWorld().Multiply(kA);
 		Vector3 uB = b->GetInverseInertiaTensorWorld().Multiply(kB);
 
-//		real numerator = -(1+epsilon) * vRel;
+		real numerator = -(1+epsilon) * vRel;
+/*
 		real numerator = -(1+epsilon) * 
 			(n.DotProduct(a->GetLinearVel().Subtract(b->GetLinearVel()))) 
 			 + a->GetAngularVel().DotProduct(kA)
 			 - b->GetAngularVel().DotProduct(kB);
+			 */
 
 		//Denominator calc
 		real t1 = a->GetInverseMass();
 		real t2 = b->GetInverseMass();
 		Vector3 rACrossNRel;
 		a->GetInverseInertiaTensorWorld().Multiply(rA.CrossProduct(n), &rACrossNRel);
-		//real t3 = n.DotProduct( rACrossNRel.CrossProduct(rA) );
+		real t3 = n.DotProduct( rACrossNRel.CrossProduct(rA) );
 		//real t3 = kA.DotProduct( rACrossNRel );
-		real t3 = kA.DotProduct(uA);
+		//real t3 = kA.DotProduct(uA);
 
 		Vector3 rBCrossNRel;
 		a->GetInverseInertiaTensorWorld().Multiply(rB.CrossProduct(n), &rBCrossNRel);
-//		real t4 = n.DotProduct( rBCrossNRel.CrossProduct(rB) );
+		real t4 = n.DotProduct( rBCrossNRel.CrossProduct(rB) );
 //		real t4 = kB.DotProduct( rBCrossNRel );
-		real t4 = kB.DotProduct(uB);
+//		real t4 = kB.DotProduct(uB);
 
 		//Impulse magnitude calculation
 		real j = numerator / (t1 + t2 + t3 + t4);
+		//real j = numerator / (t1 + t3);
 //		real j = numerator / (t2 + t4);
 //		real j = numerator / (t1 + t3);
 
@@ -159,6 +162,8 @@ namespace dynamx
 
 		cout<<"j is : "<<j<<endl;
 		cout<<"force is : "<<force<<endl;
+		cout<<"numerator is : "<<numerator<<endl;
+		cout<<"denomenator is : "<<(t1+t3)<<endl;
 
 		Point3 rAPoint(rA.GetX(), rA.GetY(), rA.GetZ());
 		Point3 rBPoint(rB.GetX(), rB.GetY(), rB.GetZ());
@@ -177,7 +182,10 @@ namespace dynamx
 		b->SetLinearVel(b->GetLinearMomentum().Multiply(b->GetInverseMass()));
 //		a->SetAngularVel(a->GetInverseInertiaTensorWorld().Multiply(a->GetLinearMomentum()));
 //		a->SetAngularVel(a->GetAngularVel().Add(a->GetInverseInertiaTensorWorld().Multiply(a->GetLinearMomentum())));
+
 		a->SetAngularVel(a->GetAngularVel().Add(uA.DotProduct(force)));
+		//a->SetAngularVel(Vector3().Add(uA.DotProduct(force)));
+
 //		b->SetAngularVel(b->GetInverseInertiaTensorWorld().Multiply(b->GetLinearMomentum()));
 //		b->SetAngularVel(b->GetAngularVel().Add(b->GetInverseInertiaTensorWorld().Multiply(b->GetLinearMomentum())));
 		b->SetAngularVel(b->GetAngularVel().Add(uB.DotProduct(force)));
@@ -188,7 +196,18 @@ namespace dynamx
 //		a->AddForceAtPoint(force, p);
 //		b->AddForceAtPoint(force, p);
 
-		a->Integrate(0.4);
+//		a->Integrate(0.4);
+		//real timestep = 1.0f / 15.0f; //TODO : Adaptive timestep.
+		real timestep = 0.4; //TODO : Adaptive timestep.
+/*
+		a->SetPos(a->GetPos().Add(a->GetLinearVel().Multiply(timestep)));
+
+		//Quaternion qdot = a->GetOrientation();
+		Quaternion qdot;
+	   	//qdot.AddScaledVector(a->GetAngularVel(), 1.0);
+	   	qdot.AddScaledVector(a->GetAngularVel(), -timestep);
+		a->SetOrientation(qdot);
+		*/
 
 		/*
 		//Apply impulse
