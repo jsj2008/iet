@@ -333,7 +333,6 @@ void RigidBodyMotionSimulation::VOnUpdate()
 			isColliding = true;
 		}
 
-
 		if((*it)->GetPos().GetY() < -10)
 		{
 			(*it)->AddForceAtBodyPoint(Vector3(0,180,0),Point3(0,0,0));

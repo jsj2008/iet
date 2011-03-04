@@ -53,3 +53,7 @@ find_package(GLUT REQUIRED)
 FILE(GLOB jfRenderingLab3_demo_cpp "./jfRenderingLab3_demo/*.cpp")
 ADD_EXECUTABLE(jfRenderingLab3_demo ${jfRenderingLab3_demo_cpp})
 TARGET_LINK_LIBRARIES(jfRenderingLab3_demo glut jfModel ${libThirdParty} ${IL_LIBRARIES} ${ILU_LIBRARIES} ${ILUT_LIBRARIES} ${DEVIL_LIBRARY} ${GLUT_LIBRARY})
+
+FILE(GLOB jfRenderingLab4_demo_cpp "./jfRenderingLab4_demo/*.cpp")
+ADD_EXECUTABLE(jfRenderingLab4_demo ${jfRenderingLab4_demo_cpp})
+TARGET_LINK_LIBRARIES(jfRenderingLab4_demo glut jfModel jfWm ${libThirdParty} ${IL_LIBRARIES} ${ILU_LIBRARIES} ${ILUT_LIBRARIES} ${DEVIL_LIBRARY} ${GLUT_LIBRARY})
