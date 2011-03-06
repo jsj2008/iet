@@ -10,7 +10,6 @@ const char* PARTICLE_TEX_PATH = "../../media/tex/particle_texture.tga";
 RigidBodyMotionSimulation::RigidBodyMotionSimulation()
 	:
 		Simulation(),
-		m_NarrowPhaseCollisionDetector(0),
 		m_Particle(0),
 		m_Quadric(0),
 		m_NormalSphereList(0),
@@ -18,16 +17,20 @@ RigidBodyMotionSimulation::RigidBodyMotionSimulation()
 {
 //	m_CollisionDetector = new SweepAndPruneCollisionDetector();
 	//m_FpsTimer = new FpsTimer();
-	m_NarrowPhaseCollisionDetector = new CollisionDetector();
+//	m_NarrowPhaseCollisionDetector = new CollisionDetector();
+
+	m_NarrowPhaseCollisionDetector = shared_ptr<CollisionDetector>(new CollisionDetector());
 	m_ContactResolver = shared_ptr<ContactResolver>(new ContactResolver());
 	m_Quadric = gluNewQuadric();
+	m_Font = new FTGLPixmapFont ("../../media/font/Abduction.ttf");
 }
 
 RigidBodyMotionSimulation::~RigidBodyMotionSimulation()
 {
 //	delete m_CollisionDetector;
-	delete m_NarrowPhaseCollisionDetector;
-	//delete m_Contact;
+//	delete m_NarrowPhaseCollisionDetector;
+//	delete m_Contact;
+	
 	delete m_Font;
 	gluDeleteQuadric(m_Quadric);
 }
@@ -38,7 +41,6 @@ void RigidBodyMotionSimulation::VOnInit()
 
 	InitGL();
 
-	m_Font = new FTGLPixmapFont ("../../media/font/Abduction.ttf");
 	// If something went wrong, bail out.
 	if(m_Font->Error())
 	{
@@ -171,13 +173,13 @@ void RigidBodyMotionSimulation::HandleInput()
 
 void RigidBodyMotionSimulation::CreateObjects()
 {
-	for(int i = 0 ; i < 1 ; i++)
+	for(int i = 0 ; i < 2 ; i++)
 	{
 		RigidBodyPtr body(new RigidBody());
 		body->SetMass(1);
 	//	Point3 newPos(0,20,30);
 	
-		Point3 newPos(i*10,4,i*10);
+		Point3 newPos(-i*10,4,-i*10);
 		body->SetPos(newPos);
 
 		Matrix3 inertiaTensor;
@@ -211,7 +213,7 @@ void RigidBodyMotionSimulation::CreateObjects()
 		}
 		*/
 		//body->AddForceAtBodyPoint(Vector3(0,-90,0),Point3(0.1,0.2,0));
-		body->AddForceAtBodyPoint(Vector3(0,-99.8,0),Point3(0.0,0.0,0.0));
+//		body->AddForceAtBodyPoint(Vector3(0,-99.8,0),Point3(0.0,0.0,0.0));
 
 //		body->SetLinearVel(Vector3(0,-9,0));
 
@@ -356,34 +358,42 @@ void RigidBodyMotionSimulation::VOnUpdate()
 			it != itEnd ;
 			it++)
 	{
-		(*it)->AddForceAtBodyPoint(Vector3(0,-1.8,0),Point3(0.0,0.0,0.0));
+		(*it)->AddForceAtBodyPoint(Vector3(0,-9.8,0),Point3(0.0,0.0,0.0));
 //		(*it)->SetLinearVel((*it)->GetLinearVel().Subtract(Vector3(0,0.1,0)));
 
 		(*it)->Integrate(timestep);
 
 //		m_Contact = new Contact();
 		
-		int maxTries = 10;
+		int maxTries = 1;
 		int i = 0;
 		do
 		{
-			m_Contacts.clear();
 			i++;
 			if(i > maxTries)
 			{
 				break;
 			}
 			isColliding = false;
-			ContactPtr contact(new Contact());
-			if(m_NarrowPhaseCollisionDetector->RigidBodyAndPlane((*it), m_Plane, contact))
+//			ContactPtr contact(new Contact());
+			shared_ptr<vector<ContactPtr> > contacts(new vector<ContactPtr>());
+			if(m_NarrowPhaseCollisionDetector->RigidBodyAndPlane((*it), m_Plane, contacts))
 			{
 				isColliding = true;
-				m_Contacts.push_back(contact);
-				m_ContactResolver->ResolveContacts(m_Contacts, timestep);
+//				m_Contacts.push_back(contact);
+//				m_ContactResolver->ResolveContacts(m_Contacts, timestep);
+//				m_ContactResolver->ResolveContacts(*(contacts.get()), timestep);
+				while( ! contacts->empty() )
+				{
+					m_Contacts.push_back( contacts->back() );
+					contacts->pop_back();
+				}
 			}
 		}
 		while(isColliding);
 
+
+		/*
 		if((*it)->GetPos().GetY() < -10)
 		{
 			(*it)->AddForceAtBodyPoint(Vector3(0,180,0),Point3(0,0,0));
@@ -392,9 +402,12 @@ void RigidBodyMotionSimulation::VOnUpdate()
 		{
 			(*it)->AddForceAtBodyPoint(Vector3(0,-180,0),Point3(0,0,0));
 		}
+		*/
 
 		//TODO: Draw contact.
 	}
+
+	m_ContactResolver->ResolveContacts(m_Contacts, timestep);
 
 //	m_CollisionDetector->CheckForCollisions();
 	//Narrowphase Collision Detection

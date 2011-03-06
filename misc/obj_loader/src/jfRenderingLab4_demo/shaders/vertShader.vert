@@ -1,3 +1,4 @@
+/*
 uniform mat4 modelMat; // custom matrix passed in, the model_view matrix without the model
 uniform vec3 eyew;
 uniform int doReflect; //pass a value in to switch between reflect and refract
@@ -71,12 +72,7 @@ void main()
 		vec4 positionw = modelMat*gl_Vertex;
 		vec4 normw = normalize(modelMat * vec4(gl_Normal,0.0)); 
 		vec3 lightw = normalize(positionw.xyz - eyew);
-/*
-		float eta = 0.87;
-		float etaRed = 0.84;
-		float etaGreen = 0.87;
-		float etaBlue = 0.91;
-*/
+
 		float eta = 0.33;
 		float etaRed = 0.29;
 		float etaGreen = 0.33;
@@ -96,4 +92,78 @@ void main()
 		float fresnelPower = 5.0;
 		reflectionCoeff = max(0, min(1, r_zero + (1.0-r_zero) * pow((1.0 - dot(I, N)), fresnelPower)));
 	}
+}
+*/
+
+/*
+varying vec3 v;
+varying vec3 l;
+
+uniform vec4 L;
+
+attribute vec3 rm_Tangent;
+attribute vec3 rm_Bitangent;
+
+void main(void)
+{
+	gl_Position = ftransform();
+	gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
+
+	vec4 camera = gl_ModelViewMatrixInverse * vec4(0.0, 0.0, 0.0, 1.0);
+	vec3 view = normalize(camera.xyz - glVertex.xyz);
+	vec3 light = normaize(gl_ModelViewMatrixTranspose*L).xyz;
+
+	mat3 TBNinv(rm_Tangent, rm_Bitangent, gl_Normal); //Maps from object space to world space
+	l = TBNinv * light;
+	v = TBNinv * view;
+}
+*/
+
+uniform vec3 LightPosition;
+//attribute vec3 Tangent;
+
+varying vec3 LightDir;
+varying vec3 EyeDir;
+
+vec3 calcTangent()
+{
+	vec3 tangent;
+	vec3 c1 = cross(gl_Normal, vec3(0.0, 0.0, 1.0));
+	vec3 c2 = cross(gl_Normal, vec3(0.0, 1.0, 0.0));
+	if(length(c1)>length(c2))
+	{
+		tangent = c1;
+	}
+	else
+	{
+		tangent = c2;
+	}
+	tangent = normalize(tangent);
+	return tangent;
+}
+
+void main()
+{
+	vec3 Tangent = calcTangent();
+
+	EyeDir = vec3(gl_ModelViewMatrix * gl_Vertex);
+	gl_Position = ftransform();
+	gl_TexCoord[0] = gl_MultiTexCoord0;
+	vec3 n = normalize(gl_NormalMatrix * gl_Normal);
+	vec3 t = normalize(gl_NormalMatrix * Tangent);
+
+	vec3 b = cross(n, t); //binormal
+
+//	mat3 tangentmat = mat3( tangent, binormal, normal );
+//	LightDir
+
+	vec3 v; //temp variable
+	v.x = dot(LightPosition, t);
+	v.y = dot(LightPosition, b);
+	v.z = dot(LightPosition, n);
+	LightDir = normalize(v);
+	v.x = dot(EyeDir, t);
+	v.y = dot(EyeDir, b);
+	v.z = dot(EyeDir, n);
+	EyeDir = normalize(v);
 }

@@ -12,7 +12,7 @@ using namespace std;
 
 namespace dynamx
 {
-	const real THRESHOLD = 0.3;
+	const real THRESHOLD = 0.0;
 
 	/*
 	 * =====================================================================================

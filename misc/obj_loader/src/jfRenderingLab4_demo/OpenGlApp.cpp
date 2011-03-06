@@ -29,9 +29,12 @@
 #endif
 
 #include <sstream>
-#include "IL/il.h"	// for easier loading of images
-#include "IL/ilu.h"
-#include "IL/ilut.h"
+//#include "IL/il.h"	// for easier loading of images
+//#include "IL/ilu.h"
+//#include "IL/ilut.h"
+#include <IL/il.h>	// devIL lbrary for easier loading of images
+#include <IL/ilu.h>
+#include <IL/ilut.h>
 
 #include "textureTGA.h" // TGA support
 #include "Vector3D.h"
@@ -140,6 +143,8 @@ GLuint myVertexObj;
 GLuint myFragObj;
 
 GLuint textureID[6];
+GLuint bumpMapTextureID;
+string bumpMapTextureFilename("../../media/bumpmaps/bm_00.gif");
 GLint rotationValue = 2;
 
 //Location variabls for shader uniforms
@@ -158,6 +163,12 @@ GLint invModelMatLoc;
 GLint eyewLoc;
 GLint cubeSamplerLoc;
 GLint reflectLoc;
+//lab4
+GLint LightPositionLoc;
+GLint SurfaceColorLoc;
+GLint BumpDensityLoc;
+GLint BumpSizeLoc;
+GLint SpecularFactorLoc;
 
 void renderScene()
 {	
@@ -186,7 +197,8 @@ void renderScene()
 	//gluLookAt(cameraPosition[0],cameraPosition[1],cameraPosition[2],  0,0,-100,  0,1,0);
 	myCamera.positionCamera();
 
-	GLfloat lightPosition[4] = {0,0,-5,1};
+	//GLfloat lightPosition[4] = {0,0,-5,1};
+	GLfloat lightPosition[4] = {0,5,-5,1};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
 	// Start your draawing Funciobnality Here
@@ -307,18 +319,26 @@ void renderScene()
 	eyePos[3] = 1;
 
 	glUniform3fv(eyewLoc,1,eyePos);
-
-	/*
-	if(reflect==0)
-	{
-		glUniform1i(reflectLoc,0);
-	}
-	else if(reflect == 1)
-	{
-		glUniform1i(reflectLoc,0);
-	}
-	*/
 	glUniform1i(reflectLoc, reflect);
+
+	//lab4 uniforms
+	GLfloat LightPos[4];
+	LightPos[0] = lightPosition[0];
+	LightPos[1] = lightPosition[1];
+	LightPos[2] = lightPosition[2];
+	LightPos[3] = 1;
+	glUniform3fv(LightPositionLoc,1,LightPos);
+
+	GLfloat SurfaceColor[4];
+	SurfaceColor[0] = 0.7;
+	SurfaceColor[1] = 0.6;
+	SurfaceColor[2] = 0.18;
+	SurfaceColor[3] = 1;
+	glUniform3fv(SurfaceColorLoc,1,SurfaceColor);
+
+	glUniform1f(BumpDensityLoc, 16.0);
+	glUniform1f(BumpSizeLoc, 0.15);
+	glUniform1f(SpecularFactorLoc, 0.5);
 
 	errorNum = glGetError();
 	if(errorNum != GL_NO_ERROR)
@@ -666,7 +686,7 @@ void loadShaders()
 
 	std::ifstream shdr;
 	//shdr.open(".\\vertShader.txt");
-	shdr.open("../../src/jfRenderingLab3_demo/shaders/vertShader.txt");
+	shdr.open("../../src/jfRenderingLab4_demo/shaders/vertShader.vert");
 	if(!shdr)
 	{		std::cerr << "Shader File Not Found!" << std::endl;
 	}else{
@@ -724,10 +744,9 @@ void loadShaders()
 	}
 
 	//Load Fragemnt shader
-
 	std::ifstream fshdr;
 	//fshdr.open(".\\fragShader.txt");
-	fshdr.open("../../src/jfRenderingLab3_demo/shaders/fragShader.txt");
+	fshdr.open("../../src/jfRenderingLab4_demo/shaders/fragShader.frag");
 	if(!fshdr)
 	{		std::cerr << "Shader File Not Found!" << std::endl;
 	}else{
@@ -823,17 +842,65 @@ void loadShaders()
 	  float sc[4] = {0.8,0.8,0.8,1.0};
 	  glUniform4f(loc2,sc[0],sc[1],sc[2],sc[3]);*/
 
-	//// set up uniform variabl
+	//// set up uniform variables
 	modelMatLoc = glGetUniformLocation(myProgObj, "modelMat");
 	//	invModelMatLoc = glGetUniformLocation(myProgObj, "invModelMat");
 	eyewLoc = glGetUniformLocation(myProgObj, "eyew");
 	cubeSamplerLoc = glGetUniformLocation(myProgObj,"myMap");
 	reflectLoc = glGetUniformLocation(myProgObj,"doReflect");	
+	cubeSamplerLoc = glGetUniformLocation(myProgObj,"myMap");
+
+	//lab4 uniforms
+	LightPositionLoc = glGetUniformLocation(myProgObj,"LightPosition");
+	SurfaceColorLoc = glGetUniformLocation(myProgObj,"SurfaceColor");
+	BumpDensityLoc = glGetUniformLocation(myProgObj,"BumpDensity");
+	BumpSizeLoc = glGetUniformLocation(myProgObj,"BumpSize");
+	SpecularFactorLoc = glGetUniformLocation(myProgObj,"SpecularFactor");
 
 	GLuint errorNum = glGetError();
 	if(errorNum != GL_NO_ERROR)
 	{		std::cout << "Error = " << gluErrorString(errorNum) << std::endl;
 	}
+}
+
+void loadBumpMapTexture()
+{
+	GLuint errorNum;
+	std::string errorStr;
+	ILboolean imageLoaded;
+	ILuint ImageName;	
+
+	glGenTextures(1, &bumpMapTextureID);
+	ilGenImages(1,&ImageName);
+
+	errorNum = ilGetError();
+	if(errorNum != IL_NO_ERROR)
+	{
+			errorStr = iluErrorString(errorNum);
+			std::cout << errorStr;
+	}
+
+	ilBindImage(ImageName);
+	imageLoaded = ilLoadImage(bumpMapTextureFilename.c_str());
+
+//	bumpMapTextureID = ilutGLBindTexImage();
+
+	glBindTexture(GL_TEXTURE_2D, bumpMapTextureID);
+
+	errorNum = ilGetError();
+	if(errorNum != IL_NO_ERROR)
+	{
+			std::cout << iluErrorString(errorNum);;
+	}
+
+	ilDeleteImages(1,&ImageName);
+	
+	errorNum = ilGetError();
+	if(errorNum != IL_NO_ERROR)
+	{
+			std::cout << iluErrorString(errorNum);;
+	}	
+
 }
 
 void loadCubeMaptexture()
@@ -970,6 +1037,8 @@ void loadCubeMaptexture()
 		std::cerr << gluErrorString( errorNum);
 
 	}
+
+	loadBumpMapTexture();
 }
 
 void enableCubeMap(bool enable)
@@ -985,6 +1054,9 @@ void enableCubeMap(bool enable)
 		glEnable(GL_TEXTURE_GEN_T);
 		glEnable(GL_TEXTURE_GEN_R);
 		glEnable(GL_NORMALIZE);
+
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D,bumpMapTextureID);
 	}
 	else
 	{

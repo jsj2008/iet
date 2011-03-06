@@ -25,13 +25,17 @@ RigidBodyMotionSimulation::RigidBodyMotionSimulation()
 	//m_FpsTimer = new FpsTimer();
 	m_NarrowPhaseCollisionDetector = new CollisionDetector();
 	m_Quadric = gluNewQuadric();
+
+	m_Particle = 0;
 }
 
 RigidBodyMotionSimulation::~RigidBodyMotionSimulation()
 {
-//	delete m_CollisionDetector;
-	delete m_NarrowPhaseCollisionDetector;
-	delete m_Triangle;
+////	delete m_CollisionDetector;
+
+//	delete m_NarrowPhaseCollisionDetector;
+//	delete m_Triangle;
+//	delete m_Particle;
 }
 
 void RigidBodyMotionSimulation::VOnInit()

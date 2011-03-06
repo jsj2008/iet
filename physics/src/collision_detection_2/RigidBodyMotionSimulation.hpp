@@ -13,6 +13,7 @@
 #include <dynamx/Particle.hpp>
 //#include <dynamx/SweepAndPruneCollisionDetector.hpp>
 #include <dynamx/CollisionDetector.hpp>
+#include <dynamx/CollisionPlane.hpp>
 #include <dynamx/Contact.hpp>
 
 #include <common/Simulation.hpp>

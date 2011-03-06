@@ -220,12 +220,70 @@ namespace dynamx
 			, const Matrix3& iitBody
 			, const Matrix3& rotMat) const
 	{
+		/*
 		//I(t) = R(t) . I_body . R(t)^T
 		Matrix3 rotatedIit;
 		rotMat.Multiply(iitBody, &rotatedIit);
 		Matrix3 transRotMat;
 		rotMat.GetTranspose(&transRotMat);
 		rotatedIit.Multiply(transRotMat, iitWorld);
+		*/
+
+		//Generated using an optimising compiler
+		real t4 = (rotMat.GetElem(0)*iitBody.GetElem(0)) +
+			(rotMat.GetElem(1)*iitBody.GetElem(3)) +
+			(rotMat.GetElem(2)*iitBody.GetElem(6));
+		real t9 = (rotMat.GetElem(0)*iitBody.GetElem(1)) +
+			(rotMat.GetElem(1)*iitBody.GetElem(4)) +
+			(rotMat.GetElem(2)*iitBody.GetElem(7));
+		real t14 = (rotMat.GetElem(0)*iitBody.GetElem(2)) +
+			(rotMat.GetElem(1)*iitBody.GetElem(5)) +
+			(rotMat.GetElem(2)*iitBody.GetElem(8));
+		real t28 = (rotMat.GetElem(4)*iitBody.GetElem(0)) +
+			(rotMat.GetElem(5)*iitBody.GetElem(3)) +
+			(rotMat.GetElem(6)*iitBody.GetElem(6));
+		real t33 = (rotMat.GetElem(4)*iitBody.GetElem(1)) +
+			(rotMat.GetElem(5)*iitBody.GetElem(4)) +
+			(rotMat.GetElem(6)*iitBody.GetElem(7));
+		real t38 = (rotMat.GetElem(4)*iitBody.GetElem(2)) +
+			(rotMat.GetElem(5)*iitBody.GetElem(5)) +
+			(rotMat.GetElem(6)*iitBody.GetElem(8));
+		real t52 = (rotMat.GetElem(8)*iitBody.GetElem(0)) +
+			(rotMat.GetElem(9)*iitBody.GetElem(3)) +
+			(rotMat.GetElem(10)*iitBody.GetElem(6));
+		real t57 = (rotMat.GetElem(8)*iitBody.GetElem(1)) +
+			(rotMat.GetElem(9)*iitBody.GetElem(4)) +
+			(rotMat.GetElem(10)*iitBody.GetElem(7));
+		real t62 = (rotMat.GetElem(8)*iitBody.GetElem(2)) +
+			(rotMat.GetElem(9)*iitBody.GetElem(5)) +
+			(rotMat.GetElem(10)*iitBody.GetElem(8));
+		iitWorld->SetElem(0, (t4*rotMat.GetElem(0)) +
+				(t9*rotMat.GetElem(1)) +
+				(t14*rotMat.GetElem(2)));
+		iitWorld->SetElem(1, (t4*rotMat.GetElem(4)) +
+				(t9*rotMat.GetElem(5)) +
+				(t14*rotMat.GetElem(6)));
+		iitWorld->SetElem(2, (t4*rotMat.GetElem(8)) +
+				(t9*rotMat.GetElem(9)) +
+				(t14*rotMat.GetElem(10)));
+		iitWorld->SetElem(3, (t28*rotMat.GetElem(0)) +
+				(t33*rotMat.GetElem(1)) +
+				(t38*rotMat.GetElem(2)));
+		iitWorld->SetElem(4, (t28*rotMat.GetElem(4)) +
+				(t33*rotMat.GetElem(5)) +
+				(t38*rotMat.GetElem(6)));
+		iitWorld->SetElem(5, (t28*rotMat.GetElem(8)) +
+				(t33*rotMat.GetElem(9)) +
+				(t38*rotMat.GetElem(10)));
+		iitWorld->SetElem(6, (t52*rotMat.GetElem(0)) +
+				(t57*rotMat.GetElem(1)) +
+				(t62*rotMat.GetElem(2)));
+		iitWorld->SetElem(7, (t52*rotMat.GetElem(4)) +
+				(t57*rotMat.GetElem(5)) +
+				(t62*rotMat.GetElem(6)));
+		iitWorld->SetElem(8, (t52*rotMat.GetElem(8)) +
+				(t57*rotMat.GetElem(9)) +
+				(t62*rotMat.GetElem(10)));
 	}
 
 	void RigidBody::AddForceAtPoint(const Vector3& force, const Point3& point)

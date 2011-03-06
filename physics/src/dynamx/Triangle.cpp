@@ -13,6 +13,7 @@ namespace dynamx
 
 	Triangle::~Triangle()
 	{
+		gluDeleteQuadric(m_Quadric);
 	}
 
 	void Triangle::ChooseColour(int i)

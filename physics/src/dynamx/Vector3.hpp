@@ -65,7 +65,6 @@ namespace dynamx
 			real m_X, m_Y, m_Z;
 	};
 
-
 	inline ostream& operator<< (ostream& out, const Vector3& vec)
 	{
 		out << "<";

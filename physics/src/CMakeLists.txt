@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 project(dynamx_simulations)
 
 #Stuff for call graph
-set(CMAKE_CXX_FLAGS "-g -pg -Wall")
+#set(CMAKE_CXX_FLAGS "-g -pg -Wall")
+set(CMAKE_CXX_FLAGS "-g -O0")
 #set(CMAKE_CXX_FLAGS "-O3")
 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -59,6 +60,8 @@ file(GLOB collision_detection_2_sim_cpp "collision_detection_2/*.cpp")
 add_executable(collision_detection_2_sim ${collision_detection_2_sim_cpp})
 #target_link_libraries (collision_detection_2_sim ${simlibs})
 target_link_libraries (collision_detection_2_sim dynamx common_sim ${OPENGL_LIBRARIES} )
+
+#set(CMAKE_CXX_FLAGS "-g -O0 -v -da -Q")
 
 # Collision Detection 3
 include_directories("collision_detection_3")

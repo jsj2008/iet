@@ -84,7 +84,8 @@ namespace dynamx
 					hadCollision = true;
 
 					cout<<"Collision"<<endl;
-					return;
+
+//					return;
 
 					//odediscontinuous here?
 				}
@@ -169,6 +170,23 @@ namespace dynamx
 		Point3 rBPoint(rB.GetX(), rB.GetY(), rB.GetZ());
 
 		a->SetLinearMomentum(a->GetLinearMomentum().Add(force));
+		b->SetLinearMomentum(b->GetLinearMomentum().Subtract(force));
+
+		a->SetAngularMomentum(a->GetAngularMomentum().Add(rA.CrossProduct(force)));
+		b->SetAngularMomentum(b->GetAngularMomentum().Subtract(rB.CrossProduct(force)));
+
+		a->SetLinearVel(a->GetLinearMomentum().Multiply(a->GetInverseMass()));
+		b->SetLinearVel(b->GetLinearMomentum().Multiply(b->GetInverseMass()));
+
+		a->SetAngularVel(a->GetInverseInertiaTensorWorld().Multiply(a->GetAngularMomentum()));
+		b->SetAngularVel(b->GetInverseInertiaTensorWorld().Multiply(b->GetAngularMomentum()));
+
+
+//		a->SetAngularVel(a->GetAngularVel().Add(uA.DotProduct(force)));
+//		b->SetAngularVel(b->GetAngularVel().Add(uB.DotProduct(force)));
+
+		/*
+		a->SetLinearMomentum(a->GetLinearMomentum().Add(force));
 //		a->SetLinearMomentum((force));
 		b->SetLinearMomentum(b->GetLinearMomentum().Subtract(force));
 
@@ -198,7 +216,8 @@ namespace dynamx
 
 //		a->Integrate(0.4);
 		//real timestep = 1.0f / 15.0f; //TODO : Adaptive timestep.
-		real timestep = 0.4; //TODO : Adaptive timestep.
+//		real timestep = 0.4; //TODO : Adaptive timestep.
+		*/
 /*
 		a->SetPos(a->GetPos().Add(a->GetLinearVel().Multiply(timestep)));
 

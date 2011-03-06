@@ -15,6 +15,7 @@
 #include <dynamx/Particle.hpp>
 //#include <dynamx/SweepAndPruneCollisionDetector.hpp>
 #include <dynamx/CollisionDetector.hpp>
+#include <dynamx/CollisionPlane.hpp>
 #include <dynamx/Contact.hpp>
 #include <dynamx/ContactResolver.hpp>
 
@@ -72,7 +73,7 @@ class RigidBodyMotionSimulation : public Simulation
 		Camera m_Camera;
 		std::list<RigidBodyPtr> m_RigidBodies;
 //		SweepAndPruneCollisionDetector* m_CollisionDetector;
-		CollisionDetector* m_NarrowPhaseCollisionDetector;
+		shared_ptr<CollisionDetector> m_NarrowPhaseCollisionDetector;
 		shared_ptr<CollisionPlane> m_Plane;
 		Particle* m_Particle;
 		shared_ptr<ContactResolver> m_ContactResolver;
