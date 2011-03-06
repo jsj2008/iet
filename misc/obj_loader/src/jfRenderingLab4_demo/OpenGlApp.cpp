@@ -144,7 +144,9 @@ GLuint myFragObj;
 
 GLuint textureID[6];
 GLuint bumpMapTextureID;
+GLuint otherTextureID;
 string bumpMapTextureFilename("../../media/bumpmaps/bm_00.gif");
+string otherTextureFilename("../../media/tex/metal.tga");
 GLint rotationValue = 2;
 
 //Location variabls for shader uniforms
@@ -169,6 +171,8 @@ GLint SurfaceColorLoc;
 GLint BumpDensityLoc;
 GLint BumpSizeLoc;
 GLint SpecularFactorLoc;
+GLint bumpMapLoc;
+GLint otherTexLoc;
 
 void renderScene()
 {	
@@ -198,8 +202,16 @@ void renderScene()
 	myCamera.positionCamera();
 
 	//GLfloat lightPosition[4] = {0,0,-5,1};
-	GLfloat lightPosition[4] = {0,5,-5,1};
+	GLfloat lightPosition[4] = {0,45,-5,1};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+
+	glPushMatrix();
+//	glLoadIdentity();
+	glScalef(0.2,.2,.2);
+	glTranslatef(lightPosition[0],lightPosition[1],lightPosition[2]);
+	drawSphere();
+	glPopMatrix();
+
 
 	// Start your draawing Funciobnality Here
 	// This should specify the drawing of the planets
@@ -273,6 +285,9 @@ void renderScene()
 		std::cout << "Error = " << gluErrorString(errorNum) << std::endl;
 	}
 	glEnable(GL_TEXTURE_2D);
+
+
+
 	errorNum = glGetError();
 	if(errorNum != GL_NO_ERROR)
 	{
@@ -318,15 +333,26 @@ void renderScene()
 	eyePos[2] = myCamera.getZ();
 	eyePos[3] = 1;
 
+	//Texture stuff
+	glEnable(GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,bumpMapTextureID);
+//	glUniform1iARB(bumpMapLoc,0);
+	
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D,otherTextureID);
+//	glUniform1iARB(otherTexLoc,0);
+	//
+
 	glUniform3fv(eyewLoc,1,eyePos);
 	glUniform1i(reflectLoc, reflect);
 
 	//lab4 uniforms
-	GLfloat LightPos[4];
+	GLfloat LightPos[3];
 	LightPos[0] = lightPosition[0];
 	LightPos[1] = lightPosition[1];
 	LightPos[2] = lightPosition[2];
-	LightPos[3] = 1;
+//	LightPos[3] = 1;
 	glUniform3fv(LightPositionLoc,1,LightPos);
 
 	GLfloat SurfaceColor[4];
@@ -380,6 +406,7 @@ void renderScene()
 	if(errorNum != GL_NO_ERROR)
 	{		std::cout << "Error = " << gluErrorString(errorNum) << std::endl;
 	}
+
 }
 
 void updateScene()
@@ -903,6 +930,47 @@ void loadBumpMapTexture()
 
 }
 
+void loadOtherTexture()
+{
+	GLuint errorNum;
+	std::string errorStr;
+	ILboolean imageLoaded;
+	ILuint ImageName;	
+
+	glGenTextures(1, &otherTextureID);
+	ilGenImages(1,&ImageName);
+
+	errorNum = ilGetError();
+	if(errorNum != IL_NO_ERROR)
+	{
+			errorStr = iluErrorString(errorNum);
+			std::cout << errorStr;
+	}
+
+	ilBindImage(ImageName);
+	imageLoaded = ilLoadImage(otherTextureFilename.c_str());
+
+//	otherTextureID = ilutGLBindTexImage();
+
+	glBindTexture(GL_TEXTURE_2D, otherTextureID);
+
+	errorNum = ilGetError();
+	if(errorNum != IL_NO_ERROR)
+	{
+			std::cout << iluErrorString(errorNum);;
+	}
+
+	ilDeleteImages(1,&ImageName);
+	
+	errorNum = ilGetError();
+	if(errorNum != IL_NO_ERROR)
+	{
+			std::cout << iluErrorString(errorNum);;
+	}	
+
+}
+
+
 void loadCubeMaptexture()
 {
 	//drawCloseUp = false;
@@ -1039,6 +1107,7 @@ void loadCubeMaptexture()
 	}
 
 	loadBumpMapTexture();
+	loadOtherTexture();
 }
 
 void enableCubeMap(bool enable)

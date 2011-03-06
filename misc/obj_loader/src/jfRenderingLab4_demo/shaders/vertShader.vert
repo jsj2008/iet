@@ -119,6 +119,7 @@ void main(void)
 }
 */
 
+/*
 uniform vec3 LightPosition;
 //attribute vec3 Tangent;
 
@@ -167,3 +168,66 @@ void main()
 	v.z = dot(EyeDir, n);
 	EyeDir = normalize(v);
 }
+*/
+
+vec3 calcTangent()
+{
+	vec3 tangent;
+	vec3 c1 = cross(gl_Normal, vec3(0.0, 0.0, 1.0));
+	vec3 c2 = cross(gl_Normal, vec3(0.0, 1.0, 0.0));
+	if(length(c1)>length(c2))
+	{
+		tangent = c1;
+	}
+	else
+	{
+		tangent = c2;
+	}
+	tangent = normalize(tangent);
+	return tangent;
+}
+
+//attribute vec3 tangent;
+varying vec3 lightVec;
+varying vec3 halfVec;
+varying vec3 eyeVec;
+
+
+void main()
+{
+	vec3 tangent = calcTangent();
+
+	gl_TexCoord[0] =  gl_MultiTexCoord0;
+
+	// Building the matrix Eye Space -> Tangent Space
+	vec3 n = normalize (gl_NormalMatrix * gl_Normal);
+	vec3 t = normalize (gl_NormalMatrix * tangent);
+	vec3 b = cross (n, t);
+
+	vec3 vertexPosition = vec3(gl_ModelViewMatrix *  gl_Vertex);
+	vec3 lightDir = normalize(gl_LightSource[0].position.xyz - vertexPosition);
+
+	// transform light and half angle vectors by tangent basis
+	vec3 v;
+	v.x = dot (lightDir, t);
+	v.y = dot (lightDir, b);
+	v.z = dot (lightDir, n);
+	lightVec = normalize (v);
+
+	v.x = dot (vertexPosition, t);
+	v.y = dot (vertexPosition, b);
+	v.z = dot (vertexPosition, n);
+	eyeVec = normalize (v);
+
+	vertexPosition = normalize(vertexPosition);
+
+	/* Normalize the halfVector to pass it to the fragment shader */
+	vec3 halfVector = normalize((vertexPosition + lightDir) / 2.0);
+	v.x = dot (halfVector, t);
+	v.y = dot (halfVector, b);
+	v.z = dot (halfVector, n);
+	halfVec = normalize (v);
+
+	gl_Position = ftransform();
+}
+
