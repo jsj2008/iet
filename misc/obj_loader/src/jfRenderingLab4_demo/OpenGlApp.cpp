@@ -580,7 +580,7 @@ void setupScene()
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);				// Setup The Diffuse Light
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpecular);
 
-	cubeMapEnabled = false;
+	cubeMapEnabled = true;
 
 	loadShaders();
 	loadCubeMaptexture();
