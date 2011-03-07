@@ -1,0 +1,1 @@
+Move all reflection/ refraction stuff to vertex shader. Fragment shader should do as little as possible.

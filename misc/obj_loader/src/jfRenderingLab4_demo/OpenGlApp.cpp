@@ -202,7 +202,7 @@ void renderScene()
 	myCamera.positionCamera();
 
 	//GLfloat lightPosition[4] = {0,0,-5,1};
-	GLfloat lightPosition[4] = {0,45,-5,1};
+	GLfloat lightPosition[4] = {0,10,5,1};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
 	glPushMatrix();
@@ -338,8 +338,8 @@ void renderScene()
 	eyePos[3] = 1;
 
 	//Texture stuff
-	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE0);
+//	glEnable(GL_TEXTURE_2D);
+//	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D,bumpMapTextureID);
 //	glUniform1iARB(bumpMapLoc,0);
 	
@@ -551,6 +551,7 @@ void setupScene()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	//	glEnable(GL_LIGHT1);
+
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -960,6 +961,7 @@ void loadOtherTexture()
 //	otherTextureID = ilutGLBindTexImage();
 
 	glBindTexture(GL_TEXTURE_2D, otherTextureID);
+
 
 
 	errorNum = ilGetError();
