@@ -101,7 +101,7 @@ GLuint      textureId;
 //DWORD		lastTickCount;
 int		lastTickCount;
 bool normalsOutput = false;
-const int nReflectOptions = 4;
+const int nReflectOptions = 5;
 
 GLUquadricObj* sphere;
 
@@ -171,8 +171,8 @@ GLint SurfaceColorLoc;
 GLint BumpDensityLoc;
 GLint BumpSizeLoc;
 GLint SpecularFactorLoc;
-GLint bumpMapLoc;
-GLint otherTexLoc;
+GLint bumpMapSamplerLoc;
+GLint otherTexSamplerLoc;
 
 void renderScene()
 {	
@@ -230,13 +230,17 @@ void renderScene()
 	}
 	else if (reflect==1)
 	{
-		out<<"Refraction only";
+		out<<"Reflection only with cubemap";
 	}
 	else if (reflect==2)
 	{
-		out<<"Reflection and Refraction";
+		out<<"Refraction only";
 	}
 	else if (reflect==3)
+	{
+		out<<"Reflection and Refraction(Fresnal)";
+	}
+	else if (reflect==4)
 	{
 		out<<"Chromatic Dispersion";
 	}
@@ -339,8 +343,8 @@ void renderScene()
 	glBindTexture(GL_TEXTURE_2D,bumpMapTextureID);
 //	glUniform1iARB(bumpMapLoc,0);
 	
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D,otherTextureID);
+//	glActiveTexture(GL_TEXTURE1);
+//	glBindTexture(GL_TEXTURE_2D,otherTextureID);
 //	glUniform1iARB(otherTexLoc,0);
 	//
 
@@ -580,10 +584,11 @@ void setupScene()
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);				// Setup The Diffuse Light
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpecular);
 
-	cubeMapEnabled = true;
+	cubeMapEnabled = false;
 
 	loadShaders();
 	loadCubeMaptexture();
+//	loadBumpMapTexture();
 	glColor3f(1,1,1);
 
 	jfObjLoader objLoader;
@@ -875,7 +880,7 @@ void loadShaders()
 	eyewLoc = glGetUniformLocation(myProgObj, "eyew");
 	cubeSamplerLoc = glGetUniformLocation(myProgObj,"myMap");
 	reflectLoc = glGetUniformLocation(myProgObj,"doReflect");	
-	cubeSamplerLoc = glGetUniformLocation(myProgObj,"myMap");
+	bumpMapSamplerLoc = glGetUniformLocation(myProgObj,"myBumpMap");
 
 	//lab4 uniforms
 	LightPositionLoc = glGetUniformLocation(myProgObj,"LightPosition");
@@ -911,6 +916,8 @@ void loadBumpMapTexture()
 	imageLoaded = ilLoadImage(bumpMapTextureFilename.c_str());
 
 //	bumpMapTextureID = ilutGLBindTexImage();
+
+	glUniform1i(bumpMapSamplerLoc,1);
 
 	glBindTexture(GL_TEXTURE_2D, bumpMapTextureID);
 
@@ -953,6 +960,7 @@ void loadOtherTexture()
 //	otherTextureID = ilutGLBindTexImage();
 
 	glBindTexture(GL_TEXTURE_2D, otherTextureID);
+
 
 	errorNum = ilGetError();
 	if(errorNum != IL_NO_ERROR)
@@ -1024,6 +1032,17 @@ void loadCubeMaptexture()
 		"../../media/tex/cubemap_terrain/terrain_positive_z.png"
 	};
 
+	/*
+	std::string textureFilenames[6] = {
+		"../../media/tex/negx.jpg",
+		"../../media/tex/posx.jpg",
+		"../../media/tex/posy.jpg",
+		"../../media/tex/negy.jpg",
+		"../../media/tex/negz.jpg",
+		"../../media/tex/posz.jpg"
+	};
+	*/
+
 	ILboolean imageLoaded;
 	ILuint ImageName[6];	
 	//ImageName = new ILuint[6];
@@ -1056,6 +1075,8 @@ void loadCubeMaptexture()
 				3,          // internal format
 				512,     // width
 				512,     // height
+//				2048,     // width
+//				2048,     // height
 				0,                 // border
 				GL_BGR,           // format
 				GL_UNSIGNED_BYTE,   // type
@@ -1107,7 +1128,7 @@ void loadCubeMaptexture()
 	}
 
 	loadBumpMapTexture();
-	loadOtherTexture();
+//	loadOtherTexture();
 }
 
 void enableCubeMap(bool enable)

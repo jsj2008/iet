@@ -93,33 +93,266 @@ uniform float BumpDensity; // = 16.0
 uniform float BumpSize;          // = 0.15
 uniform float SpecularFactor; // = 0.5
 
+uniform int doReflect; //pass a value in to switch between reflect and refract
+
+uniform samplerCube myMap;
+
 //uniform sampler2D diffuseTexture;
-uniform sampler2D normalTexture;
+//uniform sampler2D normalTexture;
+uniform sampler2D myBumpMap;
 
 varying vec3 LightDir;
 varying vec3 EyeDir;
 
 void main()
 {
-    vec3 litColor;
-    vec2 c = BumpDensity * gl_TexCoord[0].st;
-    vec2 p = fract(c) - vec2(0.5);
-    float d, f;
-    d = p.x * p.x + p.y * p.y;
-    f = 1.0 / sqrt(d + 1.0);
-    if (d >= BumpSize)
-    {
-		p = vec2(0.0); 
-		f = 1.0; 
+	if(doReflect==0)
+	{
+		//Reflection without cubemap
+		vec3 litColor;
+		vec2 c = BumpDensity * gl_TexCoord[0].st;
+
+		vec2 p = fract(c) - vec2(0.5);
+		float d, f;
+		d = p.x * p.x + p.y * p.y;
+		f = 1.0 / sqrt(d + 1.0);
+		if (d >= BumpSize)
+		{
+			p = vec2(0.0); 
+			f = 1.0; 
+		}
+		vec3 normDelta = vec3(p.x, p.y, 1.0) * f;
+		litColor = SurfaceColor * max(dot(normDelta, LightDir), 0.0);
+		vec3 reflectDir = reflect(LightDir, normDelta);
+		float spec = max(dot(EyeDir, reflectDir), 0.0);
+		spec = pow(spec, 6.0);
+		spec *= SpecularFactor;
+		litColor = min(litColor + spec, vec3(1.0));
+		gl_FragColor = vec4(litColor, 1.0);
 	}
-    vec3 normDelta = vec3(p.x, p.y, 1.0) * f;
-    litColor = SurfaceColor * max(dot(normDelta, LightDir), 0.0);
-    vec3 reflectDir = reflect(LightDir, normDelta);
-    float spec = max(dot(EyeDir, reflectDir), 0.0);
-    spec = pow(spec, 6.0);
-    spec *= SpecularFactor;
-    litColor = min(litColor + spec, vec3(1.0));
-    gl_FragColor = vec4(litColor, 1.0);
+	else if(doReflect==1)
+	{
+		//Reflection
+		vec3 litColor;
+		vec2 c = BumpDensity * gl_TexCoord[0].st;
+
+		vec2 p = fract(c) - vec2(0.5);
+		float d, f;
+		d = p.x * p.x + p.y * p.y;
+		f = 1.0 / sqrt(d + 1.0);
+		if (d >= BumpSize)
+		{
+			p = vec2(0.0); 
+			f = 1.0; 
+		}
+		vec3 normDelta = vec3(p.x, p.y, 1.0) * f;
+		litColor = SurfaceColor * max(dot(normDelta, LightDir), 0.0);
+		vec3 reflectDir = reflect(LightDir, normDelta);
+		float spec = max(dot(EyeDir, reflectDir), 0.0);
+		spec = pow(spec, 6.0);
+		spec *= SpecularFactor;
+		litColor = min(litColor + spec, vec3(1.0));
+		vec4 R = textureCube(myMap,vec4(litColor,1.0));
+		gl_FragColor = R; 
+
+//		gl_FragColor = vec4(litColor, 1.0);
+	}
+	else if(doReflect==2)
+	{
+		//Refraction
+		vec3 litColor;
+		vec2 c = BumpDensity * gl_TexCoord[0].st;
+
+		vec2 p = fract(c) - vec2(0.5);
+		float d, f;
+		d = p.x * p.x + p.y * p.y;
+		f = 1.0 / sqrt(d + 1.0);
+		if (d >= BumpSize)
+		{
+			p = vec2(0.0); 
+			f = 1.0; 
+		}
+		float eta = 0.33;
+
+		vec3 normDelta = vec3(p.x, p.y, 1.0) * f;
+		litColor = SurfaceColor * max(dot(normDelta, LightDir), 0.0);
+		vec3 refractDir = refract(LightDir, normDelta, eta);
+		float spec = max(dot(EyeDir, refractDir), 0.0);
+		spec = pow(spec, 6.0);
+		spec *= SpecularFactor;
+		litColor = min(litColor + spec, vec3(1.0));
+//		vec4 R = textureCube(myMap,vec4(litColor,1.0));
+//		gl_FragColor = R; 
+		vec4 R = textureCube(myMap,litColor);
+
+		gl_FragColor = R; 
+/*
+		if((litColor) < 0)
+		{
+			gl_FragColor = textureCube(myMap, vec3(0,0,0));
+		}
+		else if((litColor) > 1)
+		{
+			gl_FragColor = textureCube(myMap, vec3(0,0,0));
+		}
+		else
+		{
+			gl_FragColor = R; 
+		}
+*/
+	}
+	else if(doReflect==3)
+	{
+		//Reflection + refraction
+		vec3 litColor;
+		vec2 c = BumpDensity * gl_TexCoord[0].st;
+
+		vec2 p = fract(c) - vec2(0.5);
+		float d, f;
+		d = p.x * p.x + p.y * p.y;
+		f = 1.0 / sqrt(d + 1.0);
+		if (d >= BumpSize)
+		{
+			p = vec2(0.0); 
+			f = 1.0; 
+		}
+
+		vec3 normDelta = vec3(p.x, p.y, 1.0) * f;
+		litColor = SurfaceColor * max(dot(normDelta, LightDir), 0.0);
+
+		//Reflect
+
+		float eta = 0.33;
+
+
+		//Fresnel stuff.
+		vec3 I = -LightDir;
+		vec3 N = normDelta;
+		float r_zero = ( ((1-eta) * (1-eta)) / ((eta+1) * (eta+1)) );
+		float fresnelPower = 5.0;
+		float reflectionCoeff = max(0, min(1, r_zero + (1.0-r_zero) * pow((1.0 - dot(I, N)), fresnelPower)));
+
+		vec3 reflectDir = reflect(LightDir, normDelta);
+		float specReflect = max(dot(EyeDir, reflectDir), 0.0);
+		specReflect = pow(specReflect, 6.0);
+//		specReflect = pow(specReflect, (reflectionCoeff)*6);
+		specReflect *= SpecularFactor;
+		vec4 reflectedColour = textureCube(myMap,reflectDir);
+		//Refract
+		vec3 refractDir = refract(LightDir, normDelta, eta);
+
+		float specRefract = max(dot(EyeDir, refractDir), 0.0);
+		specRefract = pow(specRefract, 6.0);
+		//specRefract = pow(specRefract, (1-reflectionCoeff)*6);
+		specRefract *= SpecularFactor;
+		//Mix
+		vec4 refractedColour = textureCube(myMap,refractDir);
+		//Linear interpolation between the colours.
+		vec3 colour = mix(refractedColour, reflectedColour, reflectionCoeff);
+
+		float spec = specReflect + specRefract * 0.5; //Average
+
+		litColor = min(litColor + spec, vec3(1.0));
+
+		vec4 R = textureCube(myMap,vec4(litColor,1.0));
+		gl_FragColor = R; 
+
+
+//		gl_FragColor = clamp(max(vec4(colour, 1.0), litColor), 0, 1);
+//		gl_FragColor = vec4(max(colour, litColor),1.0);
+//		gl_FragColor = vec4(colour,1.0);
+	}
+	else if(doReflect==4)
+	{
+		//Chromatic Dispersion
+		vec3 litColor;
+		vec2 c = BumpDensity * gl_TexCoord[0].st;
+
+		vec2 p = fract(c) - vec2(0.5);
+		float d, f;
+		d = p.x * p.x + p.y * p.y;
+		f = 1.0 / sqrt(d + 1.0);
+		if (d >= BumpSize)
+		{
+			p = vec2(0.0); 
+			f = 1.0; 
+		}
+
+		vec3 normDelta = vec3(p.x, p.y, 1.0) * f;
+		litColor = SurfaceColor * max(dot(normDelta, LightDir), 0.0);
+
+		//Reflect
+		float eta = 0.33;
+		float etaRed = 0.29;
+		float etaGreen = 0.33;
+		float etaBlue = 0.37;
+
+		//Fresnel stuff.
+		vec3 I = -LightDir;
+		vec3 N = normDelta;
+		float r_zero = ( ((1-eta) * (1-eta)) / ((eta+1) * (eta+1)) );
+		float fresnelPower = 5.0;
+		float reflectionCoeff = max(0, min(1, r_zero + (1.0-r_zero) * pow((1.0 - dot(I, N)), fresnelPower)));
+
+		vec3 reflectDir = reflect(LightDir, normDelta);
+		float specReflect = max(dot(EyeDir, reflectDir), 0.0);
+		specReflect = pow(specReflect, 6.0);
+//		specReflect = pow(specReflect, (reflectionCoeff)*6);
+		specReflect *= SpecularFactor;
+		vec4 reflectedColour = textureCube(myMap,reflectDir);
+		//Refract
+		vec3 refractDir = refract(LightDir, normDelta, eta);
+
+		vec3 refractDirRed = refract(LightDir, normDelta, etaRed);
+		vec3 refractDirGreen = refract(LightDir, normDelta, etaGreen);
+		vec3 refractDirBlue = refract(LightDir, normDelta, etaBlue);
+
+		float specRefract = max(dot(EyeDir, refractDir), 0.0);
+		specRefract = pow(specRefract, 6.0);
+		//specRefract = pow(specRefract, (1-reflectionCoeff)*6);
+		specRefract *= SpecularFactor;
+
+		float specRefractRed = max(dot(EyeDir, refractDirRed), 0.0);
+		specRefractRed = pow(specRefractRed, 6.0);
+		specRefractRed *= SpecularFactor;
+
+		float specRefractGreen = max(dot(EyeDir, refractDirGreen), 0.0);
+		specRefractGreen = pow(specRefractGreen, 6.0);
+		specRefractGreen *= SpecularFactor;
+
+		float specRefractBlue = max(dot(EyeDir, refractDirBlue), 0.0);
+		specRefractBlue = pow(specRefractBlue, 6.0);
+		specRefractBlue *= SpecularFactor;
+
+		//Mix
+		vec4 refractedColour;
+		refractedColour.r = textureCube(myMap,refractDirRed).r;
+		refractedColour.b = textureCube(myMap,refractDirBlue).b;
+		refractedColour.g = textureCube(myMap,refractDirGreen).g;
+//		vec4 refractedColour = textureCube(myMap,refractDir);
+		//Linear interpolation between the colours.
+		vec3 colour = mix(refractedColour, reflectedColour, reflectionCoeff);
+
+		float spec = specReflect + specRefract * 0.5; //Average
+
+		litColor.r += specRefractRed;
+		litColor.g += specRefractGreen;
+		litColor.b += specRefractBlue;
+
+		litColor = min(litColor + spec, vec3(1.0));
+//		litColor = min(litColor + colour, vec3(1.0));
+
+
+//		vec4 R = textureCube(myMap,vec4(litColor,1.0));
+//		gl_FragColor = R; 
+
+
+//		gl_FragColor = textureCube(myMap,vec4(colour,1.0));
+//		gl_FragColor = vec4(colour, 1.0);
+
+		gl_FragColor = vec4(max(colour, litColor),1.0);
+	}
+
 }
 
 /*
