@@ -119,7 +119,6 @@ void main(void)
 }
 */
 
-/*
 uniform vec3 LightPosition;
 //attribute vec3 Tangent;
 
@@ -168,7 +167,8 @@ void main()
 	v.z = dot(EyeDir, n);
 	EyeDir = normalize(v);
 }
-*/
+
+/*
 
 vec3 calcTangent()
 {
@@ -221,7 +221,6 @@ void main()
 
 	vertexPosition = normalize(vertexPosition);
 
-	/* Normalize the halfVector to pass it to the fragment shader */
 	vec3 halfVector = normalize((vertexPosition + lightDir) / 2.0);
 	v.x = dot (halfVector, t);
 	v.y = dot (halfVector, b);
@@ -231,3 +230,4 @@ void main()
 	gl_Position = ftransform();
 }
 
+*/

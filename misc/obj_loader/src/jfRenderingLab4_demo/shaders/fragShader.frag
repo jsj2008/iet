@@ -88,7 +88,6 @@ void main(void)
 }
 */
 
-/*
 uniform vec3 SurfaceColor; // = (0.7, 0.6, 0.18)
 uniform float BumpDensity; // = 16.0
 uniform float BumpSize;          // = 0.15
@@ -123,7 +122,7 @@ void main()
     gl_FragColor = vec4(litColor, 1.0);
 }
 
-*/
+/*
 
 uniform sampler2D normalTexture;
 uniform sampler2D diffuseTexture;
@@ -172,3 +171,4 @@ void main()
 	gl_FragColor +=	ambientLight;
 	
 }		
+*/
