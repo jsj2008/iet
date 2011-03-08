@@ -203,7 +203,11 @@ void renderScene()
 	myCamera.positionCamera();
 
 	//GLfloat lightPosition[4] = {0,0,-5,1};
+<<<<<<< HEAD
 	GLfloat lightPosition[4] = {0,20,5,1};
+=======
+	GLfloat lightPosition[4] = {0,45,-5,1};
+>>>>>>> parent of a262dd0... Done demo
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
 	glDisable(GL_TEXTURE_2D);
@@ -341,8 +345,12 @@ void renderScene()
 
 	//Texture stuff
 	glEnable(GL_TEXTURE_2D);
+<<<<<<< HEAD
 	glActiveTexture(GL_TEXTURE1);
 //	glBindTexture(GL_TEXTURE_2D,0);
+=======
+	glActiveTexture(GL_TEXTURE0);
+>>>>>>> parent of a262dd0... Done demo
 	glBindTexture(GL_TEXTURE_2D,bumpMapTextureID);
 	glUniform1iARB(bumpMapSamplerLoc,1);
 
@@ -564,7 +572,6 @@ void setupScene()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	//	glEnable(GL_LIGHT1);
-
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -992,7 +999,6 @@ void loadDiffuseTexture()
 	init2DTexture(diffuseTextureID, 256, 256, ilGetData());
 
 	glUniform1i(diffuseTexSamplerLoc,1);
-
 
 
 	errorNum = ilGetError();

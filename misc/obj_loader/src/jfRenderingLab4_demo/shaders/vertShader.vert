@@ -150,7 +150,6 @@ void main()
 	EyeDir = vec3(gl_ModelViewMatrix * gl_Vertex);
 	gl_Position = ftransform();
 	gl_TexCoord[0] = gl_MultiTexCoord0;
-	gl_TexCoord[1] = gl_MultiTexCoord1;
 	vec3 n = normalize(gl_NormalMatrix * gl_Normal);
 	vec3 t = normalize(gl_NormalMatrix * Tangent);
 
