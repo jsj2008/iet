@@ -85,6 +85,7 @@ void loadShaders();
 void drawPyramid();
 void drawSphere();
 void drawCube();
+void drawTexturedCube();
 void drawTeapot();
 void drawMyTeapot();
 
@@ -144,9 +145,9 @@ GLuint myFragObj;
 
 GLuint textureID[6];
 GLuint bumpMapTextureID;
-GLuint otherTextureID;
+GLuint diffuseTextureID;
 string bumpMapTextureFilename("../../media/bumpmaps/bm_00.gif");
-string otherTextureFilename("../../media/tex/metal.tga");
+string diffuseTextureFilename("../../media/tex/metal.tga");
 GLint rotationValue = 2;
 
 //Location variabls for shader uniforms
@@ -172,7 +173,7 @@ GLint BumpDensityLoc;
 GLint BumpSizeLoc;
 GLint SpecularFactorLoc;
 GLint bumpMapSamplerLoc;
-GLint otherTexSamplerLoc;
+GLint diffuseTexSamplerLoc;
 
 void renderScene()
 {	
@@ -202,9 +203,10 @@ void renderScene()
 	myCamera.positionCamera();
 
 	//GLfloat lightPosition[4] = {0,0,-5,1};
-	GLfloat lightPosition[4] = {0,10,5,1};
+	GLfloat lightPosition[4] = {0,20,5,1};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
+	glDisable(GL_TEXTURE_2D);
 	glPushMatrix();
 //	glLoadIdentity();
 	glScalef(0.2,.2,.2);
@@ -247,6 +249,7 @@ void renderScene()
 	FTPoint rPoint(900,200,0);
 	m_Font->Render(out.str().c_str(), -1, rPoint);
 
+	/*
 	glPushMatrix();
 	glTranslatef(0,0,-40);
 	glBegin(GL_QUADS);
@@ -257,6 +260,7 @@ void renderScene()
 	glTexCoord2f(1,0);glVertex3f(-1,1,1);
 	glEnd();
 	glPopMatrix();
+	*/
 	rotateAngle += rotateSpeed;
 	if (	rotateAngle > 360 )
 	{
@@ -289,8 +293,6 @@ void renderScene()
 		std::cout << "Error = " << gluErrorString(errorNum) << std::endl;
 	}
 	glEnable(GL_TEXTURE_2D);
-
-
 
 	errorNum = glGetError();
 	if(errorNum != GL_NO_ERROR)
@@ -338,14 +340,24 @@ void renderScene()
 	eyePos[3] = 1;
 
 	//Texture stuff
-//	glEnable(GL_TEXTURE_2D);
-//	glActiveTexture(GL_TEXTURE1);
+	glEnable(GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE1);
+//	glBindTexture(GL_TEXTURE_2D,0);
 	glBindTexture(GL_TEXTURE_2D,bumpMapTextureID);
-//	glUniform1iARB(bumpMapLoc,0);
+	glUniform1iARB(bumpMapSamplerLoc,1);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D,diffuseTextureID);
+	glUniform1iARB(diffuseTexSamplerLoc,2);
 	
 //	glActiveTexture(GL_TEXTURE1);
-//	glBindTexture(GL_TEXTURE_2D,otherTextureID);
-//	glUniform1iARB(otherTexLoc,0);
+//	glBindTexture(GL_TEXTURE_2D,diffuseTextureID);
+//	glUniform1iARB(diffuseTexSamplerLoc,1);
+
+//	glActiveTexture(GL_TEXTURE1);
+//	glBindTexture(GL_TEXTURE_2D,diffuseTextureID);
+//	glUniform1iARB(diffuseTexSamplerLoc,1);
+//	glActiveTexture(GL_TEXTURE0);
 	//
 
 	glUniform3fv(eyewLoc,1,eyePos);
@@ -384,7 +396,8 @@ void renderScene()
 			drawSphere();
 			break;
 		case DRAW_CUBE:
-			drawCube();
+			//drawCube();
+			drawTexturedCube();
 			break;
 		case DRAW_TEAPOT:
 			drawTeapot();
@@ -516,7 +529,7 @@ void keypress(unsigned char key, int x, int y)
 		cout<<"reflect is :"<<reflect<<endl;
 	}
 
-	// Other possible keypresses go here
+	// Diffuse possible keypresses go here
 	//if(key == 'a'){...}
 }
 
@@ -896,6 +909,17 @@ void loadShaders()
 	}
 }
 
+void init2DTexture(GLint texName, GLint texWidth, GLint texHeight, GLubyte* texPtr)
+{
+	glBindTexture(GL_TEXTURE_2D, texName);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texWidth, texHeight, 0, 
+			GL_RGB, GL_UNSIGNED_BYTE, texPtr);
+}
+
 void loadBumpMapTexture()
 {
 	GLuint errorNum;
@@ -918,9 +942,10 @@ void loadBumpMapTexture()
 
 //	bumpMapTextureID = ilutGLBindTexImage();
 
-	glUniform1i(bumpMapSamplerLoc,1);
+	glUniform1i(bumpMapSamplerLoc,0);
 
-	glBindTexture(GL_TEXTURE_2D, bumpMapTextureID);
+	init2DTexture(bumpMapTextureID, 256, 256, ilGetData());
+
 
 	errorNum = ilGetError();
 	if(errorNum != IL_NO_ERROR)
@@ -938,14 +963,14 @@ void loadBumpMapTexture()
 
 }
 
-void loadOtherTexture()
+void loadDiffuseTexture()
 {
 	GLuint errorNum;
 	std::string errorStr;
 	ILboolean imageLoaded;
 	ILuint ImageName;	
 
-	glGenTextures(1, &otherTextureID);
+	glGenTextures(1, &diffuseTextureID);
 	ilGenImages(1,&ImageName);
 
 	errorNum = ilGetError();
@@ -956,11 +981,17 @@ void loadOtherTexture()
 	}
 
 	ilBindImage(ImageName);
-	imageLoaded = ilLoadImage(otherTextureFilename.c_str());
+	imageLoaded = ilLoadImage(diffuseTextureFilename.c_str());
 
 //	otherTextureID = ilutGLBindTexImage();
 
-	glBindTexture(GL_TEXTURE_2D, otherTextureID);
+//	diffuseTextureID = ilutGLBindTexImage();
+
+//	glBindTexture(GL_TEXTURE_2D, diffuseTextureID);
+
+	init2DTexture(diffuseTextureID, 256, 256, ilGetData());
+
+	glUniform1i(diffuseTexSamplerLoc,1);
 
 
 
@@ -1130,7 +1161,7 @@ void loadCubeMaptexture()
 	}
 
 	loadBumpMapTexture();
-//	loadOtherTexture();
+	loadDiffuseTexture();
 }
 
 void enableCubeMap(bool enable)
@@ -1147,8 +1178,8 @@ void enableCubeMap(bool enable)
 		glEnable(GL_TEXTURE_GEN_R);
 		glEnable(GL_NORMALIZE);
 
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D,bumpMapTextureID);
+		//glEnable(GL_TEXTURE_2D);
+		//glBindTexture(GL_TEXTURE_2D,bumpMapTextureID);
 	}
 	else
 	{
@@ -1355,6 +1386,9 @@ void drawSphere()
 	gluSphere(sphere, 4,15,15);
 
 }
+
+
+
 void drawCube()
 {
 
@@ -1406,6 +1440,54 @@ void drawCube()
 	glVertex3f(-4,-4,-4);
 	glVertex3f(-4,4,-4);
 
+	glEnd();
+}
+
+void drawTexturedCube()
+{
+	glBegin(GL_QUADS);
+	//right Side
+	glColor3f(1.0,1.0,1.0);
+	glNormal3f(1,0,0);
+	glTexCoord2f(1.0,1.0);;	glVertex3f(4,4,4);
+	glTexCoord2f(1.0,0.0);	glVertex3f(4,4,-4);
+	glTexCoord2f(0.0,0.0);	glVertex3f(4,-4,-4);
+	glTexCoord2f(0.0,1.0);;	glVertex3f(4,-4,4);
+	//left Side
+	glNormal3f(-1,0,0);	
+	glTexCoord2f(1.0,1.0);	glVertex3f(-4,4,4);	
+	glTexCoord2f(1.0,0.0);	glVertex3f(-4,4,-4);	
+	glTexCoord2f(0.0,0.0);	glVertex3f(-4,-4,-4);	
+
+	glTexCoord2f(0.0,1.0);glVertex3f(-4,-4,4);
+	//TopSide
+	glNormal3f(0,1,0);
+	glTexCoord2f(0.0,0.0);	glVertex3f(-4,4,-4);
+	glTexCoord2f(0.0,1.0);	glVertex3f(-4,4,4);	
+	glTexCoord2f(1.0,1.0);	glVertex3f(4,4,4);
+	glTexCoord2f(1.0,0.0);;	glVertex3f(4,4,-4);
+	//Bottom Side
+	glNormal3f(0,-1,0);
+	glTexCoord2f(0.0,0.0);	glVertex3f(-4,-4,-4);
+	glTexCoord2f(0.0,1.0);	glVertex3f(-4,-4,4);
+	glTexCoord2f(1.0,1.0);	glVertex3f(4,-4,4);
+	glTexCoord2f(1.0,0.0);	glVertex3f(4,-4,-4);
+	// Front Face		
+	glNormal3f(0,0,1);
+	glTexCoord2f(1.0,1.0);
+	glVertex3f(4,4,4);	
+	glTexCoord2f(1.0,0.0);
+	glVertex3f(4,-4,4);
+	glTexCoord2f(0.0,0.0);
+	glVertex3f(-4,-4,4);
+	glTexCoord2f(0.0,1.0);
+	glVertex3f(-4,4,4);
+	//Back Face
+	glNormal3f(0,0,-1);
+	glTexCoord2f(1.0,1.0);	glVertex3f(4,4,-4);
+	glTexCoord2f(1.0,0.0);	glVertex3f(4,-4,-4);
+	glTexCoord2f(0.0,0.0);	glVertex3f(-4,-4,-4);
+	glTexCoord2f(1.0,1.0);	glVertex3f(-4,4,-4);
 	glEnd();
 }
 

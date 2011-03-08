@@ -119,6 +119,7 @@ void main(void)
 }
 */
 
+/*
 uniform vec3 LightPosition;
 //attribute vec3 Tangent;
 
@@ -153,7 +154,9 @@ void main()
 	vec3 n = normalize(gl_NormalMatrix * gl_Normal);
 	vec3 t = normalize(gl_NormalMatrix * Tangent);
 
-	vec3 b = cross(n, t); //binormal
+//	vec3 b = cross(n, t); //binormal
+	vec3 b = cross(gl_Normal, Tangent); //binormal
+	b = normalize(b);
 
 //	mat3 tangentmat = mat3( tangent, binormal, normal );
 //	LightDir
@@ -168,8 +171,7 @@ void main()
 	v.z = dot(EyeDir, n);
 	EyeDir = normalize(v);
 }
-
-/*
+*/
 
 vec3 calcTangent()
 {
@@ -230,5 +232,3 @@ void main()
 
 	gl_Position = ftransform();
 }
-
-*/
