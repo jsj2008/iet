@@ -173,7 +173,7 @@ void RigidBodyMotionSimulation::HandleInput()
 
 void RigidBodyMotionSimulation::CreateObjects()
 {
-	for(int i = 0 ; i < 2 ; i++)
+	for(int i = 0 ; i < 1 ; i++)
 	{
 		RigidBodyPtr body(new RigidBody());
 		body->SetMass(1);

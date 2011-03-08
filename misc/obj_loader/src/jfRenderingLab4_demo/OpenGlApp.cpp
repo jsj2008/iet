@@ -1025,6 +1025,7 @@ void loadCubeMaptexture()
 		"../../media/tex/cubemap_cube2/cube2_positive_z.png"
 	};
 	*/
+	/*
 	std::string textureFilenames[6] = {
 		"../../media/tex/cubemap_terrain/terrain_negative_x.png",
 		"../../media/tex/cubemap_terrain/terrain_positive_x.png",
@@ -1033,8 +1034,8 @@ void loadCubeMaptexture()
 		"../../media/tex/cubemap_terrain/terrain_negative_z.png",
 		"../../media/tex/cubemap_terrain/terrain_positive_z.png"
 	};
+	*/
 
-	/*
 	std::string textureFilenames[6] = {
 		"../../media/tex/negx.jpg",
 		"../../media/tex/posx.jpg",
@@ -1043,7 +1044,6 @@ void loadCubeMaptexture()
 		"../../media/tex/negz.jpg",
 		"../../media/tex/posz.jpg"
 	};
-	*/
 
 	ILboolean imageLoaded;
 	ILuint ImageName[6];	
@@ -1075,10 +1075,10 @@ void loadCubeMaptexture()
 				GL_TEXTURE_2D,
 				0,                  // level
 				3,          // internal format
-				512,     // width
-				512,     // height
-//				2048,     // width
-//				2048,     // height
+//				512,     // width
+//				512,     // height
+				2048,     // width
+				2048,     // height
 				0,                 // border
 				GL_BGR,           // format
 				GL_UNSIGNED_BYTE,   // type

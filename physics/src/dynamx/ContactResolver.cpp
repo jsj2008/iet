@@ -181,7 +181,6 @@ namespace dynamx
 		a->SetAngularVel(a->GetInverseInertiaTensorWorld().Multiply(a->GetAngularMomentum()));
 		b->SetAngularVel(b->GetInverseInertiaTensorWorld().Multiply(b->GetAngularMomentum()));
 
-
 //		a->SetAngularVel(a->GetAngularVel().Add(uA.DotProduct(force)));
 //		b->SetAngularVel(b->GetAngularVel().Add(uB.DotProduct(force)));
 
