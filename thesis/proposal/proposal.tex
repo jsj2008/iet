@@ -1,6 +1,7 @@
 \title{Msc IET Thesis Proposal \\ Procedurally Generated Indoor Environments for WebGL}
 \author{
         Jonathan Frawley \\
+		Student Number : 06401996 \\
         Supervisor : Dr. John Dingliana \\
 		Department of Computer Science\\
         Trinity College Dublin\\
@@ -18,19 +19,97 @@
 
 \clearpage
 
-\section{Introduction}
+\section{Project Goal}
 This project will involve assessing the suitability of WebGL for procedural generation of realistic indoor enviroments. 
-In doing so, a comparison will be made with non-procedural techniques for creating indoor scenes.
-The comparison will take into account several metrics such as performance, presentability of finished product and ease of constructing the scene.
+A comparison will be made with non-procedural techniques to accomplish the same goal.
+The comparison will take into account several metrics such as performance, quality of finished product and ease of constructing the scene.
 Techniques for directing the output of procedural techniques will also be done, and how they can be harnessed to create realistic environments.
+The research question that will be addressed is to assess the suitability of web browsers for generating and displaying 3D scenes in a procedural fashion, and the impact this has on the end user, the programmer and the artists involved.
+The motivation for this approach is to improve the experience for end users in real-time 3D applications.
 
-\section{Background}
+The inclusion of 3D graphics in web browsers has the potential to increase the amount of users who use 3D applications by a large amount.
+However, it also introduces engineering challenges.
+One of these challenges includes the large size of assets for 3D applications such as games.
+These assets may include maps, 3D models, textures, sounds, etc.
+Typically these can take up Gigabytes of date in modern AAA computer game titles.
+Network connections are still not fast enough to cope with the large assets required by 3D games for real-time applications.
+This is why procedural techniques, which generate assets algorithmically, are of increased importance for WebGL.
+This project will attempt to decrease the amount of assets that need to be transferred, improving performance.
 
-\section{Technologies and Techniques}
+\section{Work To Date}
+The first task in completing this project was the assessment of current methods of procedural generation.
+Procedural methods which apply to indoor scenes were given particular focus.
+It was decided to concentrate on indoor scenes after initial research suggested that there was more scope for making an original contribution.
+For outdoor scenes, there has been much research on using procedural techniques and many of the interesting research problems have already been solved.
+Indoor scenes have been looked at in less detail. 
+For real-time applications such as first person computer games, indoor scenes are important. 
+Procedural techniques could speed up such applications and create visual effects which would otherwise not be possible.
+
+Once it was decided to concentrate on procedural techniques for indoor scenes, work on implementing some effects was started.
+Simple procedural effects have been created demonstrating 2D fractals such as the mandelbrot set in WebGL and simple perlin noise generation in Processing.js~\cite{processingjs:web}.
+
+\section{Future Work}
+The next task will be to assess the suitability of various web languages this project.
+This has been done to some extent, and will involve choosing between javascript and strongly typed languages which compile to javascript such as CoffeeScript~\cite{coffeescript:web} and Google Web Toolkit~\cite{gwt:web} with GwtGL~\cite{gwtgl:web}.
+Another solution which is of interest is a 3D engine such as CopperLicht~\cite{copperlicht:web}, which includes an editor and appears to be in a stable state.
+The choice of solution will be determined by its merits in terms of productivity and performance.
+I have started testing javascript with WebGL and GWT with gwtgl but have yet to assess CoffeeScript or CopperLicht's merits.
+
+Next, research will begin on current methods for creating indoor scenes in WebGL.
+Performance and presentation will be assessed.
+A simple reference scene will be created using standard techniques.
+This will be updated in an iterative fashion, after improvements have been made to the procedural solution, a comparable improvement is made to the non-procedural solution.
+This will aid in analysis of the merit of the procedural techniques in practice.
+
+A base project will be setup in the target language chosen for the procedural solution.
+Initially, the plan is to try to create and an example indoor plan procedurally. 
+This would involve generating the layout of the rooms procedurally.
+The placement of rooms in respect to each other could be explored also.
+
+Various example scenes will be created to test procedural algorithms which have been chosen to be of purpose.
+On the limited research already done, progressive meshes~\cite{Hoppe:1996:PM:237170.237216} and perlin noise~\cite{perlinimproved:web} are examples which could be done and would cover both the generation of models and textures.
+The scene will involve many different procedural techniques used in tandem to create a realistic looking scene.
+An assessment of each method will be done and some methods will be explored further than others, based on whether there is scope to expand on them or not.
+
+Once these techniques have been implemented, other procedural methods will be researched.
+The techniques chosen will be the result of research into seminal texts on procedural techniques.
+Techniques used by demoscene developers will be examined.
+Older videogames had a similar problem to solve in that storage was limited for assets.
+To solve this, many procedural techniques were developed to present immersive environments.
+These include games like The Elder Scrolls 2 : Daggerfall, which had a game world roughly twice the size of Great Britain, inhabited by 750,000 characters~\cite{daggerfall:web}.
+It is clear that procedural techniques are necessary in order to provide a large environment to explore.
+
+It is likely that procedural techniques will be inferior to standard assets in certain areas of the game.
+A hybrid solution incorporating standard assets mixed with procedural effects will be created.
+This hybrid solution should reflect the best standards for mixing procedural effects with standard assets on WebGL.
+This will be a useful research answer for people creating assets for WebGL applications.
+
+Another area which may be investigated if enough time is available, is the controllability of the procedural effects.
+A sample application could be developed which would allow artists to design procedural effects in an intuitive way, without needing an understanding in the underlying algorithm.
+This is essential to widespread adoption of procedural methods in web applications.
 
 \section{Timeline}
+The following is a table which gives an indication of the approximate timetable for the project with milestones.\\
 
-\bibliographystyle{abbrv}
-%\bibliography{main}
+\begin{tabular}{|l|p{8cm}|l|}
+  \hline
+	Finish Date & Task & Status \\
+	\hline
+	8 April & Assess languages and frameworks which may be useful for project. & Started \\
+	22 April & State of the Art Review : Research procedural methods and compile bibliography of useful resources. & Started \\
+	1 May & Base Procedural project which has basic rooms generated and arranged procedurally.
+			A similar base non-procedural project will also be created. & Not Started \\
+	7 May & Progressive Meshes implemented and example created & Not Started \\
+	14 May & Perlin noise-generated textures and example created & Not Started \\
+	21 May & Determine what the most suitable methods from the state of the art review are achievable in the time frame allowed by project and plan for them & Not Started \\
+	14 June & Implement extra features which have been planned & Not Started \\
+	1 August & Hybrid solution + controllability of solution & Not Started \\
+	1 September & Dissertation Writeup & Not Started \\
+  \hline
+\end{tabular}
+
+%\bibliographystyle{abbrv}
+\bibliographystyle{plain}
+\bibliography{main}
 
 \end{document}
