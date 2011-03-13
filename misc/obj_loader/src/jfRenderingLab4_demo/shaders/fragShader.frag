@@ -89,9 +89,13 @@ void main(void)
 */
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*
 =======
 >>>>>>> parent of a262dd0... Done demo
+=======
+
+>>>>>>> parent of d6519ed... Some progress on shading
 uniform vec3 SurfaceColor; // = (0.7, 0.6, 0.18)
 uniform float BumpDensity; // = 16.0
 uniform float BumpSize;          // = 0.15
@@ -116,7 +120,8 @@ void main()
 		vec3 litColor;
 		vec2 c = BumpDensity * gl_TexCoord[0].st;
 
-		vec2 p = fract(c) - vec2(0.5);
+		//vec2 p = fract(c) - vec2(0.5);
+		vec2 p = fract(c);
 		float d, f;
 		d = p.x * p.x + p.y * p.y;
 		f = 1.0 / sqrt(d + 1.0);
@@ -190,18 +195,20 @@ void main()
 		vec4 R = textureCube(myMap,litColor);
 
 		gl_FragColor = R; 
-//		if((litColor) < 0)
-//		{
-//			gl_FragColor = textureCube(myMap, vec3(0,0,0));
-//		}
-//		else if((litColor) > 1)
-//		{
-//			gl_FragColor = textureCube(myMap, vec3(0,0,0));
-//		}
-//		else
-//		{
-//			gl_FragColor = R; 
-//		}
+/*
+		if((litColor) < 0)
+		{
+			gl_FragColor = textureCube(myMap, vec3(0,0,0));
+		}
+		else if((litColor) > 1)
+		{
+			gl_FragColor = textureCube(myMap, vec3(0,0,0));
+		}
+		else
+		{
+			gl_FragColor = R; 
+		}
+*/
 	}
 	else if(doReflect==3)
 	{
@@ -338,10 +345,18 @@ void main()
 		float spec = specReflect + specRefract * 0.5; //Average
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 //		litColor.r += specRefractRed;
 //		litColor.g += specRefractGreen;
 //		litColor.b += specRefractBlue;
+=======
+/*
+		litColor.r += specRefractRed;
+		litColor.g += specRefractGreen;
+		litColor.b += specRefractBlue;
+*/
+>>>>>>> parent of d6519ed... Some progress on shading
 
 		litColor.r = specRefractRed;
 		litColor.g = specRefractGreen;
@@ -367,13 +382,11 @@ void main()
 	}
 
 }
-*/
 
-//uniform sampler2D normalTexture;
-//uniform sampler2D diffuseTexture;
+/*
+
+uniform sampler2D normalTexture;
 uniform sampler2D diffuseTexture;
-uniform samplerCube myMap;
-uniform sampler2D myBumpMap;
 
 // New bumpmapping
 varying vec3 lightVec;
@@ -385,7 +398,7 @@ void main()
 {
 
 	// lookup normal from normal map, move from [0,1] to  [-1, 1] range, normalize
-	vec3 normal = 2.0 * texture2D (myBumpMap, gl_TexCoord[0].st).rgb - 1.0;
+	vec3 normal = 2.0 * texture2D (normalTexture, gl_TexCoord[0].st).rgb - 1.0;
 	normal = normalize (normal);
 	
 	// compute diffuse lighting
@@ -400,8 +413,6 @@ void main()
   
 	// compute ambient
 	vec4 ambientLight = gl_LightSource[0].ambient;	
-
-	gl_FragColor =	ambientLight;
 	
 	if (lamberFactor > 0.0)
 	{
@@ -418,5 +429,7 @@ void main()
 	
 	}
 	
+	gl_FragColor +=	ambientLight;
 	
 }		
+*/
