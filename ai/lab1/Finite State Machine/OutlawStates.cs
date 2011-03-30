@@ -123,7 +123,7 @@ namespace FiniteStateMachine
             {
                 case MessageType.ShootAgent:
                     outlaw.Dead = true;
-                    Printer.Print(outlaw.Id, "Oh no! I've died and lost all of my money! " + outlaw.GoldCarrying + "gold!");
+                    Printer.Print(outlaw.Id, "Oh no! I've died and lost all of my money! " + outlaw.GoldCarrying + " gold!");
                     outlaw.GoldCarrying = 0;
                     outlaw.StateMachine.ChangeState(new Died());
                     //TODO: Spawn dead body in this location.

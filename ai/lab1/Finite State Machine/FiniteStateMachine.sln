@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiniteStateMachine", "FiniteStateMachine.csproj", "{70623696-E24E-42A7-9C74-D2B4E0BDE5C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finite State MachineContent", "Content\Finite State MachineContent.contentproj", "{A4C606FC-41EC-4F02-A8B0-D55365D39868}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

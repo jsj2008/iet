@@ -1,0 +1,7 @@
+D:\code\iet\git\iet\ai\lab1\Finite State Machine\bin\x86\Debug\Content\Arial.xnb
+D:\code\iet\git\iet\ai\lab1\Finite State Machine\bin\x86\Debug\FiniteStateMachine.exe
+D:\code\iet\git\iet\ai\lab1\Finite State Machine\bin\x86\Debug\FiniteStateMachine.pdb
+D:\code\iet\git\iet\ai\lab1\Finite State Machine\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\code\iet\git\iet\ai\lab1\Finite State Machine\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\code\iet\git\iet\ai\lab1\Finite State Machine\obj\x86\Debug\FiniteStateMachine.exe
+D:\code\iet\git\iet\ai\lab1\Finite State Machine\obj\x86\Debug\FiniteStateMachine.pdb
