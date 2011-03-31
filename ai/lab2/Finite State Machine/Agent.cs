@@ -46,9 +46,17 @@ namespace FiniteStateMachine
             set { agentType = value; }
         }
 
+        protected Vector2 m_Pos; //Updated on every update()
+        public Vector2 Pos
+        {
+            get { return m_Pos; }
+            set { m_Pos = value; }
+        }
+
         public Agent()
         {
             id = agents++;
+            m_Pos = new Vector2();
         }
 
         // Any agent must implement these methods

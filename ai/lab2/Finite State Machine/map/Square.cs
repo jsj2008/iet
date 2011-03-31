@@ -13,7 +13,21 @@ namespace FiniteStateMachine.map
         protected SquareType m_Type;
         protected Vector2 m_Pos;
         protected int m_Id;
-        private static int m_SquareCnt = 0; 
+        private static int m_SquareCnt = 0;
+        protected bool m_Route;
+        protected bool m_CharacterOn;
+
+        public bool Route
+        {
+            get { return m_Route; }
+            set { m_Route = value; }
+        }
+
+        public bool CharacterOn
+        {
+            get { return m_CharacterOn; }
+            set { m_CharacterOn = value; }
+        }
 
         public int Id
         {
@@ -36,6 +50,8 @@ namespace FiniteStateMachine.map
             m_Id = m_SquareCnt++;
             m_Type = type;
             m_Pos = pos;
+            m_Route = false;
+            m_CharacterOn = false;
         }
 
         public int GetMovementCost()

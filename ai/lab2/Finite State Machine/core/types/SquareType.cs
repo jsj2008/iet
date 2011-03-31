@@ -8,6 +8,14 @@ namespace FiniteStateMachine.core.types
     enum SquareType
     {
         Mountain,
-        Plain
+        Plain,
+        bank,
+        cemetary,
+        goldMine,
+        outlawCamp,
+        saloon,
+        shack,
+        sheriffsOffice,
+        undertakers
     }
 }

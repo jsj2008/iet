@@ -7,6 +7,12 @@ namespace FiniteStateMachine
     public static class AgentManager
     {
         static List<Agent> listOfAgents = new List<Agent>();
+
+        public static List<Agent> Agents
+        {
+            get { return listOfAgents; }
+        }
+
         public static int AddAgent(Agent agent)
         {
             listOfAgents.Add(agent);

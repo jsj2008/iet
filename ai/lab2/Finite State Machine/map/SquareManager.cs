@@ -41,5 +41,16 @@ namespace FiniteStateMachine.map
             List<Square> squares = new List<Square>(m_Squares.Values);
             return squares;
         }
+
+        public Square GetLocationSquare(Location location)
+        {
+            return m_Squares[m_LocationToSquare[location]];
+        }
+
+        //For non-west world locations, west-world locations will need a remove from both maps.
+        public void Remove(int id)
+        {
+            m_Squares.Remove(id);
+        }
     }
 }

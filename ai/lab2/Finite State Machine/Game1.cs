@@ -31,6 +31,22 @@ namespace FiniteStateMachine
 
         public static Texture2D m_MountainSquareTexture;
         public static Texture2D m_PlainSquareTexture;
+        public static Texture2D m_BankSquareTexture;
+        public static Texture2D m_CemetarySquareTexture;
+        public static Texture2D m_GoldMineSquareTexture;
+        public static Texture2D m_OutlawCampSquareTexture;
+        public static Texture2D m_SaloonSquareTexture;
+        public static Texture2D m_ShackSquareTexture;
+        public static Texture2D m_SheriffsOfficeSquareTexture;
+        public static Texture2D m_UnderTakersSquareTexture;
+        public static Texture2D m_HighlightTexture;
+        public static Texture2D m_Highlight2Texture;
+
+        public static Texture2D m_MinerTexture;
+        public static Texture2D m_MinersWifeTexture;
+        public static Texture2D m_OutlawTexture;
+        public static Texture2D m_SheriffTexture;
+        public static Texture2D m_UndertakerTexture;
 
         private GameModel m_Model;
         private GameView m_GameView;
@@ -38,6 +54,9 @@ namespace FiniteStateMachine
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -64,6 +83,7 @@ namespace FiniteStateMachine
             AgentManager.AddAgent(Vincent);
 
             SquareFactory.GetInstance().InitialMapPopulation();
+            SquareFactory.GetInstance().PopulateMapWithWestWorld();
             m_Model = new GameModel();
             m_GameView = new GameView();
 
@@ -80,6 +100,23 @@ namespace FiniteStateMachine
             spriteFont = Content.Load<SpriteFont>("Arial");
             m_PlainSquareTexture = Content.Load<Texture2D>(@SquareType.Plain.ToString());
             m_MountainSquareTexture = Content.Load<Texture2D>(@SquareType.Mountain.ToString());
+            m_BankSquareTexture = Content.Load<Texture2D>(@SquareType.bank.ToString());
+            m_CemetarySquareTexture = Content.Load<Texture2D>(@SquareType.cemetary.ToString());
+            m_GoldMineSquareTexture = Content.Load<Texture2D>(@SquareType.goldMine.ToString());
+            m_OutlawCampSquareTexture = Content.Load<Texture2D>(@SquareType.outlawCamp.ToString());
+            m_SaloonSquareTexture = Content.Load<Texture2D>(@SquareType.saloon.ToString());
+            m_ShackSquareTexture = Content.Load<Texture2D>(@SquareType.shack.ToString());
+            m_SheriffsOfficeSquareTexture = Content.Load<Texture2D>(@SquareType.sheriffsOffice.ToString());
+            m_UnderTakersSquareTexture = Content.Load<Texture2D>(@SquareType.undertakers.ToString());
+            m_HighlightTexture = Content.Load<Texture2D>("highlight");
+            m_Highlight2Texture = Content.Load<Texture2D>("highlight_2");
+
+
+            m_MinerTexture = Content.Load<Texture2D>("miner");
+            m_MinersWifeTexture = Content.Load<Texture2D>("minerswife");
+            m_OutlawTexture = Content.Load<Texture2D>("outlaw");
+            m_SheriffTexture = Content.Load<Texture2D>("sheriff");
+            m_UndertakerTexture = Content.Load<Texture2D>("undertaker");
         }
 
         /// <summary>
@@ -111,6 +148,13 @@ namespace FiniteStateMachine
 
             //Get squares from squaremanager to be displayed
             m_Model.Squares = SquareManager.GetInstance().GetSquares();
+
+            Agent[] agents = AgentManager.Agents.ToArray();
+            for (int i = 0 ; i < agents.Length ; i++)
+            {
+                Agent agent = agents[i];
+                agent.Pos = SquareManager.GetInstance().GetLocationSquare(agent.Location).Pos;
+            }
 
             base.Update(gameTime);
         }
