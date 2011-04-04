@@ -76,8 +76,18 @@ namespace FiniteStateMachine.pathfinding
                 searchElem = searchElem.Next;
             }
             //Found position, now modify next pointers
-            prevElem.Next = elem;
-            elem.Next = searchElem;
+            if (prevElem == null)
+            {
+                //Case where we add a new start
+                PqElem oldLowest = m_Lowest;
+                m_Lowest = elem;
+                elem.Next = oldLowest;
+            }
+            else
+            {
+                prevElem.Next = elem;
+                elem.Next = searchElem;
+            }
         }
 
         public bool IsMember(IPfNode node)
@@ -89,6 +99,7 @@ namespace FiniteStateMachine.pathfinding
                 {
                     return true;
                 }
+                searchElem = searchElem.Next;
             }
             return false;
         }
@@ -121,7 +132,14 @@ namespace FiniteStateMachine.pathfinding
 
         public IPfNode PeekLowest()
         {
-            return m_Lowest.Data;
+            if (m_Lowest != null)
+            {
+                return m_Lowest.Data;
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }

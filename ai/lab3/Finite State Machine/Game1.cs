@@ -151,8 +151,8 @@ namespace FiniteStateMachine
                 this.Exit();
             Message.gameTime = gameTime;
             Bob.Update();
-            /*
             Elsa.Update();
+            /*
             Jesse.Update();
             Wyatt.Update();
             Vincent.Update();
@@ -162,12 +162,14 @@ namespace FiniteStateMachine
             //Get squares from squaremanager to be displayed
             m_Model.Squares = SquareManager.GetInstance().GetSquares();
 
+            /*
             Agent[] agents = AgentManager.Agents.ToArray();
             for (int i = 0 ; i < agents.Length ; i++)
             {
                 Agent agent = agents[i];
                 agent.Pos = SquareManager.GetInstance().GetLocationSquare(agent.Location).Pos;
             }
+             */
 
             base.Update(gameTime);
         }

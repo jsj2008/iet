@@ -20,11 +20,15 @@ namespace FiniteStateMachine
             Printer.Print(miner.Id, "Pickin' up a nugget");
             if (miner.PocketsFull())
             {
-                miner.StateMachine.ChangeState(new VisitBankAndDepositGold());
+                miner.StateMachine.ChangeState(new PfState<Miner>(new VisitBankAndDepositGold(),
+                    miner.Location, 
+                    Location.bank));
             }
             if (miner.Thirsty())
             {
-                miner.StateMachine.ChangeState(new QuenchThirst());
+                miner.StateMachine.ChangeState(new PfState<Miner>(new QuenchThirst(),
+                    miner.Location,
+                    Location.saloon));
             }
         }
 

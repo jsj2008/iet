@@ -10,7 +10,7 @@ namespace FiniteStateMachine
     public class MinersWife : Agent
     {
         private StateMachine<MinersWife> stateMachine;
-        public StateMachine<MinersWife> StateMachine
+        public new StateMachine<MinersWife> StateMachine
         {
             get { return stateMachine; }
             set { stateMachine = value; }

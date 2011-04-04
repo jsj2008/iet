@@ -17,7 +17,7 @@ namespace FiniteStateMachine
 
         // Here is the StateMachine that the Miner uses to drive the agent's behaviour
         private StateMachine<Miner> stateMachine;
-        public StateMachine<Miner> StateMachine
+        public new StateMachine<Miner> StateMachine
         {
             get { return stateMachine; }
             set { stateMachine = value; }
@@ -69,7 +69,7 @@ namespace FiniteStateMachine
         public Miner() : base()
         {
             stateMachine = new StateMachine<Miner>(this);
-            stateMachine.CurrentState = new GoHomeAndSleepTillRested();
+            stateMachine.CurrentState = new EnterMineAndDigForNugget();
             stateMachine.GlobalState = new MinerGlobalState();
             wifeId = this.Id + 1;  // hack hack
             agentType = AgentType.miner;

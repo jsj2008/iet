@@ -61,6 +61,7 @@ namespace FiniteStateMachine.pathfinding
                     }
                 }
             }
+            closed.Add(endNode, float.MaxValue); //Add this at the end
             return closed;
         }
     }

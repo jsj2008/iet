@@ -16,7 +16,7 @@ namespace FiniteStateMachine
 
         // Here is the StateMachine that the Miner uses to drive the agent's behaviour
         private StateMachine<Sheriff> stateMachine;
-        public StateMachine<Sheriff> StateMachine
+        public new StateMachine<Sheriff> StateMachine
         {
             get { return stateMachine; }
             set { stateMachine = value; }

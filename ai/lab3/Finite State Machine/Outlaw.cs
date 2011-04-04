@@ -9,7 +9,7 @@ namespace FiniteStateMachine
     {
         //Outlaw's state machine
         private StateMachine<Outlaw> stateMachine;
-        public StateMachine<Outlaw> StateMachine
+        public new StateMachine<Outlaw> StateMachine
         {
             get { return stateMachine; }
             set { stateMachine = value; }

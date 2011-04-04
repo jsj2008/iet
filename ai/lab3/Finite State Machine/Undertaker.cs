@@ -8,7 +8,7 @@ namespace FiniteStateMachine
     class Undertaker : Agent
     {
         private StateMachine<Undertaker> stateMachine;
-        public StateMachine<Undertaker> StateMachine
+        public new StateMachine<Undertaker> StateMachine
         {
             get { return stateMachine; }
             set { stateMachine = value; }

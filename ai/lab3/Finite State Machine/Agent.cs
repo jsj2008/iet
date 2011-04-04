@@ -32,6 +32,19 @@ namespace FiniteStateMachine
             set { id = value; }
         }
 
+        public StateMachine<Agent> StateMachine
+        {
+            get;
+            set;
+        }
+
+        protected float m_Speed;
+        public float Speed
+        {
+            get { return m_Speed; }
+            set { m_Speed = value; }
+        }
+
         protected Location location;
         public Location Location
         {
@@ -57,6 +70,7 @@ namespace FiniteStateMachine
         {
             id = agents++;
             m_Pos = new Vector2();
+            m_Speed = 0.3f;
         }
 
         // Any agent must implement these methods

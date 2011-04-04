@@ -139,6 +139,7 @@
     <Compile Include="pathfinding\PfNode.cs" />
     <Compile Include="pathfinding\PfNodeFactory.cs" />
     <Compile Include="pathfinding\PfNodeManager.cs" />
+    <Compile Include="PfStates.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="Sheriff.cs" />
     <Compile Include="SheriffStates.cs" />
