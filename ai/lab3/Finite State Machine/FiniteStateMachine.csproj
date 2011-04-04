@@ -131,6 +131,14 @@
     <Compile Include="model\GameModel.cs" />
     <Compile Include="Outlaw.cs" />
     <Compile Include="OutlawStates.cs" />
+    <Compile Include="pathfinding\AStarPathFinder.cs" />
+    <Compile Include="pathfinding\IPathFinder.cs" />
+    <Compile Include="pathfinding\IPfNode.cs" />
+    <Compile Include="pathfinding\IPriorityQueue.cs" />
+    <Compile Include="pathfinding\LinkedListPriorityQueue.cs" />
+    <Compile Include="pathfinding\PfNode.cs" />
+    <Compile Include="pathfinding\PfNodeFactory.cs" />
+    <Compile Include="pathfinding\PfNodeManager.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="Sheriff.cs" />
     <Compile Include="SheriffStates.cs" />

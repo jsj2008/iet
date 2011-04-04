@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using FiniteStateMachine.core.types;
+using FiniteStateMachine.core;
 
 namespace FiniteStateMachine.map
 {
@@ -43,6 +44,17 @@ namespace FiniteStateMachine.map
         public SquareType Type
         {
             get { return m_Type; }
+        }
+
+        //Grid positions
+        public int GridX()
+        {
+            return (int)(m_Pos.X / Constants.SQUARE_SIDE);
+        }
+
+        public int GridY()
+        {
+            return (int)(m_Pos.Y / Constants.SQUARE_SIDE);
         }
 
         public Square(SquareType type, Vector2 pos)

@@ -12,6 +12,7 @@ using FiniteStateMachine.core.types;
 using FiniteStateMachine.model;
 using FiniteStateMachine.view;
 using FiniteStateMachine.map;
+using FiniteStateMachine.pathfinding;
 
 namespace FiniteStateMachine
 {
@@ -51,6 +52,8 @@ namespace FiniteStateMachine
         private GameModel m_Model;
         private GameView m_GameView;
 
+        private PfNodeFactory m_PfNodeFactory;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -73,17 +76,25 @@ namespace FiniteStateMachine
             // creation order, so the pair must always be created in this sequence.
             Bob = new Miner();
             Elsa = new MinersWife();
+            /*
             Jesse = new Outlaw();
             Wyatt = new Sheriff();
             Vincent = new Undertaker();
+             */
             AgentManager.AddAgent(Bob);
             AgentManager.AddAgent(Elsa);
+            /*
             AgentManager.AddAgent(Jesse);
             AgentManager.AddAgent(Wyatt);
             AgentManager.AddAgent(Vincent);
+             * */
 
+            //Create map and pathfinding graph
             SquareFactory.GetInstance().InitialMapPopulation();
             SquareFactory.GetInstance().PopulateMapWithWestWorld();
+            m_PfNodeFactory = new PfNodeFactory();
+            m_PfNodeFactory.CreatePfGraphFromWorldGeom(SquareManager.GetInstance());
+
             m_Model = new GameModel();
             m_GameView = new GameView();
 
@@ -140,10 +151,12 @@ namespace FiniteStateMachine
                 this.Exit();
             Message.gameTime = gameTime;
             Bob.Update();
+            /*
             Elsa.Update();
             Jesse.Update();
             Wyatt.Update();
             Vincent.Update();
+             * */
             Message.SendDelayedMessages();
 
             //Get squares from squaremanager to be displayed
