@@ -9,6 +9,11 @@ namespace FiniteStateMachine
     {
         static Random rand = new Random();
 
+        public DoHouseWork()
+        {
+            stateLocation = Location.shack;
+        }
+
         public override void Enter(MinersWife minersWife)
         {
             Printer.Print(minersWife.Id, "Time to do some more housework!");
@@ -46,6 +51,12 @@ namespace FiniteStateMachine
     // In this state, the MinersWife agent goes to the loo
     public class VisitBathroom : State<MinersWife>
     {
+
+        public VisitBathroom()
+        {
+            stateLocation = Location.shack;
+        }
+
         public override void Enter(MinersWife minersWife)
         {
             Printer.Print(minersWife.Id, "Walkin' to the can. Need to powda mah pretty li'lle nose");
@@ -71,6 +82,12 @@ namespace FiniteStateMachine
     // In this state, the MinersWife prepares food
     public class CookStew : State<MinersWife>
     {
+
+        public CookStew()
+        {
+            stateLocation = Location.shack;
+        }
+
         public override void Enter(MinersWife minersWife)
         {
             if (!minersWife.Cooking)

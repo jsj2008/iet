@@ -35,5 +35,12 @@ namespace FiniteStateMachine
         {
             return deadBodies[0];
         }
+
+        public DeadBody PopFirst()
+        {
+            DeadBody body = deadBodies[0];
+            deadBodies.RemoveAt(0);
+            return body;
+        }
     }
 }

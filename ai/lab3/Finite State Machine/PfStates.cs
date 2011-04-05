@@ -32,22 +32,67 @@ namespace FiniteStateMachine
             //Create Path
             AStarPathFinder pathFinder = new AStarPathFinder();
             m_Path = pathFinder.PathFind(m_StartNode, m_TargetNode);
+
+            //Now add to global repo of pathfinding graphs
+            PfNodeManager.GetInstance().AddSequence(m_Path);
         }
 
         public override void Execute(T agent)
         {
             //Printer.Print(agent.Id, "in Pathfinding Execute Method");
             //Move along path to next element in the list.
-            IPfNode next = m_Path.PeekLowest();
+            IPfNode next;    
+            next = m_Path.PeekLowest();
 
-            //if we have arrived, change to the dependant state
-            if (next == null)
+            if(next == null)
             {
+                //if we have arrived, change to the dependant state
+                if (agent is Miner)
+                {
+                    Object temp = agent;
+                    Miner m = (Miner)temp;
+                    temp = m_DependantState;
+                    State<Miner> minerState = (State<Miner>)temp;
+                    m.StateMachine.ChangeState(minerState);
+                }
+                else if (agent is MinersWife)
+                {
+                    Object temp = agent;
+                    MinersWife m = (MinersWife)temp;
+                    temp = m_DependantState;
+                    State<MinersWife> MinersWifeState = (State<MinersWife>)temp;
+                    m.StateMachine.ChangeState(MinersWifeState);
+                }
+                else if (agent is Outlaw)
+                {
+                    Object temp = agent;
+                    Outlaw m = (Outlaw)temp;
+                    temp = m_DependantState;
+                    State<Outlaw> OutlawState = (State<Outlaw>)temp;
+                    m.StateMachine.ChangeState(OutlawState);
+                }
+                else if (agent is Sheriff)
+                {
+                    Object temp = agent;
+                    Sheriff m = (Sheriff)temp;
+                    temp = m_DependantState;
+                    State<Sheriff> SheriffState = (State<Sheriff>)temp;
+                    m.StateMachine.ChangeState(SheriffState);
+                }
+                else if (agent is Undertaker)
+                {
+                    Object temp = agent;
+                    Undertaker m = (Undertaker)temp;
+                    temp = m_DependantState;
+                    State<Undertaker> UndertakerState = (State<Undertaker>)temp;
+                    m.StateMachine.ChangeState(UndertakerState);
+                }
+
                 return;
-                //agent.StateMachine.ChangeState(m_DependantState);
+                //((StateMachine<T>)agent.StateMachine).ChangeState(m_DependantState);
             }
-            Printer.Print(agent.Id, "Pathfinder, seeking to Pos : " + next.Pos);
-            Printer.Print(agent.Id, "Pathfinder, agent Pos : " + agent.Pos);
+            //Printer.Print(agent.Id, "Pathfinder, seeking to Pos : " + next.Pos);
+            //Printer.Print(agent.Id, "Pathfinder, agent Pos : " + agent.Pos);
 
             //If we are close enough to the current node, move to the next one.
             if (Vector2.Distance(agent.Pos, next.Pos) < 1.0f)
@@ -56,8 +101,47 @@ namespace FiniteStateMachine
                 next = m_Path.PeekLowest();
                 if (next == null)
                 {
+                    if (agent is Miner)
+                    {
+                        Object temp = agent;
+                        Miner m = (Miner)temp;
+                        temp = m_DependantState;
+                        State<Miner> minerState = (State<Miner>)temp;
+                        m.StateMachine.ChangeState(minerState);
+                    }
+                    else if (agent is MinersWife)
+                    {
+                        Object temp = agent;
+                        MinersWife m = (MinersWife)temp;
+                        temp = m_DependantState;
+                        State<MinersWife> MinersWifeState = (State<MinersWife>)temp;
+                        m.StateMachine.ChangeState(MinersWifeState);
+                    }
+                    else if (agent is Outlaw)
+                    {
+                        Object temp = agent;
+                        Outlaw m = (Outlaw)temp;
+                        temp = m_DependantState;
+                        State<Outlaw> OutlawState = (State<Outlaw>)temp;
+                        m.StateMachine.ChangeState(OutlawState);
+                    }
+                    else if (agent is Sheriff)
+                    {
+                        Object temp = agent;
+                        Sheriff m = (Sheriff)temp;
+                        temp = m_DependantState;
+                        State<Sheriff> SheriffState = (State<Sheriff>)temp;
+                        m.StateMachine.ChangeState(SheriffState);
+                    }
+                    else if (agent is Undertaker)
+                    {
+                        Object temp = agent;
+                        Undertaker m = (Undertaker)temp;
+                        temp = m_DependantState;
+                        State<Undertaker> UndertakerState = (State<Undertaker>)temp;
+                        m.StateMachine.ChangeState(UndertakerState);
+                    }
                     return;
-                    //agent.StateMachine.ChangeState(m_DependantState);
                 }
             }
 
@@ -69,7 +153,7 @@ namespace FiniteStateMachine
 
         public override void Exit(T agent)
         {
-            ;
+            PfNodeManager.GetInstance().RemoveSequence(m_Path); ;
         }
 
         public override bool OnMesssage(T agent, Telegram telegram)

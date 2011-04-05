@@ -76,18 +76,14 @@ namespace FiniteStateMachine
             // creation order, so the pair must always be created in this sequence.
             Bob = new Miner();
             Elsa = new MinersWife();
-            /*
             Jesse = new Outlaw();
             Wyatt = new Sheriff();
             Vincent = new Undertaker();
-             */
             AgentManager.AddAgent(Bob);
             AgentManager.AddAgent(Elsa);
-            /*
             AgentManager.AddAgent(Jesse);
             AgentManager.AddAgent(Wyatt);
             AgentManager.AddAgent(Vincent);
-             * */
 
             //Create map and pathfinding graph
             SquareFactory.GetInstance().InitialMapPopulation();
@@ -151,16 +147,21 @@ namespace FiniteStateMachine
                 this.Exit();
             Message.gameTime = gameTime;
             Bob.Update();
+            Bob.Speed = ((float)gameTime.ElapsedGameTime.Milliseconds) * 0.1f;
+            //Bob.Speed = 0.00001f;
             Elsa.Update();
-            /*
             Jesse.Update();
             Wyatt.Update();
             Vincent.Update();
-             * */
+
             Message.SendDelayedMessages();
 
             //Get squares from squaremanager to be displayed
             m_Model.Squares = SquareManager.GetInstance().GetSquares();
+            IPriorityQueue[] seq = new IPriorityQueue[PfNodeManager.GetInstance().GetSequences().Count];
+            PfNodeManager.GetInstance().GetSequences().CopyTo(seq);
+            m_Model.Sequences = seq;
+            m_Model.SetSquaresFromSequences();
 
             /*
             Agent[] agents = AgentManager.Agents.ToArray();

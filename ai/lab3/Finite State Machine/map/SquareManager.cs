@@ -39,13 +39,19 @@ namespace FiniteStateMachine.map
             //Add a location at a given square, this is for West World locations.
             m_Squares.Add(square.Id, square);
             m_SquareGrid[square.GridY(),square.GridX()] = square;
-            m_LocationToSquare.Add(location, square.Id);
+            //m_LocationToSquare.Add(location, square.Id);
+            m_LocationToSquare[location] = square.Id;
         }
 
         public List<Square> GetSquares()
         {
             List<Square> squares = new List<Square>(m_Squares.Values);
             return squares;
+        }
+
+        public Square GetSquare(int id)
+        {
+            return m_Squares[id];
         }
 
         public Square GetLocationSquare(Location location)

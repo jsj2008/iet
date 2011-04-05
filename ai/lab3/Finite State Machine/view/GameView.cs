@@ -26,7 +26,7 @@ namespace FiniteStateMachine.view
 
         public void DrawTransparentRouteHighlight(Vector2 pos, float scale, SpriteBatch spriteBatch)
         {
-            Color color = new Color(1.0f, 1.0f, 1.0f, 0.1f);
+            Color color = new Color(1.0f, 1.0f, 1.0f, 0.01f);
             spriteBatch.Draw(Game1.m_HighlightTexture,
                 pos, //Pos
                 null,

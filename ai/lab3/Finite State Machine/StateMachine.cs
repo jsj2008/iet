@@ -13,9 +13,11 @@ namespace FiniteStateMachine
 {
     // This class implements normal states, global states and state blips for a given agent.
     // The agent should create its own StateMachine when its constructor is called.
-    public class StateMachine<T>
+    public class StateMachine<T> where T : Agent
     {
         private T owner;
+
+        private bool m_CurrentlyPathfinding;
 
         // This holds the current state for the state machine
         private State<T> currentState = null;
@@ -45,6 +47,7 @@ namespace FiniteStateMachine
         public StateMachine(T agent)
         {
             owner = agent;
+            m_CurrentlyPathfinding = false;
         }
 
         // This is called by the Agent whenever the Game invokes the Agent's Update() method
@@ -85,10 +88,26 @@ namespace FiniteStateMachine
         // Switch to a new state and save the old one, so we can revert to it later if it's a state blip
         public void ChangeState(State<T> newState)
         {
-            previousState = currentState;
-            currentState.Exit(owner);
-            currentState = newState;
-            currentState.Enter(owner);
+            if ( ! m_CurrentlyPathfinding)
+            {
+                previousState = currentState; //Save state before pathfinding
+                currentState.Exit(owner);
+                //Now put pathfinding state in between...
+                currentState = new PfState<T>(newState,
+                    previousState.StateLocation(),
+                    newState.StateLocation());
+                currentState.Enter(owner);
+                m_CurrentlyPathfinding = true;
+            }
+            else
+            {
+                //Finished pathfinding to location.
+                currentState.Exit(owner);
+
+                currentState = newState;
+                currentState.Enter(owner);
+                m_CurrentlyPathfinding = false;
+            }
         }
 
         // Invoked when a state blip is finished

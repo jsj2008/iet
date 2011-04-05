@@ -106,8 +106,12 @@ namespace FiniteStateMachine.pathfinding
 
         public void Remove(IPfNode node)
         {
-            PqElem searchElem = m_Lowest;
-            PqElem prevElem = null;
+            if (m_Lowest == null)
+            {
+                return;
+            }
+            PqElem searchElem = m_Lowest.Next;
+            PqElem prevElem = m_Lowest;
             //Search for element in linked list to delete
             while (searchElem != null)
             {
@@ -125,9 +129,16 @@ namespace FiniteStateMachine.pathfinding
 
         public IPfNode PopLowest()
         {
-            IPfNode lowest = m_Lowest.Data;
-            m_Lowest = m_Lowest.Next;
-            return lowest;
+            if (m_Lowest != null)
+            {
+                IPfNode lowest = m_Lowest.Data;
+                m_Lowest = m_Lowest.Next;
+                return lowest;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public IPfNode PeekLowest()
@@ -140,6 +151,27 @@ namespace FiniteStateMachine.pathfinding
             {
                 return null;
             }
+        }
+
+        public IPfNode[] AsArray()
+        {
+            int size = 0;
+            PqElem elem = m_Lowest;
+            while (elem != null)
+            {
+                size++;
+                elem = elem.Next;
+            }
+            IPfNode[] result = new IPfNode[size];
+            elem = m_Lowest;
+            int i = 0;
+            while (elem != null)
+            {
+                result[i] = elem.Data;
+                i++;
+                elem = elem.Next;
+            }
+            return result;
         }
 
     }

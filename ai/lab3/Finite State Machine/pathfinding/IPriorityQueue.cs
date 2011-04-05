@@ -19,5 +19,8 @@ namespace FiniteStateMachine.pathfinding
         IPfNode PopLowest();
 
         IPfNode PeekLowest();
+
+        //Used for rendering
+        IPfNode[] AsArray();
     }
 }

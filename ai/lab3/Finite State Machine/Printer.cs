@@ -22,22 +22,26 @@ namespace FiniteStateMachine
 
         public static void Print(int id, string message)
         {
+            /*
             System.Console.WriteLine(id + " " + message + "\n");
             top++;
             if (top >= max) { top = 0; }
             if (amount < 20) { amount++; }
             display[top] = id + " " + message;
             displaytype[top] = id;
+             */
         }
 
         public static void PrintMessageData(string message)
         {
+            /*
             System.Console.WriteLine("M " + message + "\n");
             top++;
             if (top >= max) { top = 0; }
             if (amount < 20) { amount++; }
             display[top] =  message;
             displaytype[top] = 5;
+             */
         }
 
         public static void Draw(SpriteBatch spriteBatch, SpriteFont spriteFont)

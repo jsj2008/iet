@@ -7,26 +7,19 @@ namespace FiniteStateMachine
 {
     class PatrolState : State<Sheriff>
     {
+        public PatrolState()
+        {
+            stateLocation = Location.sheriffsOffice;
+        }
+
         public override void Enter(Sheriff agent)
         {
             Printer.Print(agent.Id, "Starting Patrol...");
         }
 
-        public Undertaker GetUndertaker()
-        {
-            for (int i = 0; i < AgentManager.GetNAgents(); i++)
-            {
-                Agent agent = AgentManager.GetAgent(i);
-                if (agent.AgentType == AgentType.undertaker)
-                {
-                    return (Undertaker)agent;
-                }
-            }
-            return null;
-        }
-
         public override void Execute(Sheriff agent)
         {
+            //Pick a new location and go to it in a loop.
             Random random = new Random();
             int moveChoice = random.Next(FSMConstants.nLocations);
             int newLocation = (((int)agent.Location) + moveChoice) % FSMConstants.nLocations;
@@ -38,8 +31,32 @@ namespace FiniteStateMachine
                 newLocation = (((int)agent.Location) + moveChoice) % FSMConstants.nLocations;
             }
             Printer.Print(agent.Id, "Patrolling location..." + newLocation);
-            agent.Location = (Location)newLocation;
-            //Dispatch a message to all other agents.
+            //agent.Location = (Location)newLocation;
+            agent.StateMachine.ChangeState(new PatrolStateLoop((Location)newLocation));
+        }
+
+        public override void Exit(Sheriff agent)
+        {
+            Printer.Print(agent.Id, "Goin' to rop my new found wealth off at the bank!");
+        }
+
+        public override bool OnMesssage(Sheriff agent, Telegram telegram)
+        {
+            return false;
+        }
+    }
+
+    class PatrolStateLoop : State<Sheriff>
+    {
+        public PatrolStateLoop(Location location)
+        {
+            stateLocation = location;
+        }
+
+        public override void Enter(Sheriff agent)
+        {
+            agent.Location = stateLocation;
+            //Dispatch a message to all other agents as we enter a new location.
             for (int i = 0; i < AgentManager.GetNAgents(); i++)
             {
                 if (i != agent.Id) //Don't check ourselves
@@ -68,6 +85,37 @@ namespace FiniteStateMachine
                     }
                 }
             }
+        }
+
+        public Undertaker GetUndertaker()
+        {
+            for (int i = 0; i < AgentManager.GetNAgents(); i++)
+            {
+                Agent agent = AgentManager.GetAgent(i);
+                if (agent.AgentType == AgentType.undertaker)
+                {
+                    return (Undertaker)agent;
+                }
+            }
+            return null;
+        }
+
+        public override void Execute(Sheriff agent)
+        {
+            //Pick a new location and go to it in a loop.
+            Random random = new Random();
+            int moveChoice = random.Next(FSMConstants.nLocations);
+            int newLocation = (((int)agent.Location) + moveChoice) % FSMConstants.nLocations;
+            while ((newLocation == (int)Location.outlawCamp) || (newLocation == (int)agent.Location))
+            {
+                //Can't go to outlaw camp so keep trying a new location, 
+                //and it needs to be different from current location
+                moveChoice = random.Next(FSMConstants.nLocations);
+                newLocation = (((int)agent.Location) + moveChoice) % FSMConstants.nLocations;
+            }
+            Printer.Print(agent.Id, "Patrolling location..." + newLocation);
+            //agent.Location = (Location)newLocation;
+            agent.StateMachine.ChangeState(new PatrolStateLoop((Location)newLocation));
         }
 
         public override void Exit(Sheriff agent)
@@ -109,14 +157,20 @@ namespace FiniteStateMachine
 
     class CelebrateState : State<Sheriff>
     {
+
+        public CelebrateState()
+        {
+            stateLocation = Location.saloon;
+        }
+
         public override void Enter(Sheriff agent)
         {
+            agent.Location = stateLocation;
             Printer.Print(agent.Id, "Going to the saloon to celebrate some mighty fine work...");
         }
 
         public override void Execute(Sheriff agent)
         {
-            agent.Location = Location.saloon;
             Printer.Print(agent.Id, "Drinking whiskey at the saloon, oh life is good!");
         }
 

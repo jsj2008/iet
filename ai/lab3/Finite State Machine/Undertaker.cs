@@ -25,6 +25,7 @@ namespace FiniteStateMachine
         {
             stateMachine = new StateMachine<Undertaker>(this);
             stateMachine.CurrentState = new Hover();
+            stateMachine.CurrentState.Enter(this);
             stateMachine.GlobalState = new UndertakerGlobalState();
             location = Location.undertakers;
             agentType = AgentType.undertaker;

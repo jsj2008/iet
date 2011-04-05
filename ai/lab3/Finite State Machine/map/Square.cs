@@ -71,12 +71,12 @@ namespace FiniteStateMachine.map
             switch (m_Type)
             {
                 case (SquareType.Mountain):
-                    return 2;
+                    return 20;
                 case (SquareType.Plain):
                     return 1;
                 default:
                     //TODO : Handle this in more graceful way.
-                    return -1;
+                    return 0;
             }
         }
     }

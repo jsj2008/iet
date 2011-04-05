@@ -13,6 +13,12 @@ namespace FiniteStateMachine
 {
     abstract public class State<T>
     {
+        protected Location stateLocation;
+        public Location StateLocation()
+        {
+            return stateLocation;
+        }
+
         // This will be executed when the state is entered
         abstract public void Enter(T agent);
 

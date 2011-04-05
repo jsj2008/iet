@@ -70,7 +70,7 @@ namespace FiniteStateMachine
         {
             id = agents++;
             m_Pos = new Vector2();
-            m_Speed = 0.3f;
+            m_Speed = 0.9f;
         }
 
         // Any agent must implement these methods

@@ -38,7 +38,7 @@ namespace FiniteStateMachine.pathfinding
                     //Add all 4 adjacent nodes (if they all exist)
                     if (i > 0)
                     {
-                        nodes[i, j].AddNeighbour(nodes[i-1, j]);
+                        nodes[i, j].AddNeighbour(nodes[i - 1, j]);
                     }
                     if (j > 0)
                     {

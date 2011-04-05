@@ -2,20 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FiniteStateMachine.map;
 
 namespace FiniteStateMachine
 {
-
     class Hover : State<Undertaker>
     {
+        public Hover()
+        {
+            stateLocation = Location.undertakers;
+        }
+
         public override void Enter(Undertaker agent)
         {
             Printer.Print(agent.Id, "Hovering in the undertakers office");
-            agent.Location = Location.undertakers;
+            agent.Location = stateLocation;
+            agent.Pos = SquareManager.GetInstance().GetLocationSquare(agent.Location).Pos;
         }
 
         public override void Execute(Undertaker agent)
         {
+            ;
         }
 
         public override void Exit(Undertaker agent)
@@ -38,20 +45,50 @@ namespace FiniteStateMachine
 
     class SearchForBody : State<Undertaker>
     {
+        public SearchForBody()
+        {
+            stateLocation = Location.undertakers;
+        }
+
         public override void Enter(Undertaker agent)
         {
             Printer.Print(agent.Id, "Searching for the body");
-            agent.Location = Location.undertakers;
+            agent.Location = stateLocation;
         }
 
         public override void Execute(Undertaker agent)
         {
-            agent.CurrentBody = DeadBodyManager.GetInstance().GetFirst();
+            agent.CurrentBody = DeadBodyManager.GetInstance().PopFirst();
 
-            //Go to location in one step, maybe make this longer?
-            agent.Location = agent.CurrentBody.Location;
+            agent.StateMachine.ChangeState(new SearchForBodyLoop(agent.CurrentBody.Location));
+        }
+
+        public override void Exit(Undertaker agent)
+        {
+        }
+
+        public override bool OnMesssage(Undertaker agent, Telegram telegram)
+        {
+            return false;
+        }
+    }
+
+    class SearchForBodyLoop : State<Undertaker>
+    {
+        public SearchForBodyLoop(Location location)
+        {
+            stateLocation = location;
+        }
+
+        public override void Enter(Undertaker agent)
+        {
+            agent.Location = stateLocation;
             Printer.Print(agent.Id, "Found body at location :" + agent.Location);
 
+        }
+
+        public override void Execute(Undertaker agent)
+        {
             //Now go to drag state.
             agent.StateMachine.ChangeState(new DragBody());
         }
@@ -68,19 +105,21 @@ namespace FiniteStateMachine
 
     class DragBody : State<Undertaker>
     {
+        public DragBody()
+        {
+            stateLocation = Location.cemetary;
+        }
+
         public override void Enter(Undertaker agent)
         {
-            Printer.Print(agent.Id, "Dragging body to cemetary");
+            Printer.Print(agent.Id, "Dragged body to cemetary");
+            agent.Location = Location.cemetary;
         }
 
         public override void Execute(Undertaker agent)
         {
-            agent.CurrentBody = DeadBodyManager.GetInstance().GetFirst();
-
             //Go to location in one step, maybe make this longer?
-            agent.Location = Location.cemetary;
             agent.CurrentBody.Location = Location.cemetary;
-            Printer.Print(agent.Id, "Finished dragging body to cemetary");
 
             //Now go to hover state again.
             agent.StateMachine.ChangeState(new Hover());

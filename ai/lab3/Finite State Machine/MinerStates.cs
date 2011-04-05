@@ -7,10 +7,15 @@ namespace FiniteStateMachine
     // This class implements the state in which the Miner agent mines for gold
     public class EnterMineAndDigForNugget : State<Miner>
     {
+        public EnterMineAndDigForNugget()
+        {
+            stateLocation = Location.goldMine;
+        }
+
         public override void Enter(Miner miner)
         {
             Printer.Print(miner.Id, "Walkin' to the goldmine");
-            miner.Location = Location.goldMine;
+            miner.Location = stateLocation;
         }
 
         public override void Execute(Miner miner)
@@ -20,15 +25,11 @@ namespace FiniteStateMachine
             Printer.Print(miner.Id, "Pickin' up a nugget");
             if (miner.PocketsFull())
             {
-                miner.StateMachine.ChangeState(new PfState<Miner>(new VisitBankAndDepositGold(),
-                    miner.Location, 
-                    Location.bank));
+                miner.StateMachine.ChangeState(new VisitBankAndDepositGold());
             }
-            if (miner.Thirsty())
+            else if (miner.Thirsty())
             {
-                miner.StateMachine.ChangeState(new PfState<Miner>(new QuenchThirst(),
-                    miner.Location,
-                    Location.saloon));
+                miner.StateMachine.ChangeState(new QuenchThirst());
             }
         }
 
@@ -46,10 +47,15 @@ namespace FiniteStateMachine
     // In this state, the miner goes to the bank and deposits gold
     public class VisitBankAndDepositGold : State<Miner>
     {
+        public VisitBankAndDepositGold()
+        {
+            stateLocation = Location.bank;
+        }
+
         public override void Enter(Miner miner)
         {
+            miner.Location = stateLocation;
             Printer.Print(miner.Id, "Goin' to the bank. Yes siree");
-            miner.Location = Location.bank;
         }
 
         public override void Execute(Miner miner)
@@ -82,10 +88,17 @@ namespace FiniteStateMachine
     // In this state, the miner goes home and sleeps
     public class GoHomeAndSleepTillRested : State<Miner>
     {
+
+        public GoHomeAndSleepTillRested()
+        {
+            stateLocation = Location.shack;
+        }
+
         public override void Enter(Miner miner)
         {
+            miner.Location = stateLocation;
             Printer.Print(miner.Id, "Walkin' Home");
-            miner.Location = Location.shack;
+            miner.Location = stateLocation;
             Message.DispatchMessage(0, miner.Id, miner.WifeId, MessageType.HiHoneyImHome);
         }
 
@@ -94,6 +107,7 @@ namespace FiniteStateMachine
             if (miner.HowFatigued < miner.TirednessThreshold)
             {
                 Printer.Print(miner.Id, "All mah fatigue has drained away. Time to find more gold!");
+
                 miner.StateMachine.ChangeState(new EnterMineAndDigForNugget());
             }
             else
@@ -128,6 +142,11 @@ namespace FiniteStateMachine
     // In this state, the miner goes to the saloon to drink
     public class QuenchThirst : State<Miner>
     {
+        public QuenchThirst()
+        {
+            stateLocation = Location.saloon;
+        }
+
         public override void Enter(Miner miner)
         {
             if (miner.Location != Location.saloon)
@@ -144,6 +163,7 @@ namespace FiniteStateMachine
             miner.MoneyInBank -= 2;
             Printer.Print(miner.Id, "That's mighty fine sippin' liquer");
             miner.StateMachine.ChangeState(new EnterMineAndDigForNugget());
+
         }
 
         public override void Exit(Miner miner)
@@ -160,6 +180,11 @@ namespace FiniteStateMachine
     // In this state, the miner eats the food that Elsa has prepared
     public class EatStew : State<Miner>
     {
+        public EatStew()
+        {
+            stateLocation = Location.shack;
+        }
+
         public override void Enter(Miner miner)
         {
             Printer.Print(miner.Id, "Smells Reaaal goood Elsa!");
