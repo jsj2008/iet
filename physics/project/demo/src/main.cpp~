@@ -1,0 +1,6 @@
+
+
+const int N = 10;
+const int size = (N+2) * (N+2);
+
+static u[size], v[size], u_prev[size], v_prev[size]
