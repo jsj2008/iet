@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/data/code/iet/git/iet/physics/project/demo/src/jfAlgebra/jfPoint3.cpp
+jfPoint3.hpp
+/mnt/data/code/iet/git/iet/physics/project/demo/src/jfAlgebra/jfPoint3.hpp
+
+/mnt/data/code/iet/git/iet/physics/project/demo/src/jfAlgebra/jfPoint3.hpp
+jfCore/jfCore.hpp
+-
+jfAlgebra/jfVector3.hpp
+-
+
+/mnt/data/code/iet/git/iet/physics/project/demo/src/jfAlgebra/jfVector3.cpp
+jfVector3.hpp
+/mnt/data/code/iet/git/iet/physics/project/demo/src/jfAlgebra/jfVector3.hpp
+jfAlgebra/jfPoint3.hpp
+-
+
+/mnt/data/code/iet/git/iet/physics/project/demo/src/jfAlgebra/jfVector3.hpp
+assert.h
+-
+jfCore/jfCore.hpp
+-
+
+/mnt/data/code/iet/git/iet/physics/project/demo/src/jfCore/jfCore.hpp
+stdint.h
+-
+string
+-
+math.h
+-
+float.h
+-
+

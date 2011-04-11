@@ -1,5 +1,3 @@
-
-
 #define IX(i,j) ((i) + (N + 2) * (j))
 #define SWAP(x0, x) {float* tmp = x0 ; x0 = x; x=tmp;}
 
@@ -122,9 +120,4 @@ void dens_step(int N, float* x, float* x0, float* u, float* v, float diff, float
    diffuse(N, 0, x, x0, diff, dt);
    SWAP(x0, x);
    advect(N, 0, x, x0, u, v, dt);
-}
-
-int main(void)
-{
-   return 0;
 }

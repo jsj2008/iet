@@ -1,0 +1,1 @@
+/usr/bin/c++   -O3   CMakeFiles/jfFluid_demo.dir/jfFluid_demo/jfFluid.cpp.o CMakeFiles/jfFluid_demo.dir/jfFluid_demo/main.cpp.o  -o jfFluid_demo -rdynamic libjfWm.a -Wl,-Bstatic -lSDLmain -Wl,-Bdynamic -lSDL -lpthread -lGLU -lGL -lSM -lICE -lX11 -lXext -lGLEW -lftgl 
