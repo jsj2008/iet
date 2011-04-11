@@ -16,6 +16,9 @@ float[] v_prev = new float[SIZE];
 float[] dens = new float[SIZE];
 float[] dens_prev = new float[SIZE];
 
+//Entry is true if the grid contains an object
+boolean[] object_space_grid = new boolean[SIZE];
+
 float force = 5.0f;
 float source = 100.0f;
 float dt = 0.4f;
@@ -29,7 +32,8 @@ boolean mRightPressed = true;
 int mx, my; //Current mouse position
 int omx, omy; //Old mouse position
 boolean drawVel = false;
-boolean advectNormalStep = false;
+boolean advectNormalStep = true;
+boolean object_space = false;
 
 //Helper function to get an element from a 1D array as if it were a 2D array
 int IX(int i, int j)
@@ -50,7 +54,41 @@ void clearData()
         v_prev[i] = 0.0f;
         dens[i] = 0.0f;
         dens_prev[i] = 0.0f;
+	object_space_grid[i] = false;
     }
+
+    //Set initial object spaces
+/*
+    object_space_grid[IX(10,10)] = true;
+    object_space_grid[IX(11,10)] = true;
+    object_space_grid[IX(12,10)] = true;
+    object_space_grid[IX(13,10)] = true;
+
+    object_space_grid[IX(10,11)] = true;
+    object_space_grid[IX(11,11)] = true;
+    object_space_grid[IX(12,11)] = true;
+    object_space_grid[IX(13,11)] = true;
+
+    object_space_grid[IX(10,12)] = true;
+    object_space_grid[IX(11,12)] = true;
+    object_space_grid[IX(12,12)] = true;
+    object_space_grid[IX(13,12)] = true;
+
+    object_space_grid[IX(10,13)] = true;
+    object_space_grid[IX(11,13)] = true;
+    object_space_grid[IX(12,13)] = true;
+    object_space_grid[IX(13,13)] = true;
+*/
+
+    int j;
+    for(i=0;i<=N/2;i++)
+    {
+	for(j=0;j<=N/2;j++)
+	{
+	    object_space_grid[IX(i,j)] = true;
+	}
+    }
+
 }
 
 void setup() {
@@ -89,15 +127,62 @@ void drawRectangles()
     }
 }
 
+void drawSquare(float x, float y, float side)
+{
+    rect(x*width,y*height,side*width,side*height);
+}
+
+void drawObjects()
+{
+    fill(123);
+    
+    float x, y, h;
+    h = 1.0f / (float)N;
+    for(int i = 0; i < N+2 ; i++)
+    {
+	x = (i-0.5f)*h;
+	for(int j = 0 ; j < N+2 ;j++)
+	{
+	    y = (j-0.5f)*h;
+	    if(object_space_grid[IX(i,j)])
+	    {
+		drawSquare(x,y,h);
+	    }
+	}
+    }
+}
+
 /**
  * Sets boundary for diffusion. It is bound vertically and horizontally in a box.
  **/
 void setBnd(int n, int b, float[] x)
 {
- 
+    int i,j;
 
-    int i;
+    if(object_space)
+    {
+	//Bound along internal boundaries
+	for(i=1;i<=n;i++)
+	{
+	    for(j=1;j<=n;j++)
+	    {
+		if(object_space_grid[IX(i,j)])
+		{
+		    //x[IX(i,j)] = (((x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / 4);
 
+		    x[IX(i,j)] = x[IX(i-1,j)];
+		    x[IX(i,j)] -= x[IX(i,j-1)];
+		    x[IX(i,j)] += x[IX(i+1,j)];
+		    x[IX(i,j)] -= x[IX(i+1,j+1)];
+
+		    x[IX(i,j)] *= 0.25;
+		}
+	    }
+	}
+    }
+    
+
+    //Bound along edges, will wrap around level if the flag is set
     for(i=0 ; i<=n ; i++)
     {
         x[IX(0,i)] = (b==1 ? -x[IX(1,i)] : x[IX(1,i)]);
@@ -571,7 +656,7 @@ void drawLineOnScreen(float x1, float y1, float x2, float y2)
 
 void drawVelocity()
 {
-   int i,j;
+    int i,j;
     float x, y, h;
 
     h = 1.0f / (float)N;
@@ -680,6 +765,10 @@ void keyPressed()
     {
 	advectNormalStep = ! advectNormalStep;
     }
+    if( key == 'o' || key == 'O')
+    {
+	object_space = ! object_space;
+    }
 }
 
 void draw()
@@ -713,6 +802,11 @@ void draw()
     else
     {
 	drawDensity();
+    }
+
+    if(object_space)
+    {
+	drawObjects();
     }
 }
 
