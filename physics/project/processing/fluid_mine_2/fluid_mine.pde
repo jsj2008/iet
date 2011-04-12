@@ -34,6 +34,7 @@ int omx, omy; //Old mouse position
 boolean drawVel = false;
 boolean advectNormalStep = true;
 boolean object_space = false;
+boolean fancyColours = true;
 
 //Helper function to get an element from a 1D array as if it were a 2D array
 int IX(int i, int j)
@@ -54,39 +55,39 @@ void clearData()
         v_prev[i] = 0.0f;
         dens[i] = 0.0f;
         dens_prev[i] = 0.0f;
-	object_space_grid[i] = false;
+        object_space_grid[i] = false;
     }
 
     //Set initial object spaces
 /*
-    object_space_grid[IX(10,10)] = true;
-    object_space_grid[IX(11,10)] = true;
-    object_space_grid[IX(12,10)] = true;
-    object_space_grid[IX(13,10)] = true;
+  object_space_grid[IX(10,10)] = true;
+  object_space_grid[IX(11,10)] = true;
+  object_space_grid[IX(12,10)] = true;
+  object_space_grid[IX(13,10)] = true;
 
-    object_space_grid[IX(10,11)] = true;
-    object_space_grid[IX(11,11)] = true;
-    object_space_grid[IX(12,11)] = true;
-    object_space_grid[IX(13,11)] = true;
+  object_space_grid[IX(10,11)] = true;
+  object_space_grid[IX(11,11)] = true;
+  object_space_grid[IX(12,11)] = true;
+  object_space_grid[IX(13,11)] = true;
 
-    object_space_grid[IX(10,12)] = true;
-    object_space_grid[IX(11,12)] = true;
-    object_space_grid[IX(12,12)] = true;
-    object_space_grid[IX(13,12)] = true;
+  object_space_grid[IX(10,12)] = true;
+  object_space_grid[IX(11,12)] = true;
+  object_space_grid[IX(12,12)] = true;
+  object_space_grid[IX(13,12)] = true;
 
-    object_space_grid[IX(10,13)] = true;
-    object_space_grid[IX(11,13)] = true;
-    object_space_grid[IX(12,13)] = true;
-    object_space_grid[IX(13,13)] = true;
+  object_space_grid[IX(10,13)] = true;
+  object_space_grid[IX(11,13)] = true;
+  object_space_grid[IX(12,13)] = true;
+  object_space_grid[IX(13,13)] = true;
 */
 
     int j;
-    for(i=0;i<=N/2;i++)
+    for(i=N/4;i<=(3*N/4);i++)
     {
-	for(j=0;j<=N/2;j++)
-	{
-	    object_space_grid[IX(i,j)] = true;
-	}
+        for(j=N/4;j<=(3*N/4);j++)
+        {
+            object_space_grid[IX(i,j)] = true;
+        }
     }
 
 }
@@ -134,21 +135,22 @@ void drawSquare(float x, float y, float side)
 
 void drawObjects()
 {
+    stroke(0);
     fill(123);
-    
+
     float x, y, h;
     h = 1.0f / (float)N;
     for(int i = 0; i < N+2 ; i++)
     {
-	x = (i-0.5f)*h;
-	for(int j = 0 ; j < N+2 ;j++)
-	{
-	    y = (j-0.5f)*h;
-	    if(object_space_grid[IX(i,j)])
-	    {
-		drawSquare(x,y,h);
-	    }
-	}
+        x = (i-0.5f)*h;
+        for(int j = 0 ; j < N+2 ;j++)
+        {
+            y = (j-0.5f)*h;
+            if(object_space_grid[IX(i,j)])
+            {
+                drawSquare(x,y,h);
+            }
+        }
     }
 }
 
@@ -161,26 +163,26 @@ void setBnd(int n, int b, float[] x)
 
     if(object_space)
     {
-	//Bound along internal boundaries
-	for(i=1;i<=n;i++)
-	{
-	    for(j=1;j<=n;j++)
-	    {
-		if(object_space_grid[IX(i,j)])
-		{
-		    //x[IX(i,j)] = (((x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / 4);
+        //Bound along internal boundaries
+        for(i=1;i<=n;i++)
+        {
+            for(j=1;j<=n;j++)
+            {
+                if(object_space_grid[IX(i,j)])
+                {
+                    //x[IX(i,j)] = (((x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / 4);
 
-		    x[IX(i,j)] = x[IX(i-1,j)];
-		    x[IX(i,j)] -= x[IX(i,j-1)];
-		    x[IX(i,j)] += x[IX(i+1,j)];
-		    x[IX(i,j)] -= x[IX(i+1,j+1)];
+                    x[IX(i,j)] = x[IX(i-1,j)];
+                    x[IX(i,j)] -= x[IX(i,j-1)];
+                    x[IX(i,j)] += x[IX(i+1,j)];
+                    x[IX(i,j)] -= x[IX(i+1,j+1)];
 
-		    x[IX(i,j)] *= 0.25;
-		}
-	    }
-	}
+                    x[IX(i,j)] *= 0.25;
+                }
+            }
+        }
     }
-    
+
 
     //Bound along edges, will wrap around level if the flag is set
     for(i=0 ; i<=n ; i++)
@@ -190,22 +192,22 @@ void setBnd(int n, int b, float[] x)
         x[IX(i,0)] = (b==2 ? -x[IX(i,1)] : x[IX(i,1)]);
         x[IX(i,n+1)] = (b==2 ? -x[IX(i,n)] : x[IX(i,n)]);
 
-	if(! advectNormalStep)
-	{
-	    //Reflect in on itself
-	    float temp = x[IX(0,i)];
-	    x[IX(0,i)] = x[IX(n+1,i)];
-	    x[IX(n+1,i)] = temp;
+        if(! advectNormalStep)
+        {
+            //Reflect in on itself
+            float temp = x[IX(0,i)];
+            x[IX(0,i)] = x[IX(n+1,i)];
+            x[IX(n+1,i)] = temp;
 
-	    temp = x[IX(i,0)];
-	    x[IX(i,0)] = x[IX(i,n+1)];
-	    x[IX(i,n+1)] = temp;
-	}
+            temp = x[IX(i,0)];
+            x[IX(i,0)] = x[IX(i,n+1)];
+            x[IX(i,n+1)] = temp;
+        }
 /*
-        x[IX(0,i)] = (b==1 ? -x[IX(1,i)] : x[IX(1,i)]);
-        x[IX(n+1,i)] = (b==1 ? -x[IX(n,i)] : x[IX(n,i)]);
-        x[IX(i,0)] = (b==2 ? -x[IX(i,1)] : x[IX(i,1)]);
-        x[IX(i,n+1)] = (b==2 ? -x[IX(i,n)] : x[IX(i,n)]);
+  x[IX(0,i)] = (b==1 ? -x[IX(1,i)] : x[IX(1,i)]);
+  x[IX(n+1,i)] = (b==1 ? -x[IX(n,i)] : x[IX(n,i)]);
+  x[IX(i,0)] = (b==2 ? -x[IX(i,1)] : x[IX(i,1)]);
+  x[IX(i,n+1)] = (b==2 ? -x[IX(i,n)] : x[IX(i,n)]);
 */
     }
     x[IX(0,0)] = 0.5f * (x[IX(1,0)] + x[IX(0,1)]);
@@ -214,22 +216,22 @@ void setBnd(int n, int b, float[] x)
     x[IX(n+1,n+1)] = 0.5f * (x[IX(n,n+1)] + x[IX(n+1 ,n)]);
 }
 /*
-void setBnd(int n, int b, float[] x)
-{
-    int i;
+  void setBnd(int n, int b, float[] x)
+  {
+  int i;
 
-    for(i=0 ; i<=n ; i++)
-    {
-        x[IX(0,i)] = (b==1 ? -x[IX(1,i)] : x[IX(1,i)]);
-        x[IX(n+1,i)] = (b==1 ? -x[IX(n,i)] : x[IX(n,i)]);
-        x[IX(i,0)] = (b==2 ? -x[IX(i,1)] : x[IX(i,1)]);
-        x[IX(i,n+1)] = (b==2 ? -x[IX(i,n)] : x[IX(i,n)]);
-    }
-    x[IX(0,0)] = 0.5f * (x[IX(1,0)] + x[IX(0,1)]);
-    x[IX(0,n+1)] = 0.5f * (x[IX(1,n+1)] + x[IX(0,n)]);
-    x[IX(n+1,0)] = 0.5f * (x[IX(n,0)] + x[IX(n+1,1)]);
-    x[IX(n+1,n+1)] = 0.5f * (x[IX(n,n+1)] + x[IX(n+1 ,n)]);
-}
+  for(i=0 ; i<=n ; i++)
+  {
+  x[IX(0,i)] = (b==1 ? -x[IX(1,i)] : x[IX(1,i)]);
+  x[IX(n+1,i)] = (b==1 ? -x[IX(n,i)] : x[IX(n,i)]);
+  x[IX(i,0)] = (b==2 ? -x[IX(i,1)] : x[IX(i,1)]);
+  x[IX(i,n+1)] = (b==2 ? -x[IX(i,n)] : x[IX(i,n)]);
+  }
+  x[IX(0,0)] = 0.5f * (x[IX(1,0)] + x[IX(0,1)]);
+  x[IX(0,n+1)] = 0.5f * (x[IX(1,n+1)] + x[IX(0,n)]);
+  x[IX(n+1,0)] = 0.5f * (x[IX(n,0)] + x[IX(n+1,1)]);
+  x[IX(n+1,n+1)] = 0.5f * (x[IX(n,n+1)] + x[IX(n+1 ,n)]);
+  }
 */
 /**
  * 1st step:
@@ -259,101 +261,101 @@ void diffuse(int n, int b,  float[] x, float[] x0, float diff, float dt)
 
     if(advectNormalStep)
     {
-	for(k=0 ; k<20; k++)
-	{
-	    for(i=1;i<=n;i++)
-	    {
-		for(j=1;j<=n;j++)
-		{
-		
+        for(k=0 ; k<20; k++)
+        {
+            for(i=1;i<=n;i++)
+            {
+                for(j=1;j<=n;j++)
+                {
 
-		    x[IX(i,j)] = (x0[IX(i,j)] +
-				  a * (x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
 
-		}
-	    }
-        setBnd(n,b,x);
-	}
+                    x[IX(i,j)] = (x0[IX(i,j)] +
+                                  a * (x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
+
+                }
+            }
+            setBnd(n,b,x);
+        }
     }
     else
     {
-	for(k=0 ; k<20; k++)
-	{
-	    for(i=0;i<=n+1;i++)
-	    {
-		for(j=0;j<=n+1;j++)
-		{
-		    //Need to check for boundaries
-		    if(i==0)
-		    {
-			if(j==0)
-			{
-			    x[IX(i,j)] = (x0[IX(i,j)] +
-					  a * (x[IX(n+1, j)] + x[IX(i+1,j)] + x[IX(i, n+1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
-			}
-			else if(j==n+1)
-			{
-			    x[IX(i,j)] = (x0[IX(i,j)] +
-					  a * (x[IX(n+1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,0)])) / (1 + (4 * a));
-			}
-			else
-			{
-			    x[IX(i,j)] = (x0[IX(i,j)] +
-					  a * (x[IX(n+1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
-			}
-		    }
-		    else if(i==n+1)
-		    {
-			if(j==0)
-			{
-			    x[IX(i,j)] = (x0[IX(i,j)] +
-					  a * (x[IX(i-1, j)] + x[IX(0,j)] + x[IX(i, n+1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
-			}
-			else if(j==n+1)
-			{
-			    x[IX(i,j)] = (x0[IX(i,j)] +
-					  a * (x[IX(i-1, j)] + x[IX(0,j)] + x[IX(i, j-1)] + x[IX(i,0)])) / (1 + (4 * a));
-			}
-			else
-			{
-			    x[IX(i,j)] = (x0[IX(i,j)] +
-					  a * (x[IX(i-1, j)] + x[IX(0,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
-			}
-		    }
-		    else
-		    {
-			if(j==0)
-			{
-			    x[IX(i,j)] = (x0[IX(i,j)] +
-				  a * (x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, n+1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
-			}
-			else if(j==n+1)
-			{
-			    x[IX(i,j)] = (x0[IX(i,j)] +
-				  a * (x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,0)])) / (1 + (4 * a));
-			}
-			else
-			{
-			    x[IX(i,j)] = (x0[IX(i,j)] +
-				  a * (x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
-			}
-		    }
-		}
-	    }
-	    setBnd(n,b,x);
-	}
+        for(k=0 ; k<20; k++)
+        {
+            for(i=0;i<=n+1;i++)
+            {
+                for(j=0;j<=n+1;j++)
+                {
+                    //Need to check for boundaries
+                    if(i==0)
+                    {
+                        if(j==0)
+                        {
+                            x[IX(i,j)] = (x0[IX(i,j)] +
+                                          a * (x[IX(n+1, j)] + x[IX(i+1,j)] + x[IX(i, n+1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
+                        }
+                        else if(j==n+1)
+                        {
+                            x[IX(i,j)] = (x0[IX(i,j)] +
+                                          a * (x[IX(n+1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,0)])) / (1 + (4 * a));
+                        }
+                        else
+                        {
+                            x[IX(i,j)] = (x0[IX(i,j)] +
+                                          a * (x[IX(n+1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
+                        }
+                    }
+                    else if(i==n+1)
+                    {
+                        if(j==0)
+                        {
+                            x[IX(i,j)] = (x0[IX(i,j)] +
+                                          a * (x[IX(i-1, j)] + x[IX(0,j)] + x[IX(i, n+1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
+                        }
+                        else if(j==n+1)
+                        {
+                            x[IX(i,j)] = (x0[IX(i,j)] +
+                                          a * (x[IX(i-1, j)] + x[IX(0,j)] + x[IX(i, j-1)] + x[IX(i,0)])) / (1 + (4 * a));
+                        }
+                        else
+                        {
+                            x[IX(i,j)] = (x0[IX(i,j)] +
+                                          a * (x[IX(i-1, j)] + x[IX(0,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
+                        }
+                    }
+                    else
+                    {
+                        if(j==0)
+                        {
+                            x[IX(i,j)] = (x0[IX(i,j)] +
+                                          a * (x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, n+1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
+                        }
+                        else if(j==n+1)
+                        {
+                            x[IX(i,j)] = (x0[IX(i,j)] +
+                                          a * (x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,0)])) / (1 + (4 * a));
+                        }
+                        else
+                        {
+                            x[IX(i,j)] = (x0[IX(i,j)] +
+                                          a * (x[IX(i - 1, j)] + x[IX(i + 1,j)] + x[IX(i, j - 1)] + x[IX(i,j + 1)])) / (1 + (4 * a));
+                        }
+                    }
+                }
+            }
+            setBnd(n,b,x);
+        }
     }
 }
 
 void advectBoundaryStep(int n,
-		    float[] d,
-		    float[] d0,
-		    float[] u,
-		    float[] v,
-		    float dt,
-		    float dt0,
-		    int i,
-		    int j)
+                        float[] d,
+                        float[] d0,
+                        float[] u,
+                        float[] v,
+                        float dt,
+                        float dt0,
+                        int i,
+                        int j)
 {
     int i0, i1, j0, j1;
     float x, y, s0, t0, s1, t1;
@@ -363,22 +365,22 @@ void advectBoundaryStep(int n,
 
     if(x < 0.5f)
     {
-	x = n + 0.5f;
+        x = n + 0.5f;
     }
     if(x > (n+0.5f))
     {
-	x = 0.5f;
+        x = 0.5f;
     }
     i0 = (int)x;
     i1 = i0 + 1;
 
     if(y < 0.5f)
     {
-	y = n + 0.5f;
+        y = n + 0.5f;
     }
     if(y > (n+0.5f))
     {
-	y = 0.5f;
+        y = 0.5f;
     }
     j0 = (int)y;
     j1 = j0 + 1;
@@ -388,20 +390,20 @@ void advectBoundaryStep(int n,
 
     t1 = y - j0;
     t0 = 1 - t1;
- 
+
     d[IX(i,j)] = s0 * (t0 * d0[IX(i0,j0)] + t1 * d0[IX(i0,j1)]) +
-	s1 * (t0 * d0[IX(i1,j0)] + t1 * d0[IX(i1,j1)]);
+        s1 * (t0 * d0[IX(i1,j0)] + t1 * d0[IX(i1,j1)]);
 }
 
 void advectNormalStep(int n,
-		    float[] d,
-		    float[] d0,
-		    float[] u,
-		    float[] v,
-		    float dt,
-		    float dt0,
-		    int i,
-		    int j)
+                      float[] d,
+                      float[] d0,
+                      float[] u,
+                      float[] v,
+                      float dt,
+                      float dt0,
+                      int i,
+                      int j)
 {
     int i0, i1, j0, j1;
     float x, y, s0, t0, s1, t1;
@@ -411,22 +413,22 @@ void advectNormalStep(int n,
 
     if(x < 0.5f)
     {
-	x = 0.5f;
+        x = 0.5f;
     }
     if(x > (n+0.5f))
     {
-	x = n + 0.5f;
+        x = n + 0.5f;
     }
     i0 = (int)x;
     i1 = i0 + 1;
 
     if(y < 0.5f)
     {
-	y = 0.5f;
+        y = 0.5f;
     }
     if(y > (n+0.5f))
     {
-	y = n + 0.5f;
+        y = n + 0.5f;
     }
     j0 = (int)y;
     j1 = j0 + 1;
@@ -438,7 +440,7 @@ void advectNormalStep(int n,
     t0 = 1 - t1;
 
     d[IX(i,j)] = s0 * (t0 * d0[IX(i0,j0)] + t1 * d0[IX(i0,j1)]) +
-	s1 * (t0 * d0[IX(i1,j0)] + t1 * d0[IX(i1,j1)]);
+        s1 * (t0 * d0[IX(i1,j0)] + t1 * d0[IX(i1,j1)]);
 }
 
 /**
@@ -459,33 +461,33 @@ void advect(int n,
     dt0 = dt*n;
     if(advectNormalStep)
     {
-	for(i=1 ; i<=n ; i++)
-	{
-	    for(j=1 ; j<=n ; j++)
-	    {
-		advectNormalStep(n, d, d0, u, v, dt, dt0, i, j);
-	    }
-	}
+        for(i=1 ; i<=n ; i++)
+        {
+            for(j=1 ; j<=n ; j++)
+            {
+                advectNormalStep(n, d, d0, u, v, dt, dt0, i, j);
+            }
+        }
     }
     else
     {
-	for(i=1 ; i<=n ; i++)
-	{
-	    for(j=1 ; j<=n ; j++)
-	    {
-		advectBoundaryStep(n, d, d0, u, v, dt, dt0, i, j);
-	    }
-	}
+        for(i=1 ; i<=n ; i++)
+        {
+            for(j=1 ; j<=n ; j++)
+            {
+                advectBoundaryStep(n, d, d0, u, v, dt, dt0, i, j);
+            }
+        }
     }
     setBnd(n, b, d);
 }
 /*
-void swap(float[] x, float[] y)
-{
-    float[] temp = x;
-    x = y;
-    y = temp;
-}
+  void swap(float[] x, float[] y)
+  {
+  float[] temp = x;
+  x = y;
+  y = temp;
+  }
 */
 
 /**
@@ -600,6 +602,20 @@ void drawPointOnScreen(float x, float y)
     vertex(x * width, y * height);
 }
 
+void colourFancy(float colour, float threshold)
+{
+    if(colour < threshold)
+    {
+	stroke(colour, 0, 0);
+	fill(colour, 0, 0);
+    }
+    else
+    {
+	stroke(colour, colour/2, 0);
+	fill(colour, colour/2, 0);
+    }
+}
+
 void drawDensity()
 {
     int i,j;
@@ -625,25 +641,58 @@ void drawDensity()
             d11 *= 255;
             d01 *= 255;
 
-	    beginShape(QUADS);
+            beginShape(QUADS);
 
-            stroke(d00, d00, d00);
-	    fill(d00, d00, d00);
+
+            float threshold = 200.0f;
+            if(fancyColours)
+            {
+		colourFancy(d00, threshold);
+            }
+            else
+            {
+                stroke(d00, d00, d00);
+                fill(d00, d00, d00);
+            }
             drawPointOnScreen(x, y);
 
-            stroke(d10, d10, d10);
-	    fill(d10, d10, d10);
+
+            if(fancyColours)
+            {
+		colourFancy(d10, threshold);
+            }
+            else
+            {
+                stroke(d10, d10, d10);
+                fill(d10, d10, d10);
+            }
             drawPointOnScreen(x+h, y);
 
-            stroke(d11,d11,d11);
-	    fill(d11, d11, d11);
+
+
+            if(fancyColours)
+            {
+		colourFancy(d11, threshold);
+            }
+            else
+            {
+                stroke(d11,d11,d11);
+                fill(d11, d11, d11);
+            }
             drawPointOnScreen(x+h, y+h);
 
-            stroke(d01,d01,d01);
-	    fill(d01, d01, d01);
+            if(fancyColours)
+            {
+		colourFancy(d01, threshold);
+            }
+            else
+            {
+                stroke(d01,d01,d01);
+                fill(d01, d01, d01);
+            }
             drawPointOnScreen(x, y+h);
 
-	    endShape();
+            endShape();
         }
     }
 }
@@ -651,7 +700,7 @@ void drawDensity()
 void drawLineOnScreen(float x1, float y1, float x2, float y2)
 {
     line(x1*width, y1*height,
-	 x2*width, y2*height);
+         x2*width, y2*height);
 }
 
 void drawVelocity()
@@ -670,9 +719,9 @@ void drawVelocity()
             y = (j-0.5f)*h;
 
             stroke(255);
-	    fill(255);
-	    
-	    drawLineOnScreen(x, y, x + u[IX(i,j)], y + v[IX(i,j)]);
+            fill(255);
+
+            drawLineOnScreen(x, y, x + u[IX(i,j)], y + v[IX(i,j)]);
         }
     }
 }
@@ -752,22 +801,26 @@ void mouseReleased()
 
 void keyPressed()
 {
-    if (key == 'c' || key == 'C') 
+    if (key == 'c' || key == 'C')
     {
-	clearData();
+        clearData();
     }
     if( key == 'v' || key == 'V')
     {
-	println("v pressed");
-	drawVel = ! drawVel;
+        println("v pressed");
+        drawVel = ! drawVel;
     }
     if( key == 'a' || key == 'A')
     {
-	advectNormalStep = ! advectNormalStep;
+        advectNormalStep = ! advectNormalStep;
     }
     if( key == 'o' || key == 'O')
     {
-	object_space = ! object_space;
+        object_space = ! object_space;
+    }
+    if( key == 'f' || key =='F')
+    {
+        fancyColours = ! fancyColours;
     }
 }
 
@@ -777,15 +830,15 @@ void draw()
     my = mouseY;
 
 /*
-    if(mouseButton == LEFT)
-    {
-        mLeftPressed = true;
-    }
-    else if (mouseButton == RIGHT)
-    {
-        mRightPressed = true;
-    }
-    */
+  if(mouseButton == LEFT)
+  {
+  mLeftPressed = true;
+  }
+  else if (mouseButton == RIGHT)
+  {
+  mRightPressed = true;
+  }
+*/
 
     getForcesFromUI(dens_prev, u_prev, v_prev);
     velStep(N, u, v, u_prev, v_prev, visc, dt);
@@ -797,16 +850,16 @@ void draw()
 
     if(drawVel)
     {
-	drawVelocity();
+        drawVelocity();
     }
     else
     {
-	drawDensity();
+        drawDensity();
     }
 
     if(object_space)
     {
-	drawObjects();
+        drawObjects();
     }
 }
 
