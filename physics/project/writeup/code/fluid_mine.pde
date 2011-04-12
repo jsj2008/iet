@@ -1,22 +1,3 @@
-import processing.core.*; 
-import processing.xml.*; 
-
-import java.applet.*; 
-import java.awt.Dimension; 
-import java.awt.Frame; 
-import java.awt.event.MouseEvent; 
-import java.awt.event.KeyEvent; 
-import java.awt.event.FocusEvent; 
-import java.awt.Image; 
-import java.io.*; 
-import java.net.*; 
-import java.text.*; 
-import java.util.*; 
-import java.util.zip.*; 
-import java.util.regex.*; 
-
-public class fluid_mine_2 extends PApplet {
-
 float videoScale;
 
 // Number of columns and rows in our system
@@ -56,12 +37,12 @@ boolean object_space = false;
 boolean fancyColours = true;
 
 //Helper function to get an element from a 1D array as if it were a 2D array
-public int IX(int i, int j)
+int IX(int i, int j)
 {
     return (i + ((N+2) * j));
 }
 
-public void clearData()
+void clearData()
 {
     int i;
     int sz = (N+2)*(N+2);
@@ -111,7 +92,7 @@ public void clearData()
 
 }
 
-public void setup() {
+void setup() {
     size(512,512, P3D);
     background(0);
 //    frameRate(30);
@@ -128,7 +109,7 @@ public void setup() {
     clearData();
 }
 
-public void drawRectangles()
+void drawRectangles()
 {
     // Begin loop for columns
     for (int i = 0; i < cols; i++) {
@@ -147,12 +128,12 @@ public void drawRectangles()
     }
 }
 
-public void drawSquare(float x, float y, float side)
+void drawSquare(float x, float y, float side)
 {
     rect(x*width,y*height,side*width,side*height);
 }
 
-public void drawObjects()
+void drawObjects()
 {
     stroke(0);
     fill(123);
@@ -176,7 +157,7 @@ public void drawObjects()
 /**
  * Sets boundary for diffusion. It is bound vertically and horizontally in a box.
  **/
-public void setBnd(int n, int b, float[] x)
+void setBnd(int n, int b, float[] x)
 {
     int i,j;
 
@@ -196,7 +177,7 @@ public void setBnd(int n, int b, float[] x)
                     x[IX(i,j)] += x[IX(i+1,j)];
                     x[IX(i,j)] -= x[IX(i+1,j+1)];
 
-                    x[IX(i,j)] *= 0.25f;
+                    x[IX(i,j)] *= 0.25;
                 }
             }
         }
@@ -257,7 +238,7 @@ public void setBnd(int n, int b, float[] x)
  * Add a source held in s to the density held in x.
  * dt is the timestep and n+2 is the row and col size.
  */
-public void addSource(int n, float[] x, float[] s, float dt)
+void addSource(int n, float[] x, float[] s, float dt)
 {
     int i;
     int sz = (n+2)*(n+2);
@@ -273,7 +254,7 @@ public void addSource(int n, float[] x, float[] s, float dt)
  * Diffusion at rate diff. Each cell will exchange density with direct neighbours.
  * Uses Gauss-Seidel relaxation.
  */
-public void diffuse(int n, int b,  float[] x, float[] x0, float diff, float dt)
+void diffuse(int n, int b,  float[] x, float[] x0, float diff, float dt)
 {
     int i, j, k;
     float a = dt * diff*n*n;
@@ -366,7 +347,7 @@ public void diffuse(int n, int b,  float[] x, float[] x0, float diff, float dt)
     }
 }
 
-public void advectBoundaryStep(int n,
+void advectBoundaryStep(int n,
                         float[] d,
                         float[] d0,
                         float[] u,
@@ -414,7 +395,7 @@ public void advectBoundaryStep(int n,
         s1 * (t0 * d0[IX(i1,j0)] + t1 * d0[IX(i1,j1)]);
 }
 
-public void advectNormalStep(int n,
+void advectNormalStep(int n,
                       float[] d,
                       float[] d0,
                       float[] u,
@@ -466,7 +447,7 @@ public void advectNormalStep(int n,
  * 3rd Step :
  * Calculating advections. This ensures that the density follows a given velocity field.
  **/
-public void advect(int n,
+void advect(int n,
             int b,
             float[] d,
             float[] d0,
@@ -512,7 +493,7 @@ public void advect(int n,
 /**
  * 1 step of the density solver.
  */
-public void densStep(int n, float[] x, float[] x0, float[] u, float[] v, float diff, float dt)
+void densStep(int n, float[] x, float[] x0, float[] u, float[] v, float diff, float dt)
 {
     addSource(n, x, x0, dt);
     float[] temp = x0;
@@ -530,7 +511,7 @@ public void densStep(int n, float[] x, float[] x0, float[] u, float[] v, float d
 /**
  * 1 step of the velocity solver.
  */
-public void velStep( int n,
+void velStep( int n,
               float[] u,
               float[] v,
               float[] u0,
@@ -571,14 +552,14 @@ public void velStep( int n,
     project(n, u, v, u0, v0);
 }
 
-public void project(int n,
+void project(int n,
              float[] u,
              float[] v,
              float[] p,
              float[] div)
 {
     int i,j,k;
-    float h = 1.0f/n;
+    float h = 1.0/n;
     for(i=1; i<=n ;i++)
     {
         for(j=1;j<=n;j++)
@@ -616,12 +597,12 @@ public void project(int n,
     setBnd(n, 2, v);
 }
 
-public void drawPointOnScreen(float x, float y)
+void drawPointOnScreen(float x, float y)
 {
     vertex(x * width, y * height);
 }
 
-public void colourFancy(float colour, float threshold)
+void colourFancy(float colour, float threshold)
 {
     if(colour < threshold)
     {
@@ -635,7 +616,7 @@ public void colourFancy(float colour, float threshold)
     }
 }
 
-public void drawDensity()
+void drawDensity()
 {
     int i,j;
     float x, y, h, d00, d01, d10, d11;
@@ -716,13 +697,13 @@ public void drawDensity()
     }
 }
 
-public void drawLineOnScreen(float x1, float y1, float x2, float y2)
+void drawLineOnScreen(float x1, float y1, float x2, float y2)
 {
     line(x1*width, y1*height,
          x2*width, y2*height);
 }
 
-public void drawVelocity()
+void drawVelocity()
 {
     int i,j;
     float x, y, h;
@@ -745,7 +726,7 @@ public void drawVelocity()
     }
 }
 
-public void getForcesFromUI(float[] d, float[] u, float[] v)
+void getForcesFromUI(float[] d, float[] u, float[] v)
 {
     int i, j;
     int size = (N+2)*(N+2);
@@ -786,7 +767,7 @@ public void getForcesFromUI(float[] d, float[] u, float[] v)
     omy = my;
 }
 
-public void mousePressed() {
+void mousePressed() {
     mousePressed = true;
 
     omx = mouseX;
@@ -804,7 +785,7 @@ public void mousePressed() {
     }
 }
 
-public void mouseReleased()
+void mouseReleased()
 {
     mousePressed = false;
 
@@ -818,7 +799,7 @@ public void mouseReleased()
     }
 }
 
-public void keyPressed()
+void keyPressed()
 {
     if (key == 'c' || key == 'C')
     {
@@ -843,7 +824,7 @@ public void keyPressed()
     }
 }
 
-public void draw()
+void draw()
 {
     mx = mouseX;
     my = mouseY;
@@ -883,7 +864,3 @@ public void draw()
 }
 
 
-  static public void main(String args[]) {
-    PApplet.main(new String[] { "--bgcolor=#DFDFDF", "fluid_mine_2" });
-  }
-}

@@ -1,0 +1,83 @@
+\section{Background}
+This section will describe the \emph{Navier-Stokes} equations and the implementation of the stable solver.
+A fluid is described by a velocity field $ u $ and a pressure field $ p $. 
+The spatial coordinate will be denoted by $ x $ which will be a 2D or 3D vector, depending on the dimensionality of the implementation.
+The demo implemented uses 2D vectors for all quantities but it can easily be generalised to 3 dimensions.
+We assume that the velocity and the pressure are known at time $ t=0 $ and the evolution of these quantities over time is given by the \emph{Navier-Stokes} equations:
+\begin{equation}
+  \nabla \cdot u = 0
+\end{equation}
+\begin{equation}
+  \label{eq2}
+  \frac{\partial u}{\partial t} = -(u \cdot \nabla)u - \frac{1}{\rho} \nabla p + v \nabla^{2}u + f
+\end{equation}
+where v is the kinematic viscosity of the fluid, $\rho$ is its density, $f$ is an external force, $\nabla$ is the vector of spatial partial derivatives(e.g in two dimensions $\nabla = (\frac{\partial}{\partial x}, \frac{\partial}{\partial y}$).
+These equations assume that mass and momentum are conserved.
+Boundary conditions will be used to supplement these equations.
+We consider 2 boundary conditions, 1 fixed where walls prevent the fluid from escaping, and 1 periodic, where the fluid wraps around.
+
+The implementation of the fluid solver by Stam uses a modification on the above equation, using a mathematical result known as the \emph{Helmholtz-Hodge Decomposition} which states that any vector field $w$ can be uniquely decomposed into the form:
+\begin{equation}
+w = u + \nabla q
+\end{equation}
+where $u$ has zero divergence. This allows us to define an operator $P$ which projects any vector field $w$ onto its divergence free part $u = Pw$:
+\begin{equation}
+\label{eq4}
+\nabla \cdot w = \nabla^{2}q
+\end{equation}
+A solution to this equation is used to compute the projection $u$:
+\begin{equation}
+u = P w = w - \nabla q
+\end{equation}
+which we can apply to both sides of Eq.~\ref{eq2} to obtain a single equation for velocity:
+\begin{equation}
+  \label{eq5}
+  \frac{\partial u}{\partial t} = P(-(u \cdot \nabla)u + v \nabla^{2}u + f)
+\end{equation}
+which is the fundamental equation used to develop the stable fluid solver.
+
+Eq.~\ref{eq5} is solved from the initial state $u_0 = u(x,0)$ by iteratively progressing time by a time step $\Delta t$.
+At every step we have the solution to the equation at time $t$ and wish to compute it at the next time interval $t + \Delta t$.
+The equation is solved in 4 steps:
+\begin{enumerate}
+\item $w_{0} \to w_{1}$ : Add force
+\item $w_1 \to w_2$ : Advect
+\item $w_2 \to w_3$ : Diffuse
+\item $w_3 \to w_4$ : Project
+\end{enumerate}
+Where the solution is given by the last velocity field, $w_4$.
+The first term is the addition of the external force which is defined as:
+\begin{equation}
+w_1(x)=w_0(x) + \Delta t f(x,t)
+\end{equation}
+
+The next term accounts for the effects of advection, also known as convection.
+This accounts for the subexpression $ -(u \cdot \nabla)u $ from Eq.~\ref{eq5}.
+The method used to solve this part of the equation is known as the \emph{method of characteristics} and is detailed by Pironneau~\cite{pironneau2000method} and is also explained by Stam as an appendix~\cite{DBLP:conf/siggraph/Stam99a}.
+The core concept is that instead of working forwards in time, we try to work backwards.
+In order to obtain the velocity of the point $x$ at the new time $t + \Delta t$ we backtrace the point $x$ through the velocity field $w_1$ over a time $\Delta t$. 
+This defines a path $p(x, s)$ which corresponds to a partial streamline through the velocity field.
+The new velocity at the point $x$ is then set to the velocity that the particle had $\Delta t$ ago:
+\begin{equation}
+w_2(x) = w_1(p(x, - \Delta t))
+\end{equation}
+
+The third term accounts for the effect of viscosity and is equivalent to a diffusion equation:
+\begin{equation}
+\frac{\partial w_2}{\partial t} = v \nabla^2 w_2
+\end{equation}
+which is solved using an implicit method:
+\begin{equation}
+(I-v \Delta t \nabla^2) w_3(x) = w_2(x)
+\end{equation}
+
+The fourth step involves the projection step which makes the resulting field divergence free.
+This involves resolving Eq.~\ref{eq4}:
+\begin{equation}
+\nabla^2q = \nabla \cdot w_3 , w_4 = w_3 - \nabla q
+\end{equation}
+This is solved again using the method of characteristics.
+
+The algorithm described in this section has performance $O(N)$ where $N$ is the size of the input grid.
+The above description uses the method of characteristics to solve the equations.
+We will now focus on the implementation of a more modern fluid solver which uses Gauss-Seidel relaxation as an iterative solver instead.

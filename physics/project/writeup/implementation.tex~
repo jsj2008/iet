@@ -1,0 +1,21 @@
+\section{Demo Implementation}
+The implementation of the fluid solver demo created for this project is based primarily on Stam's later work on fluid dynamics for games~\cite{stam2003real}.
+This paper gives a more practical implementation of the solver described by Stam.
+This uses a concept known as smoke density, which can easily be visualised. 
+This is a grid between zero and one, where zero indicates that no smoke is present and one indicates that it is consumed with smoke.
+The demo uses this density function to visualise smoke in the scene. 
+
+It was decided to focus on creating a 2D scene which used Stam's fluid equations to create smoke like effects.
+The domain is limited to a square, as done by Stam~\cite{stam2003real}.
+This square is of length $N+2$ as the extreme grid cells are used to either prevent smoke from leaving the box, or wrapping the smoke around in on itself and have to be treated specially.
+
+\begin{figure}
+  \caption{The 2D environment broken into an $(N+2) * (N+2)$ grid.}
+  \centering
+    \includegraphics[width=0.5\textwidth]{images/grid}
+\end{figure}
+
+The velocity and the density at each grid cell is constant.
+The velocity and densities are stored in 1D arrays for efficiency reasons.
+The arrays are of length $size = (N+2) * (N+2)$ and array elements are accessed using the function:
+\lstinputlisting[caption=Array index function]{code/ix.java}
