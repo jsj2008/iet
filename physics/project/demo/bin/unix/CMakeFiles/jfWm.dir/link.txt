@@ -1,2 +1,0 @@
-/usr/bin/ar cr libjfWm.a  CMakeFiles/jfWm.dir/jfwm/jfSDLWindow.cpp.o CMakeFiles/jfWm.dir/jfwm/jfSDLWindowManager.cpp.o CMakeFiles/jfWm.dir/jfwm/jfWindow.cpp.o
-/usr/bin/ranlib libjfWm.a

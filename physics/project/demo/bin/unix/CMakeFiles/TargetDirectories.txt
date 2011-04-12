@@ -1,4 +1,0 @@
-/mnt/data/code/iet/git/iet/physics/project/demo/bin/unix/CMakeFiles/jfAlgebra.dir
-/mnt/data/code/iet/git/iet/physics/project/demo/bin/unix/CMakeFiles/jfFluid_demo.dir
-/mnt/data/code/iet/git/iet/physics/project/demo/bin/unix/CMakeFiles/jfModel.dir
-/mnt/data/code/iet/git/iet/physics/project/demo/bin/unix/CMakeFiles/jfWm.dir

@@ -1,2 +1,0 @@
-/usr/bin/ar cr libjfAlgebra.a  CMakeFiles/jfAlgebra.dir/jfAlgebra/jfPoint3.cpp.o CMakeFiles/jfAlgebra.dir/jfAlgebra/jfVector3.cpp.o
-/usr/bin/ranlib libjfAlgebra.a
