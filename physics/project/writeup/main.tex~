@@ -1,0 +1,112 @@
+\documentclass{acmtog}
+
+
+
+\acmVolume{VV}
+\acmNumber{N}
+\acmYear{YYYY}
+\acmMonth{Month}
+\acmArticleNum{XXX}  
+\acmdoi{10.1145/XXXXXXX.YYYYYYY}
+
+%\acmVolume{28}
+%\acmNumber{4}
+%\acmYear{2010}
+%\acmMonth{December}
+%\acmArticleNum{106}  
+%\acmdoi{10.1145/1559755.1559763}
+
+\usepackage{listings}
+
+\usepackage{subfig}
+\usepackage{verbatim}
+\usepackage{enumerate}
+
+\usepackage{listings}
+\usepackage{courier}
+\lstset{
+  basicstyle=\footnotesize\ttfamily, % Standardschrift
+  %numbers=left,               % Ort der Zeilennummern
+  numberstyle=\tiny,          % Stil der Zeilennummern
+  %stepnumber=2,               % Abstand zwischen den Zeilennummern
+  numbersep=5pt,              % Abstand der Nummern zum Text
+  tabsize=2,                  % Groesse von Tabs
+  extendedchars=true,         %
+  breaklines=true,            % Zeilen werden Umgebrochen
+  keywordstyle=\color{red},
+  frame=b,         
+  %        keywordstyle=[1]\textbf,    % Stil der Keywords
+  %        keywordstyle=[2]\textbf,    %
+  %        keywordstyle=[3]\textbf,    %
+  %        keywordstyle=[4]\textbf,   \sqrt{\sqrt{}} %
+  stringstyle=\color{white}\ttfamily, % Farbe der String
+  showspaces=false,           % Leerzeichen anzeigen ?
+  showtabs=false,             % Tabs anzeigen ?
+  xleftmargin=17pt,
+  framexleftmargin=17pt,
+  framexrightmargin=5pt,
+  framexbottommargin=4pt,
+  %backgroundcolor=\color{lightgray},
+  showstringspaces=false      % Leerzeichen in Strings anzeigen ?        
+ }
+ \lstloadlanguages{% Check Dokumentation for further languages ...
+   %[Visual]Basic
+   %Pascal
+   %C
+   %C++
+   %XML
+   %HTML
+   Java
+ }
+    %\DeclareCaptionFont{blue}{\color{blue}} 
+
+  %\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+
+\begin{document}
+%\large
+
+%\markboth{V. F. Pamplona et al.}{Photorealistic Models for Pupil Light Reflex and Iridal Pattern Deformation}
+
+\title{Stable Fluids Paper Review and Demo Implementation} % title
+
+\author{Jonathan Frawley
+\affil{University of Dublin, Trinity College}
+Original Paper by:\\
+Jos Stam
+\affil{Ulm University, Germany}
+}
+
+%\category{I.3.7}{Computer Graphics}{Three-Dimensional Graphics and Realism}[Photorealistic Rendering]
+%\category{I.3.5}{Computer Graphics}{Computational Geometry and Object Modeling}[Physically based modeling]
+
+\terms{Global Illumination, ray tracing}
+
+\keywords{Ray tracing, photorealism}
+
+%\acmformat{Pamplona, V. F., Oliveira, M. M., and Baranoski, G. V. G. 2009. Photorealistic models for pupil light
+%reflex and iridal pattern deformation.  {ACM Trans. Graph.} 28, 4, Article 106 (August 2009), 11 pages.\newline  DOI $=$
+%10.1145/1559755.1559763\newline http://doi.acm.org/10.1145/1559755.1559763}
+
+\maketitle
+
+\begin{abstract} 
+The paper reviewed presents a simulator capable of creating fluid-like behaviour in a real-time fashion.
+An implementation of the paper was created in the Processing programming language which simulates fluids in the same manner as is done in the paper.
+\end{abstract}
+
+\input{intro}
+\input{background}
+\input{implementation}
+\input{conclusion}
+
+\bibliographystyle{acmtog}
+\bibliography{main}
+
+\received{December 2010}{December 2010}
+
+\end{document}

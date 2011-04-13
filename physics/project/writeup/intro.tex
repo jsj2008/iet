@@ -1,0 +1,27 @@
+\section{Introduction}
+Simulating fluids is an important problem in computer graphics. 
+Physical models of fluids allow for very convincing simulations to be created.
+It was thought that simulating the physical models of fluids was too complex for real time applications.
+The solver presented by Stam~\cite{DBLP:conf/siggraph/Stam99a} however allows for the stable physical simulation of fluids in real time.
+The stability of the model is integral to its ability to be simulated in real-time, as previous techniques typically used unstable methods to solve the equations governing a fluid.
+This stability allows the user to take larger time steps and achieve faster simulations without compromising the stability of the system.
+
+The solver presented uses the \emph{Navier-Stokes} equations to simulate fluid flow.
+Fluid solvers in computer graphics typically weight real-time interactivity higher than strict physical accuracy, which engineering-type applications would be interested in.
+Most computer graphics applications tended to use simple primitives such as particles~\cite{Reeves83particlesystems}.
+The complexity of such simulations was increased with the introduction of random turbulences~\cite{Chen97real-timefluid}.
+These exhibit rotational motion and are mass conserving. 
+However flows built up from a superposition of flow primitives will not react dynamically to forces applied by the user in real-time as we desire.
+
+Models which use the \emph{Navier-Stokes} equations first were implemented in 2-dimensions.
+Gamito et al. used a vortex method with a poisson solver to create two-dimensional animations of fluids~\cite{Gamito95two-dimensionalsimulation}.
+Chen et al. later animated water surfacts from the pressure term given by the \emph{Navier-Stokes} equations~\cite{Chen97real-timefluid}.
+These methods of solving Navier-Stokes is both unstable and limited to two dimensions. 
+Many effects arise from using the full \emph{Navier-Stokes} equations such as swirling motion and flows past objects.
+Explicit solvers for the \emph{Navier-Stokes} equations were created by Foster and Metaxas~\cite{Foster97modelingthe} but have the disadvantage of being unstable for large time steps.
+This instability sets limits on the speed and interactivity of these simulations, where a user might have to restart the simulation if it ``blows up'' unexpectedly.
+
+The method created by Stam is both stable and uses the three dimensional form of the \emph{Navier-Stokes} equations.
+It is able to use timesteps which are much larger than that of Foster and Metaxas and thus is able to achieve real-time speed.
+The method uses Lagrangian and implicit methods to solve the \emph{Navier-Stokes} equations over the Eulerian techniques previously used.
+The model presented is not accurate enough for engineering applications as it suffers from ``numerical dissipation'' but it is ideal for real time applications where the user is repeatedly applying new forces.

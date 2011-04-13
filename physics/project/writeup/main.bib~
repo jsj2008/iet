@@ -1,0 +1,307 @@
+@article{BCHH:Collewijn:1988,
+ author = "H. Collewign and C. J. Erkelens and R. M. Steinman",
+ title = "Binocular co-ordination of human horizontal saccadic eye movements",
+ journal = "Journal of Physiology",
+ volume = "404",
+ pages = "157--182",
+ year = "1988",
+ month = "oct",
+}
+
+@article{BDDG-03,
+	author					= {P. Baudisch and D. DeCarlo and A. Duchowski and W. Geisler},
+ 	title 					= {Focusing on the essential: considering attention in display design},
+ 	journal 				= {Commun. ACM},
+ 	volume 					= {46},
+ 	number 					= {3},
+ 	year 						= {2003},
+ 	issn 						= {0001-0782},
+ 	pages 					= {60--66},
+ 	doi 						= {http://doi.acm.org/10.1145/636772.636799},
+ 	publisher 			= {ACM Press},
+ 	address 				= {New York, NY, USA},
+}
+
+@article{Dod-1900,
+ 	author					= "R. Dodge",
+ 	title         	= "Visual perception during eye movement",
+ 	journal       	= "Psychological Review",
+ 	year          	= "1900",
+ 	volume					= "7",
+ 	number        	= "",
+ 	pages         	= "454-465",
+ 	month         	= "",
+ 	note          	= ""
+} 
+
+@article{DC-1901,
+ 	author        	= "R. Dodge and T. S. Cline",
+ 	title         	= "The angle velocity of eye movements",
+ 	journal       	= "Psychological Review",
+ 	year          	= "1901",
+ 	volume        	= "8",
+ 	number        	= "",
+ 	pages         	= "145-157",
+ 	month         	= "",
+ 	note          	= ""
+}
+
+@inproceedings{DS-02,
+ 	author 					= {D. DeCarlo and A. Santella},
+ 	title 					= {Stylization and abstraction of photographs},
+ 	booktitle 			= {SIGGRAPH '02: Proceedings of the 29th annual conference on Computer graphics and interactive techniques},
+ 	year 						= {2002},
+ 	isbn 						= {1-58113-521-1},
+ 	pages 					= {769--776},
+ 	location 				= {San Antonio, Texas},
+ 	doi 						= {http://doi.acm.org/10.1145/566570.566650},
+ 	publisher 			= {ACM Press},
+ 	address 				= {New York, NY, USA},
+}        
+  
+@article{CDFKMS-06,
+  author					= "Forrester Cole and Doug DeCarlo and Adam Finkelstein and Kenrick Kin and Keith Morley and Anthony Santella",
+  title 					= "Directing Gaze in {3D} Models with Stylized Focus",
+  journal 				= "Eurographics Symposium on Rendering",
+  year 						= "2006",
+  month 					= jun,
+  pages 					= "377--387"
+}
+
+@inbook{GPMBH-2005,
+  author 					= {Gajewski, D. A. and Pearson, A. and Mack, M. L. and Bartlett III, F. N. and Henderson, J. M. },
+  editor        	= "",
+  title        		= "Lecture Notes in Computer Science",
+  chapter       	= "Human Gaze Control in Real World Search",
+  pages         	= "83-99",
+  publisher     	= "Springer Berlin - Heidelberg",
+  year          	= "2005",
+  volume        	= "3368/2005",
+  number        	= "",
+  series        	= "",
+  type          	= "",
+  address       	= "",
+  edition       	= "",
+  month         	= "",
+  note          	= ""
+}
+
+@article{BLR-2007,
+  author        	= "Bahador Bahrami and Nilli Lavie and Geraint Rees",
+  title        		= "Attentional Load Modulates Responses of Human Primary Visual Cortex to Invisible Stimuli",
+  journal       	= "Current Biology",
+  year          	= "2007",
+  volume        	= "17",
+  number        	= "6",
+  pages         	= "509-513",
+  month         	= "March",
+  note          	= ""
+}
+
+@article{Duc-2002,
+	author 				= {Duchowski, A. T. },
+	journal 			= {Behav Res Methods Instrum Comput},
+	month 				= {November},
+	number 				= {4},
+	pages 				= {455--470},
+	title 				= {A breadth-first survey of eye-tracking applications.},
+	volume 				= {34},
+	year 					= {2002}
+}
+
+@misc{google,
+  author        = "{Google Inc.}",
+  title         = "Google\textsuperscript{\texttrademark} {I}mage {S}earch",
+  howpublished  = "",
+  month         = "",
+  year          = "",
+  note          = "http://images.google.com/"
+}
+
+@book{Dutre:2002:AGI:863241,
+ author = {Dutre, Philip and Bala, Kavita and Bekaert, Philippe},
+ title = {Advanced Global Illumination},
+ year = {2002},
+ isbn = {1568811772},
+ publisher = {A. K. Peters, Ltd.},
+ address = {Natick, MA, USA},
+} 
+
+@MISC{Szirmay-Kalos00monte-carlomethods,
+    author = {László Szirmay-Kalos},
+    title = {Monte-Carlo Methods In Global Illumination},
+    year = {2000}
+}
+
+@MISC{ScottOwen:Misc,
+  author = {Owen, Scott},
+  title = {Ray Tracing},
+  month = dec,
+  year = {2010},
+  howpublished = "\url{http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtillumi.htm}"
+}
+
+@MISC{Fischer:Misc,
+  author = {Fischer, Sabine},
+  title = {Raytracing Diamonds},
+  month = dec,
+  year = {2010},
+  howpublished = "\url{http://www.mpi-inf.mpg.de/departments/irg3/ws0304/lcn/projects/Sabine/index.html}"
+}
+
+@article{Cook:1987:RIR:37402.37414,
+ author = {Cook, Robert L. and Carpenter, Loren and Catmull, Edwin},
+ title = {The Reyes image rendering architecture},
+ journal = {SIGGRAPH Comput. Graph.},
+ volume = {21},
+ issue = {4},
+ month = {August},
+ year = {1987},
+ issn = {0097-8930},
+ pages = {95--102},
+ numpages = {8},
+ url = {http://doi.acm.org/10.1145/37402.37414},
+ doi = {http://doi.acm.org/10.1145/37402.37414},
+ acmid = {37414},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+
+@article{Dammertz:2010,
+	author = {Dammertz, Holger and Sewtz, Daniel and Hanika, Johannes and Lensch, Hendrik P.A.},
+	title = {Edge-Avoiding '{A}-Trous Wavelet Transform for fast Global Illumination Filtering},
+	journal = {High Performance Graphics},
+	year = {2010},
+}
+
+@MISC{Vandevenne:Misc,
+  author = {Vandevenne, Lode},
+  title = {Image Filtering},
+  month = dec,
+  year = {2010},
+  howpublished = "\url{http://www.student.kuleuven.be/~m0216922/CG/filtering.html#Convolution}"
+}
+
+@MISC{Graps:Misc,
+  author = {Graps,Amara},
+  title = {Wavelet Overview},
+  month = dec,
+  year = {2010},
+  howpublished = "\url{http://www.amara.com/IEEEwave/IW_history.html}"
+}
+
+@MISC{Piurica:Misc,
+  author = {Piurica, Aleksandra},
+  title = {A Bayesian formulation of edge-stopping functions in nonlinear diffusion},
+  month = feb,
+  year = {2006},
+  howpublished = "\url{http://telin.ugent.be/~sanja/Papers/ProbDiffusionSPL06.pdf}"
+}
+
+
+@MISC{Zhang:Misc,
+  author = {Zhang, Xiaodong and Li, Deren},
+  title = {\'{A} Trous Wavelet Decomposition Applied to Image Edge Detection},
+  month = dec,
+  year = {2001},
+  howpublished = "\url{http://www.iseis.cuhk.edu.hk/downloads/full_paper/2001-119-123.pdf}"
+}
+
+@MISC{Hargreaves:Misc,
+  author = {Hargreaves, Shawn},
+  title = {Deferred Shading},
+  month = dec,
+  year = {2004},
+  howpublished = "\url{http://read.pudn.com/downloads160/sourcecode/game/724029/DeferredShading.pdf}"
+}
+
+@MISC{ibiblio:Misc,
+  author = {Ibilio},
+  title = {Bezier spline curves},
+  month = dec,
+  year = {2010},
+  howpublished = "\url{http://www.ibiblio.org/e-notes/Splines/Bezier.htm}"
+}
+
+
+@book{mallat09wavelet,
+    author = {Mallat, Stephane},
+    citeulike-article-id = {3974506},
+    citeulike-linkout-0 = {http://www.amazon.ca/exec/obidos/redirect?tag=citeulike09-20\&amp;path=ASIN/0123743702},
+    citeulike-linkout-1 = {http://www.amazon.de/exec/obidos/redirect?tag=citeulike01-21\&amp;path=ASIN/0123743702},
+    citeulike-linkout-2 = {http://www.amazon.fr/exec/obidos/redirect?tag=citeulike06-21\&amp;path=ASIN/0123743702},
+    citeulike-linkout-3 = {http://www.amazon.jp/exec/obidos/ASIN/0123743702},
+    citeulike-linkout-4 = {http://www.amazon.co.uk/exec/obidos/ASIN/0123743702/citeulike00-21},
+    citeulike-linkout-5 = {http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/0123743702},
+    citeulike-linkout-6 = {http://www.worldcat.org/isbn/0123743702},
+    citeulike-linkout-7 = {http://books.google.com/books?vid=ISBN0123743702},
+    citeulike-linkout-8 = {http://www.amazon.com/gp/search?keywords=0123743702\&index=books\&linkCode=qs},
+    citeulike-linkout-9 = {http://www.librarything.com/isbn/0123743702},
+    day = {25},
+    edition = {3},
+    howpublished = {Hardcover},
+    isbn = {0123743702},
+    month = {December},
+    posted-at = {2009-06-05 15:14:42},
+    priority = {2},
+    publisher = {Academic Press},
+    title = {{A Wavelet Tour of Signal Processing, 3rd ed., Third Edition: The Sparse Way}},
+    url = {http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/0123743702},
+    year = {2008}
+}
+
+@inproceedings{DBLP:conf/siggraph/Stam99a,
+  author    = {Jos Stam},
+  title     = {Stable Fluids},
+  booktitle = {SIGGRAPH},
+  year      = {1999},
+  pages     = {121-128},
+  ee        = {http://doi.acm.org/10.1145/311535.311548},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@ARTICLE{Reeves83particlesystems,
+    author = {William T. Reeves},
+    title = {Particle Systems - A Technique for Modeling a Class of Fuzzy Objects},
+    journal = {ACM Transactions on Graphics},
+    year = {1983},
+    volume = {2},
+    pages = {359--376}
+}
+
+@MISC{Chen97real-timefluid,
+    author = {Jim X. Chen and Niels da Vitoria Lobo and Charles E. Hughes and J. Micheal Moshell},
+    title = {Real-Time Fluid Simulation in a Dynamic Virtual Environment},
+    year = {1997}
+}
+
+@INPROCEEDINGS{Gamito95two-dimensionalsimulation,
+    author = {Manuel Noronha Gamito and Pedro Faria Lopes and Mario Rui Gomes},
+    title = {Two-Dimensional Simulation of Gaseous Phenomena Using Vortex Particles},
+    booktitle = {In Proceedings of the 6th Eurographics Workshop on Computer Animation and Simulation},
+    year = {1995},
+    pages = {3--15},
+    publisher = {Springer-Verlag}
+}
+
+@MISC{Foster97modelingthe,
+    author = {Nick Foster and Dimitris Metaxas},
+    title = {Modeling the Motion of a Hot, Turbulent Gas},
+    year = {1997}
+}
+
+@article{pironneau2000method,
+  title={{The method of characteristics with gradients and integrals}},
+  author={Pironneau, O.},
+  journal={Proc. Euro Days},
+  year={2000}
+}
+
+@conference{stam2003real,
+  title={{Real-time fluid dynamics for games}},
+  author={Stam, J.},
+  booktitle={Proceedings of the Game Developer Conference},
+  volume={18},
+  year={2003},
+  organization={Citeseer}
+}

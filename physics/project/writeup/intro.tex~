@@ -1,0 +1,46 @@
+\section{Introduction}
+\begin{figure*}
+\centering
+\includegraphics[width=1\textwidth]{images/top}              
+  \caption{Three images generated in real time using a standard monte carlo based ray tracer and the \'{A}-Trous filter presented in the paper.
+On the left is the noisy output from the ray tracer and on the right is the output from the \'{A}-Trous filter presented in the paper.
+}
+\end{figure*}
+
+This paper covers many different aspects of computer graphics.
+Global illumination is becoming the de facto standard light transport model.
+This paper is an attempt to try and generate global illuminated images in real time.
+
+This review will cover the background needed to understand and critique the paper.
+This section will cover the general problem statement that the paper addresses.
+Section~\ref{sec:background} goes into the detail on the background needed to understand the key concepts of the paper and the problem being addressed.
+The review will then explain the filter's implementation in Section~\ref{sec:implemenation}.
+Following from this, an analysis of the paper's results will be made in Section~\ref{sec:results}.
+Finally a conclusion will be made on the paper in Section~\ref{sec:conclusion}.
+\subsection{Problem Statement}
+Monte Carlo global illumination has become one of the standard techniques for simulating light transport in computer graphics.
+These methods involve random path sampling to solve the integral in the rendering equation.
+To achieve a smooth image using this technique, typically hundreds of paths would be sampled.
+However it is only feasible to complete a few paths in the time allowed for interactive applications.
+
+The result of an image with only a few paths traced contains noise from the untraced sections of the image as shown in Figure~\ref{fig:noisy}.
+To achieve a smooth image, neighbouring pixels can be combined into an estimate of the colour of a pixel.
+
+Edge avoiding wavelets are ideal for being able to efficiently filter such samples.
+These are described in more detail in Section~\ref{sec:wavelets}.
+
+However, edge avoiding wavelet filters require a good edge stopping function.
+Since not all images will be suited to the same edge stopping function, the solution presented combines a number of edge stopping functions to filter the ray traced image.
+This edge stopping function is described in Section~\ref{sec:edgestopping}.
+
+The edge avoiding wavelets are used with the \`{A}-Trous algorithm to provide the filter implemented.
+The \`{A}-Trous algorithm is described in Section~\ref{sec:atrous}.
+
+This is then combined with a standard CPU based ray tracer which makes a small number of samples per pixel to generate globablly illuminated images at interactive rates.
+
+\begin{figure}[h!]
+	\caption{Noisy output from a ray traced image with few samples per pixel}
+	\centering
+    \includegraphics[width=0.3\textwidth]{images/noisy_image}
+	\label{fig:noisy}
+\end{figure}
