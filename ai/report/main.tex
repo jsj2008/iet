@@ -9,6 +9,60 @@
 \usepackage{chngpage}
 \usepackage{soul,color}
 \usepackage{graphicx,float,wrapfig}
+\usepackage{verbatim}
+
+
+
+\usepackage{courier}
+
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+
+
+ \lstset{
+         basicstyle=\footnotesize\ttfamily, % Standardschrift
+         %numbers=left,               % Ort der Zeilennummern
+         numberstyle=\tiny,          % Stil der Zeilennummern
+         %stepnumber=2,               % Abstand zwischen den Zeilennummern
+         numbersep=5pt,              % Abstand der Nummern zum Text
+         tabsize=2,                  % Groesse von Tabs
+         extendedchars=true,         %
+         breaklines=true,            % Zeilen werden Umgebrochen
+         keywordstyle=\color{red},
+    		frame=b,         
+ %        keywordstyle=[1]\textbf,    % Stil der Keywords
+ %        keywordstyle=[2]\textbf,    %
+ %        keywordstyle=[3]\textbf,    %
+ %        keywordstyle=[4]\textbf,   \sqrt{\sqrt{}} %
+         stringstyle=\color{white}\ttfamily, % Farbe der String
+         showspaces=false,           % Leerzeichen anzeigen ?
+         showtabs=false,             % Tabs anzeigen ?
+         xleftmargin=17pt,
+         framexleftmargin=17pt,
+         framexrightmargin=5pt,
+         framexbottommargin=4pt,
+         %backgroundcolor=\color{lightgray},
+         showstringspaces=false      % Leerzeichen in Strings anzeigen ?        
+ }
+ \lstloadlanguages{% Check Dokumentation for further languages ...
+         %[Visual]Basic
+         %Pascal
+         %C
+         %C++
+         %XML
+         %HTML
+         Java
+ }
+
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+%\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
+
+
 
 % In case you need to adjust margins:
 \topmargin=-0.45in      %
@@ -19,12 +73,12 @@
 \headsep=0.25in         %
 
 % Homework Specific Information
-\newcommand{\hmwkTitle}{}
-\newcommand{\hmwkDueDate}{}
-\newcommand{\hmwkClass}{}
-\newcommand{\hmwkClassTime}{}
-\newcommand{\hmwkClassInstructor}{}
-\newcommand{\hmwkAuthorName}{}
+\newcommand{\hmwkTitle}{AI\ Toolkit\ Project}
+\newcommand{\hmwkDueDate}{Friday,\ April\ 15,\ 2011}
+\newcommand{\hmwkClass}{CS\ 7056}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassInstructor}{Dr\ Mads\ Haahr}
+\newcommand{\hmwkAuthorName}{Jonathan\ Frawley}
 
 % Setup the header and footer
 \pagestyle{fancy}                                                       %
@@ -125,41 +179,429 @@
 % Uncomment the \setcounter line as well if you do NOT want subsections
 %       listed in Contents
 %\setcounter{tocdepth}{1}
-%\tableofcontents
-%\newpage
+\tableofcontents
+\newpage
 
 % When problems are long, it may be desirable to put a \newpage or a
 % \clearpage before each homeworkProblem environment
 
 \clearpage
+
+\input{lab1}
+\input{lab2}
+\input{lab3}
+\input{lab4}
+
+\begin{comment}
 \begin{homeworkProblem}
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed
+aliquam dolor eu mi. Quisque porttitor. In at tortor. Vestibulum
+ante ipsum primis in faucibus orci luctus et ultrices posuere
+cubilia Curae; Suspendisse et purus in mauris auctor ullamcorper.
+Nunc sed tellus. Donec fringilla egestas magna. Proin arcu libero,
+auctor vel, sollicitudin eu, tempus in, orci. Sed pharetra eros ut
+nunc. Phasellus congue mauris nec velit. Praesent wisi felis, mollis
+non, vehicula nec, porttitor a, ligula. Maecenas dictum aliquet
+erat. Ut aliquam, lorem quis convallis molestie, dolor nunc ultrices
+arcu, et volutpat dui justo varius ipsum. Vivamus nunc eros,
+eleifend a, tincidunt vitae, tristique eget, ante. Ut enim quam,
+luctus eu, dictum id, pellentesque sit amet, nulla. Nulla at lectus.
+In hac habitasse platea dictumst. Nunc sit amet augue eu leo
+vestibulum viverra. Vestibulum quis dui sed quam porttitor
+convallis. Nulla vitae magna.\\
+
+\problemAnswer{Ut vel nibh. Nunc fringilla erat id tortor. In vel
+mauris at wisi imperdiet molestie. Mauris tincidunt interdum tortor.
+Nam dignissim aliquam nibh. Morbi sed neque. Sed aliquet, tortor at
+rhoncus vulputate, mi urna dictum elit, sed feugiat ligula lectus
+vitae risus. Pellentesque lacus. Suspendisse eget leo. Lorem ipsum
+dolor sit amet, consectetuer adipiscing elit. Fusce venenatis est
+pretium est accumsan condimentum.}
 \end{homeworkProblem}
+
+\begin{homeworkProblem}
+Aenean lacinia lacus eget tortor. Praesent interdum. Mauris at
+dolor. Sed a dui et augue aliquam porta. Vestibulum eu velit ac
+tortor ornare rutrum. Donec rhoncus lectus quis mi. Nam vehicula
+nonummy ligula. Nulla bibendum. Pellentesque habitant morbi
+tristique senectus et netus et malesuada fames ac turpis egestas.
+Aliquam justo.\\
+
+\problemLAnswer{Aliquam erat volutpat. Sed mollis rutrum nulla. Ut
+ligula dolor, semper et, consectetuer at, viverra eget, lorem.
+Curabitur velit. Nam pede arcu, cursus quis, eleifend et, interdum
+a, justo. Nulla sit amet elit. Nullam et enim. Integer posuere
+rutrum urna. Donec non ligula a turpis eleifend ullamcorper. Etiam
+justo. Aliquam erat volutpat. Etiam consequat cursus lectus.}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Exercise \#\arabic{homeworkProblemCounter}]
+Aliquam erat volutpat. Vivamus dictum volutpat urna. Sed tempor
+interdum sapien. Cras id mi in nunc aliquet placerat. Maecenas
+gravida accumsan ipsum. Integer nec elit vitae ligula pretium
+tincidunt. Sed libero metus, condimentum vel, suscipit et, varius
+id, mi. Nunc accumsan pharetra leo. Pellentesque et est quis tellus
+adipiscing scelerisque. Mauris lacinia erat quis nulla. Nunc
+vulputate. Cras pretium libero sed elit. Sed lectus. Cras mauris
+odio, ullamcorper a, dictum non, mattis id, urna. Suspendisse sed
+ligula.
+
+\begin{homeworkSection}{(a)}
+Ut lorem. Pellentesque rhoncus adipiscing sem. Aenean quis orci a
+dui fringilla semper. Phasellus ut metus. Nam arcu ipsum, facilisis
+pharetra, dapibus non, fringilla a, pede. Donec pede urna, mattis
+non, tempor ut, pulvinar vel, nisl. Cras erat nunc, volutpat eu,
+sollicitudin id, elementum id, nunc. Phasellus ut arcu. Sed
+consequat diam ac quam. Nunc condimentum malesuada tortor. Lorem
+ipsum dolor sit amet, consectetuer adipiscing elit.
+
+Quisque sed tellus eu nunc auctor nonummy. Etiam venenatis magna
+varius ante. Aliquam justo. Proin eu mauris. Quisque ac urna id nunc
+ultricies sagittis. Ut fermentum sagittis leo. Quisque vel massa ac
+nisl egestas convallis. Donec tempus tincidunt elit. Fusce enim
+sapien, rhoncus porttitor, faucibus tincidunt, cursus lacinia,
+mauris. Morbi ut velit at elit tristique aliquam. Donec
+consectetuer. Nulla consectetuer. Nunc ac sem. Donec tristique felis
+quis neque. Aenean ac quam sit amet odio semper vehicula. Donec
+faucibus, nisl quis tincidunt suscipit, pede risus varius risus,
+eget feugiat purus mauris vel erat.\\
+
+\sectionAnswer{Vestibulum tortor. Etiam sagittis purus quis nisl. Vestibulum vitae
+dui vitae wisi faucibus molestie. Cum sociis natoque penatibus et
+magnis dis parturient montes, nascetur ridiculus mus. Sed tincidunt
+risus eu leo. Quisque bibendum eros et erat. Proin lobortis nunc.
+Praesent vel justo eget odio mattis aliquet. Curabitur ultricies
+ante id eros. Nulla vehicula arcu sit amet ipsum. Proin sodales odio
+at justo. Vestibulum ante ipsum primis in faucibus orci luctus et
+ultrices posuere cubilia Curae; Pellentesque habitant morbi
+tristique senectus et netus et malesuada fames ac turpis egestas.
+Praesent venenatis. Integer justo.}
+\end{homeworkSection}
+
+\begin{homeworkSection}{(b)}
+\sectionAnswer{Proin enim ligula, tincidunt id, rhoncus sed, tincidunt ac, ipsum.
+Quisque sit amet lorem. Sed aliquet quam placerat dui. Sed sem arcu,
+condimentum pulvinar, consectetuer sit amet, vehicula vitae, leo.
+Suspendisse potenti. Nulla eget turpis. Nunc dui nunc, mollis id,
+commodo ac, porta vel, felis. Sed cursus. Pellentesque rutrum
+convallis sapien. Donec metus dui, consequat vitae, sodales eget,
+consequat vitae, arcu. Phasellus scelerisque consectetuer mauris.
+Nam id tellus aliquam neque consectetuer congue. Fusce non lacus sed
+neque lobortis tempus.}
+\end{homeworkSection}
+
+\begin{homeworkSection}{(c)}
+Curabitur ut dui. Fusce ultrices suscipit augue. Quisque ornare.
+Morbi dui odio, facilisis ut, malesuada vitae, lacinia at, diam.
+Fusce massa quam, gravida ac, pulvinar ut, eleifend vel, lorem.
+Maecenas luctus. Nullam ultrices placerat velit. Quisque
+sollicitudin est. Nullam diam tortor, rutrum non, commodo a,
+vehicula ut, justo. Etiam blandit, nulla vel lobortis porta, tortor
+ligula sagittis neque, in convallis tellus sem nec nunc. Nulla
+scelerisque wisi ac augue. Suspendisse vitae neque in erat venenatis
+imperdiet. Donec feugiat velit at nisl.\\
+
+\sectionAnswer{Nunc at magna. Nunc vestibulum ante. Suspendisse viverra erat in
+dui. Vestibulum suscipit eros. Fusce porta orci in quam ultricies
+accumsan. In viverra, nunc nec eleifend facilisis, magna leo rutrum
+augue, at sodales lacus nisl nec mi. In ut ipsum at ipsum auctor
+tristique. In magna arcu, mattis eget, lobortis eu, iaculis at,
+arcu. Aliquam consequat, quam eget sollicitudin iaculis, arcu ante
+accumsan justo, sed luctus libero pede eget tellus. Nullam
+sollicitudin. Nulla pulvinar. Cras et leo. Fusce nec urna ut wisi
+varius varius. In facilisis, nulla a consequat ullamcorper, mauris
+diam euismod turpis, eu tincidunt ipsum nisl ut felis. Ut
+adipiscing. Quisque eu massa. Vestibulum justo. Aliquam facilisis
+dictum nulla. Aliquam auctor, tellus id porttitor vestibulum, mi
+lacus rutrum metus, in congue sapien est vel enim. Proin turpis
+turpis, condimentum nec, pulvinar quis, sodales sed, nulla.}
+\end{homeworkSection}
+\end{homeworkProblem}
+
+\newpage
+\begin{homeworkProblem}[Yet Another]
+Proin eu leo sed quam consequat faucibus. Fusce non lacus in risus
+pretium blandit. Suspendisse nec turpis vitae metus volutpat
+iaculis. Pellentesque id urna. Morbi adipiscing, quam nec
+consectetuer pharetra, odio leo pellentesque risus, at semper libero
+tellus sed urna. Donec semper, nibh aliquet venenatis interdum, nibh
+ante lacinia odio, sit amet tincidunt tortor dolor sit amet ligula.
+Aliquam dapibus, risus quis euismod posuere, orci risus pulvinar
+magna, et pharetra nulla magna sit amet ante. Donec tempus sapien.
+Mauris euismod mi in augue. Fusce placerat. Fusce neque lectus,
+ornare elementum, consectetuer et, laoreet eget, lorem. Quisque
+nonummy. Proin sollicitudin tortor semper risus. Praesent a urna
+dapibus felis venenatis elementum. Nunc tincidunt. Class aptent
+taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+hymenaeos.
+
+Vivamus risus dolor, ullamcorper nonummy, mattis eu, blandit nec,
+tortor. Proin eu neque vel magna cursus sollicitudin. In hac
+habitasse platea dictumst. Vivamus ante. Quisque mauris. Fusce
+aliquet vehicula diam. Pellentesque sit amet sem congue libero
+eleifend eleifend. Nunc feugiat sem ut est. Curabitur semper mauris
+vitae magna auctor blandit. Sed a magna ac turpis ultricies
+ullamcorper. Curabitur justo mi, varius eget, rutrum ut, elementum
+ac, quam. Phasellus commodo sapien id pede. Ut scelerisque, nibh vel
+varius tincidunt, neque quam pretium lacus, egestas feugiat nunc
+elit ac enim. Ut dui ante, mollis non, posuere vitae, lacinia in,
+elit. Nam imperdiet pharetra tortor. Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Etiam pretium eros sit amet nulla.
+
+Sed ornare. In auctor, dui vitae aliquet imperdiet, velit justo
+placerat mi, et hendrerit nisl nisl quis massa. Phasellus
+consectetuer pretium lacus. Nam dapibus purus in sapien. Duis
+placerat risus vel ligula. Mauris ligula purus, varius et, ornare
+nec, accumsan a, nibh. Pellentesque a erat vel libero fermentum
+vestibulum. Etiam ullamcorper pharetra mi. Fusce est mauris,
+dignissim in, porttitor ac, elementum et, wisi. Maecenas et nunc at
+tortor malesuada tristique. In mi metus, dapibus in, vehicula ac,
+euismod at, ligula. Phasellus quis nisl.
+
+Proin vel diam. Sed a neque in lectus faucibus vulputate. Nam justo.
+Curabitur sem. Fusce aliquam nibh eu arcu. Vestibulum vel turpis ut
+quam tincidunt lobortis. Vestibulum ante ipsum primis in faucibus
+orci luctus et ultrices posuere cubilia Curae; In condimentum mi
+vitae metus. Fusce gravida. Nullam non risus eu tortor volutpat
+commodo. Suspendisse et eros ut velit iaculis fringilla. Nam
+facilisis, magna ac fermentum auctor, diam nibh varius dolor, ac
+blandit dolor nibh at quam. Vestibulum quis mi. Donec ultrices neque
+vel nibh volutpat condimentum. Praesent varius magna in quam.
+
+Phasellus sodales urna ac nulla. Phasellus dapibus ligula at elit.
+Ut vulputate pede eu lorem. Maecenas sem est, luctus ac, volutpat
+eu, accumsan nec, pede. Duis cursus, sem ac hendrerit mattis, nisl
+arcu dictum felis, et malesuada libero ligula non urna. Pellentesque
+rutrum enim in tellus. Duis aliquam. Proin varius tortor vitae arcu.
+Morbi sed mauris. Aenean nec est at diam vestibulum adipiscing.
+Donec magna augue, hendrerit et, consectetuer sit amet, condimentum
+in, quam.
+
+Nam consequat consectetuer dui. Ut rutrum, dui non facilisis
+consequat, turpis mauris malesuada dui, vitae porta dolor quam sed
+mauris. Duis convallis justo vitae mauris. Aliquam erat volutpat.
+Donec convallis varius lacus. In eleifend. In rhoncus aliquet dolor.
+Fusce dignissim, enim eu fermentum posuere, dui nunc tempus purus,
+lacinia vehicula odio massa eu ipsum. Curabitur et ligula ac nunc
+suscipit interdum. Fusce commodo justo nec enim. Aliquam ligula
+ante, venenatis id, tempus feugiat, condimentum vitae, lectus. Donec
+tempus posuere metus. Sed ultricies convallis nulla.
+
+Curabitur vel sem. Fusce egestas justo. Curabitur quam urna, egestas
+eget, vehicula eu, consectetuer quis, nibh. Lorem ipsum dolor sit
+amet, consectetuer adipiscing elit. Fusce ullamcorper eros nec
+lacus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Aliquam congue nulla viverra augue. Proin sollicitudin molestie
+odio. Donec tempor erat. Aenean ullamcorper ligula ac elit.
+
+Aenean ut magna scelerisque turpis feugiat sodales. Sed sit amet
+tellus. Praesent feugiat lacinia nibh. Integer convallis risus in
+lacus euismod aliquet. Maecenas tristique, tortor quis posuere
+nonummy, tortor ipsum commodo purus, et aliquet velit erat rutrum
+leo. Proin consequat consequat eros. Sed eleifend enim scelerisque
+felis. Aliquam iaculis eleifend justo. Sed adipiscing ante eu nulla.
+Cras non diam id velit blandit cursus. Etiam felis. Nullam sed nibh.
+Nulla eu ante. Vivamus ac neque. Mauris pharetra scelerisque nunc.
+Aliquam interdum, diam a accumsan aliquet, enim risus semper massa,
+id ornare mauris felis nec wisi. Cras dictum scelerisque leo.
+
+Vivamus at odio eu urna pellentesque pulvinar. Nam ultrices, turpis
+eget sagittis sollicitudin, urna pede laoreet erat, ullamcorper
+euismod nisl tellus at mauris. Vestibulum wisi massa, rutrum id,
+aliquet a, congue nonummy, pede. Nunc vitae lectus. Mauris eget quam
+eget est accumsan condimentum. In placerat libero eu lectus. Sed
+sapien est, posuere in, dapibus in, rutrum a, est. Ut semper.
+Suspendisse feugiat, mauris sed vestibulum auctor, neque elit mollis
+ante, a tempus massa quam et quam. Donec sit amet enim. Vivamus et
+leo. Nam ullamcorper magna vitae eros. Praesent fringilla, purus sed
+consectetuer aliquam, purus metus sodales metus, vel iaculis nisl
+enim ac justo. Proin magna felis, viverra in, aliquet vel, imperdiet
+quis, leo.
+
+Sed odio. Suspendisse potenti. Maecenas et est. Aliquam at odio.
+Fusce ante. Donec sed tortor ut sapien facilisis malesuada. Maecenas
+et metus eu diam lacinia consequat. Curabitur lectus. Pellentesque
+dictum urna non enim. Class aptent taciti sociosqu ad litora
+torquent per conubia nostra, per inceptos hymenaeos. Aenean
+consequat aliquet augue. Nulla at risus sit amet enim rhoncus
+ornare. Etiam ligula. Phasellus semper erat et ante. Nunc luctus
+tellus quis nulla. Mauris justo ligula, facilisis a, eleifend et,
+eleifend at, nulla. Lorem ipsum dolor sit amet, consectetuer
+adipiscing elit. Donec lobortis congue magna. Nullam ipsum. Donec
+tristique, ligula vulputate adipiscing consectetuer, urna eros
+pellentesque orci, vitae elementum lacus sapien facilisis felis.
+
+Nulla facilisi. Maecenas fringilla tincidunt odio. Proin justo.
+Mauris mollis, diam sit amet bibendum facilisis, ligula erat
+molestie ipsum, vitae viverra enim mi sit amet mi. In lacinia, justo
+vitae sagittis ornare, elit massa semper nunc, non accumsan diam
+wisi quis nibh. Nulla erat sapien, feugiat ac, luctus facilisis,
+aliquam non, magna. Etiam volutpat fringilla felis. Integer enim
+risus, dignissim quis, faucibus in, ultrices et, odio. Pellentesque
+turpis. Suspendisse pretium molestie eros. Donec libero purus,
+varius sed, consequat luctus, varius id, enim. Cras tellus massa,
+faucibus eu, ornare ac, congue nec, neque. Etiam ante.\\
+
+\problemLAnswer{Sed vel purus. Suspendisse potenti. Sed ligula.
+Curabitur at urna. Integer leo dolor, auctor vitae, eleifend
+ultrices, euismod sed, erat. Morbi augue purus, accumsan a, vehicula
+eu, malesuada a, nunc. Nunc tristique porttitor sem. Vestibulum
+vitae pede. Donec risus enim, faucibus id, blandit at, ullamcorper
+eu, ipsum. Donec purus mauris, ultrices a, nonummy et, iaculis non,
+metus. Fusce id lectus. Sed gravida urna sed dolor. Vivamus pretium.
+Donec vel dui at nibh volutpat lobortis.
+
+Praesent aliquet. Vivamus fringilla lacus a quam. Pellentesque non
+velit. Vestibulum suscipit posuere orci. Mauris eget arcu. Donec
+lectus. Nulla nibh urna, cursus nec, placerat quis, condimentum in,
+sapien. Donec molestie odio quis sem. Phasellus augue neque, ornare
+non, vestibulum vel, congue sed, lacus. Etiam at enim sed est
+sollicitudin pharetra. Donec est purus, dapibus eu, placerat a,
+accumsan non, velit.}
+\end{homeworkProblem}
+
+\newpage
+\begin{homeworkProblem}[Prob. \Roman{homeworkProblemCounter}]
+
+\begin{homeworkSection}{\homeworkProblemName:~(a)}
+\sectionAnswer{Duis enim metus, viverra sit amet, commodo sed,
+placerat nec, diam. Maecenas massa lorem, scelerisque et, nonummy
+at, pulvinar ac, diam. Donec nibh justo, lobortis pellentesque,
+dapibus et, sollicitudin et, ligula. Aliquam diam. Morbi porta,
+felis consectetuer congue adipiscing, lorem velit rhoncus erat,
+vitae aliquet orci velit mollis mi. Praesent sodales, ipsum vel
+posuere luctus, augue libero facilisis est, sit amet vehicula elit
+augue nec ipsum. Proin condimentum sagittis elit. Pellentesque
+pretium, eros vitae euismod varius, massa neque dapibus dolor, a
+fringilla mauris sapien at massa. Etiam pretium sollicitudin nunc.
+Phasellus pretium, lectus sed malesuada varius, tortor mauris
+molestie eros, sed adipiscing turpis diam sed mi. In posuere
+vulputate nunc. Suspendisse pede orci, vulputate eu, consequat ut,
+viverra in, ligula. Ut suscipit. Etiam vitae nibh non arcu faucibus
+hendrerit. Donec luctus sodales nisl. Class aptent taciti sociosqu
+ad litora torquent per conubia nostra, per inceptos hymenaeos.
+Integer risus quam, vulputate sed, volutpat in, ultricies vitae,
+urna. Nullam tellus neque, lacinia vitae, gravida sit amet, iaculis
+adipiscing, nunc.\\
+
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+posuere cubilia Curae; Suspendisse sollicitudin, ante a accumsan
+ultrices, purus dui tincidunt sapien, luctus commodo purus diam nec
+leo. Aliquam gravida pretium massa. Sed quis ipsum. Aenean enim.
+Aliquam sit amet nibh. Duis ut sapien sit amet nulla cursus ornare.
+Cum sociis natoque penatibus et magnis dis parturient montes,
+nascetur ridiculus mus. Cras pharetra wisi quis ipsum. Proin eu
+purus. Fusce tincidunt. Donec pellentesque viverra ligula. Lorem
+ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus ut
+nulla in lectus venenatis congue. Donec eget dolor. Sed tincidunt,
+mi ut ultricies feugiat, wisi urna fermentum augue, in pretium felis
+arcu ac wisi. Morbi dui. Aenean ut wisi ut velit tincidunt
+venenatis. Donec dictum, ligula ut dignissim sollicitudin, orci
+lectus scelerisque tortor, eu ultricies quam elit eget urna.}
+\end{homeworkSection}
+
+\begin{homeworkSection}{\homeworkProblemName:~(b)}
+Suspendisse purus ligula, condimentum ut, aliquam at, dictum sed,
+felis. Quisque quis quam a elit tincidunt tincidunt. Aliquam pede
+ipsum, molestie vitae, mattis ac, aliquet nec, quam. Proin ut lacus
+at enim volutpat dictum. Donec cursus. Nullam lobortis, mi interdum
+egestas sollicitudin, mi tortor tristique dolor, at malesuada neque
+sapien condimentum lectus. Cum sociis natoque penatibus et magnis
+dis parturient montes, nascetur ridiculus mus. Sed sit amet dolor a
+lorem laoreet imperdiet. Class aptent taciti sociosqu ad litora
+torquent per conubia nostra, per inceptos hymenaeos. Morbi sed
+neque. Praesent iaculis mattis neque. Etiam quam. Donec tincidunt,
+orci vitae dictum hendrerit, leo odio aliquet neque, ultricies
+varius leo nisl non pede. Donec ut diam at orci interdum ultricies.
+Duis ac mauris. Curabitur id metus. Suspendisse potenti. Nam
+consequat posuere velit.\\
+
+\sectionAnswer{Sed urna sapien, mattis et, cursus vitae, vulputate vel, magna. Sed
+sem. Nam lacinia, sem non imperdiet lacinia, felis libero lacinia
+eros, at sollicitudin lorem lacus et mauris. Aenean orci justo,
+sagittis id, commodo sed, tristique vitae, eros. Donec ullamcorper
+tortor ut wisi. Donec neque ipsum, viverra id, mattis et, porta id,
+massa. Vivamus justo urna, accumsan et, condimentum at, vehicula
+dignissim, urna. Mauris vitae eros non sem placerat euismod. Nulla
+lacus augue, dictum eget, laoreet in, condimentum in, metus. Quisque
+tincidunt. Quisque nonummy pharetra lectus. Praesent eros lacus,
+porttitor ut, posuere ac, semper aliquam, justo. Duis massa lectus,
+lobortis quis, sodales sed, dignissim in, risus.}
+\end{homeworkSection}
+
+\end{homeworkProblem}
+
+\newpage
+\begin{homeworkProblem}[Prob. \Roman{homeworkProblemCounter}]
+Duis pharetra viverra risus. Aliquam vel ipsum quis nisl accumsan
+imperdiet. Pellentesque habitant morbi tristique senectus et netus
+et malesuada fames ac turpis egestas. Nulla rhoncus. Sed vehicula.
+Ut risus ante, blandit a, scelerisque rhoncus, consequat congue,
+magna. Nulla viverra consectetuer dolor. In euismod porttitor quam.
+Mauris a est vel nulla vestibulum eleifend. Nulla tristique
+pellentesque mi. Nunc ut velit at magna consequat adipiscing. Etiam
+fringilla orci vel ipsum.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Prob. \Roman{homeworkProblemCounter}]
+Quisque posuere consequat nulla. Etiam a turpis eu ante tincidunt
+mattis. Vestibulum tempus hendrerit mauris. Sed eu purus. Sed enim.
+Duis lobortis nisl in ligula. In sed quam eget erat imperdiet
+lacinia. Proin vel libero. Nunc pharetra pellentesque ante. Morbi
+erat ipsum, tincidunt ac, volutpat nec, egestas dignissim, ante.
+Donec lobortis tortor quis dui. In at ante eu nunc cursus dictum.
+Aliquam est massa, vulputate placerat, nonummy nec, lacinia non,
+sapien. Nunc ante nisl, imperdiet non, gravida viverra, lobortis et,
+diam. Phasellus rhoncus sem in sem. Etiam egestas. Suspendisse
+consectetuer molestie diam.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[Prob. \Roman{homeworkProblemCounter}]
+Donec bibendum, est at elementum vehicula, libero felis luctus ante,
+sed consectetuer purus est eu nulla. Pellentesque molestie. Ut
+condimentum molestie velit. Aenean porttitor augue sed erat gravida
+mollis. In odio. Aenean posuere lacus eget tortor. Nunc euismod
+lacinia velit. Quisque dignissim. Morbi diam. In hac habitasse
+platea dictumst. Maecenas dictum. Etiam condimentum. Sed rutrum
+porta massa.\\
+
+\problemLAnswer{Suspendisse viverra semper felis. Donec gravida
+libero ac ante. Phasellus quis orci. Sed dolor lorem, tempus vel,
+malesuada sed, tincidunt et, erat. Nulla ut massa. Vivamus ante
+metus, accumsan sit amet, fringilla id, dapibus sit amet, orci.
+Aliquam ipsum. Sed mauris neque, feugiat sit amet, accumsan
+vulputate, faucibus eget, odio. Nunc lobortis nisl eget purus. Ut
+urna lorem, malesuada et, pretium a, fringilla quis, ipsum.
+Curabitur elementum leo sit amet turpis iaculis pellentesque.
+Praesent ante pede, lacinia ac, dapibus ut, interdum et, felis. Sed
+elementum interdum lacus.}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+\problemAnswer{Donec viverra. Cum sociis natoque penatibus et magnis
+dis parturient montes, nascetur ridiculus mus. Aliquam massa.
+Maecenas ac lectus sed felis adipiscing viverra. Donec est mi,
+aliquet a, tempor sit amet, gravida non, odio. Duis faucibus enim
+non odio imperdiet tincidunt. Integer malesuada. Etiam luctus enim
+eu tortor. Vestibulum rhoncus. In hac habitasse platea dictumst.
+Proin tempus eros et velit. Curabitur eleifend nibh a lorem. Vivamus
+sed orci. Curabitur lacus sem, blandit sit amet, pellentesque et,
+placerat non, eros. Etiam mollis felis ac lorem. Cras ac tortor.
+Aliquam pellentesque. Suspendisse lacinia augue ut velit. Quisque
+rutrum felis.}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+Pellentesque habitant morbi tristique senectus et netus et malesuada
+fames ac turpis egestas. Aenean iaculis massa eu pede. Praesent odio
+turpis, posuere eget, interdum aliquam, tincidunt et, enim. In hac
+habitasse platea dictumst. Mauris blandit orci ac erat. Cras at leo.
+Sed in neque quis justo sollicitudin vulputate. Curabitur quis
+neque. Aliquam commodo mattis turpis. Nam ligula quam, consectetuer
+eu, tempor ut, convallis pharetra, lorem. Phasellus sapien.
+\end{homeworkProblem}
+
+\end{comment}
 
 \end{spacing}
 \end{document}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%----------------------------------------------------------------------%
-% The following is copyright and licensing information for
-% redistribution of this LaTeX source code; it also includes a liability
-% statement. If this source code is not being redistributed to others,
-% it may be omitted. It has no effect on the function of the above code.
-%----------------------------------------------------------------------%
-% Copyright (c) 2007, 2008, 2009, 2010, 2011 by Theodore P. Pavlic
-%
-% Unless otherwise expressly stated, this work is licensed under the
-% Creative Commons Attribution-Noncommercial 3.0 United States License. To
-% view a copy of this license, visit
-% http://creativecommons.org/licenses/by-nc/3.0/us/ or send a letter to
-% Creative Commons, 171 Second Street, Suite 300, San Francisco,
-% California, 94105, USA.
-%
-% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-% OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-%----------------------------------------------------------------------%
