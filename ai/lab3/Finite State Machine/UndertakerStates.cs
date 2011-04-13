@@ -17,12 +17,11 @@ namespace FiniteStateMachine
         {
             Printer.Print(agent.Id, "Hovering in the undertakers office");
             agent.Location = stateLocation;
-            agent.Pos = SquareManager.GetInstance().GetLocationSquare(agent.Location).Pos;
         }
 
         public override void Execute(Undertaker agent)
         {
-            ;
+            agent.Pos = SquareManager.GetInstance().GetLocationSquare(agent.Location).Pos;
         }
 
         public override void Exit(Undertaker agent)

@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>Arial.spritefont</Source>
+      <Name>Arial</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\Arial.xnb</Output>
+      <Time>2011-04-01T00:17:39.6620965+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Plain.png</Source>
+      <Name>Plain</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\Plain.xnb</Output>
+      <Time>2011-04-01T00:17:39.7080991+01:00</Time>
+    </Item>
+    <Item>
+      <Source>Mountain.png</Source>
+      <Name>Mountain</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\Mountain.xnb</Output>
+      <Time>2011-04-01T00:17:39.7651024+01:00</Time>
+    </Item>
+    <Item>
+      <Source>bank.png</Source>
+      <Name>bank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\bank.xnb</Output>
+      <Time>2011-04-01T00:17:39.7291003+01:00</Time>
+    </Item>
+    <Item>
+      <Source>cemetary.png</Source>
+      <Name>cemetary</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\cemetary.xnb</Output>
+      <Time>2011-04-01T00:17:39.7351007+01:00</Time>
+    </Item>
+    <Item>
+      <Source>goldMine.png</Source>
+      <Name>goldMine</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\goldMine.xnb</Output>
+      <Time>2011-04-01T00:17:39.7401009+01:00</Time>
+    </Item>
+    <Item>
+      <Source>outlawCamp.png</Source>
+      <Name>outlawCamp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\outlawCamp.xnb</Output>
+      <Time>2011-04-01T00:17:39.7991043+01:00</Time>
+    </Item>
+    <Item>
+      <Source>saloon.png</Source>
+      <Name>saloon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\saloon.xnb</Output>
+      <Time>2011-04-01T00:17:39.8021045+01:00</Time>
+    </Item>
+    <Item>
+      <Source>shack.png</Source>
+      <Name>shack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\shack.xnb</Output>
+      <Time>2011-04-01T00:17:39.8051047+01:00</Time>
+    </Item>
+    <Item>
+      <Source>sheriffsOffice.png</Source>
+      <Name>sheriffsOffice</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\sheriffsOffice.xnb</Output>
+      <Time>2011-04-01T00:17:39.811105+01:00</Time>
+    </Item>
+    <Item>
+      <Source>undertakers.png</Source>
+      <Name>undertakers</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\undertakers.xnb</Output>
+      <Time>2011-04-01T00:17:39.8251058+01:00</Time>
+    </Item>
+    <Item>
+      <Source>highlight.png</Source>
+      <Name>highlight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\highlight.xnb</Output>
+      <Time>2011-04-01T00:17:39.7461013+01:00</Time>
+    </Item>
+    <Item>
+      <Source>highlight_2.png</Source>
+      <Name>highlight_2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\highlight_2.xnb</Output>
+      <Time>2011-04-01T00:17:39.7511016+01:00</Time>
+    </Item>
+    <Item>
+      <Source>sheriff.png</Source>
+      <Name>sheriff</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\sheriff.xnb</Output>
+      <Time>2011-04-01T00:17:39.8081048+01:00</Time>
+    </Item>
+    <Item>
+      <Source>miner.png</Source>
+      <Name>miner</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\miner.xnb</Output>
+      <Time>2011-04-01T00:17:39.758102+01:00</Time>
+    </Item>
+    <Item>
+      <Source>minerswife.png</Source>
+      <Name>minerswife</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\minerswife.xnb</Output>
+      <Time>2011-04-01T00:17:39.7621022+01:00</Time>
+    </Item>
+    <Item>
+      <Source>outlaw.png</Source>
+      <Name>outlaw</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\outlaw.xnb</Output>
+      <Time>2011-04-01T00:17:39.7961041+01:00</Time>
+    </Item>
+    <Item>
+      <Source>undertaker.png</Source>
+      <Name>undertaker</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\undertaker.xnb</Output>
+      <Time>2011-04-01T00:17:39.8141052+01:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Jonathan\Desktop\code\iet\ai\lab3\Finite State Machine\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T12:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T12:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T12:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T12:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T12:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T12:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2011-03-30T12:01:59.452125+01:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

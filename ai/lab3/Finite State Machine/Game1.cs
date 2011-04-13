@@ -71,6 +71,15 @@ namespace FiniteStateMachine
         /// </summary>
         protected override void Initialize()
         {
+            //Create map and pathfinding graph before agents, as agents refer to the map
+            SquareFactory.GetInstance().InitialMapPopulation();
+            SquareFactory.GetInstance().PopulateMapWithWestWorld();
+            m_PfNodeFactory = new PfNodeFactory();
+            m_PfNodeFactory.CreatePfGraphFromWorldGeom(SquareManager.GetInstance());
+
+            m_Model = new GameModel();
+            m_GameView = new GameView();
+
             // Here's a little hack: The Miner and MinersWife must know each other's id in
             // order to communicate.  We calculate them inside each agent based on their
             // creation order, so the pair must always be created in this sequence.
@@ -84,15 +93,6 @@ namespace FiniteStateMachine
             AgentManager.AddAgent(Jesse);
             AgentManager.AddAgent(Wyatt);
             AgentManager.AddAgent(Vincent);
-
-            //Create map and pathfinding graph
-            SquareFactory.GetInstance().InitialMapPopulation();
-            SquareFactory.GetInstance().PopulateMapWithWestWorld();
-            m_PfNodeFactory = new PfNodeFactory();
-            m_PfNodeFactory.CreatePfGraphFromWorldGeom(SquareManager.GetInstance());
-
-            m_Model = new GameModel();
-            m_GameView = new GameView();
 
             base.Initialize();
         }
