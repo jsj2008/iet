@@ -18,7 +18,7 @@ class jfWindowManager
 
 		virtual void init() = 0;
 
-		virtual jfWindow* createWindow(const jfString& title) = 0;
+		virtual jfWindow* createWindow(const jfString& title = "Simulation") = 0;
 		
 	protected:
 	private:

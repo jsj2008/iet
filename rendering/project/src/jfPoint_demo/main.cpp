@@ -1,15 +1,15 @@
 #include <jfwm/jfWindowManager.hpp>
 #include <jfwm/jfSDLWindowManager.hpp>
+#include <jfSimulation/jfSimulation.hpp>
+#include <jfPoint_demo/jfPointSimulation.hpp>
 
 int main(void)
 {
-	jfWindowManager* wm = new jfSDLWindowManager();
-	wm->init();
-	wm->createWindow("test");
-	for(int i = 0 ; i < 10000 ; i++)
-	{
-		;
-	}
-	delete wm;
-	return 0;
+    jfSimulation* sim = new jfPointSimulation();
+    sim->VOnInit();
+    
+	sim->VOnMainLoop();
+
+    sim->VOnShutdown();
+    return 0;
 }
