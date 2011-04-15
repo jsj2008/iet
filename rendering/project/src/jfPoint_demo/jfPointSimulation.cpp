@@ -155,6 +155,9 @@ void jfPointSimulation::VOnInit()
     jfSimulation::VOnInit();
 	InitGL();
 	m_Finished = false;
+
+	jfQSplatModelPtr model(new jfQSplatModel("../../media/models/bunny.qs"));
+	m_Models.push_back(model);
 }
 
 void jfPointSimulation::DoCamera()

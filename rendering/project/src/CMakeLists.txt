@@ -31,6 +31,13 @@ FILE(GLOB jfModel_cpp "./jfModel/*.cpp")
 FILE(GLOB jfAlgebra_cpp "./jfAlgebra/*.cpp")
 FILE(GLOB jfCamera_cpp "./jfCamera/*.cpp")
 FILE(GLOB jfSimulation_cpp "./jfSimulation/*.cpp")
+
+#Start point compile
+#Include qsplat's directory, because we love it.
+include_directories(./jfPoint/qsplat)
+FILE(GLOB_RECURSE jfPoint_cpp "./jfPoint/*.cpp")
+ADD_LIBRARY(jfPoint ${jfPoint_cpp} )
+
 #FILE(GLOB jfPoint_cpp "./jfModel_demo/*.cpp")
 
 ADD_LIBRARY(jfAlgebra ${jfAlgebra_cpp})
@@ -45,4 +52,4 @@ TARGET_LINK_LIBRARIES(jfwm_demo jfWm ${libThirdParty})
 
 FILE(GLOB jfPoint_demo_cpp "./jfPoint_demo/*.cpp")
 ADD_EXECUTABLE(jfPoint_demo ${jfPoint_demo_cpp})
-TARGET_LINK_LIBRARIES(jfPoint_demo jfWm jfCamera jfSimulation ${libThirdParty})
+TARGET_LINK_LIBRARIES(jfPoint_demo jfPoint jfWm jfCamera jfSimulation ${libThirdParty})

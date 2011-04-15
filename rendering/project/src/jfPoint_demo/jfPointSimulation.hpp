@@ -6,6 +6,11 @@
 #include "jfSimulation/jfSimulation.hpp"
 #include "jfCamera/jfCamera.hpp"
 #include "jfAlgebra/jfVector3.hpp"
+#include "jfPoint/jfQSplatModel.hpp"
+
+using namespace boost;
+
+typedef shared_ptr<jfQSplatModel> jfQSplatModelPtr;
 
 /*
  * =====================================================================================
@@ -40,6 +45,8 @@ class jfPointSimulation : public jfSimulation
 		jfCamera m_Camera;
 
 		bool m_Finished;
+
+		vector<jfQSplatModelPtr> m_Models;
 
 	private:
 };
